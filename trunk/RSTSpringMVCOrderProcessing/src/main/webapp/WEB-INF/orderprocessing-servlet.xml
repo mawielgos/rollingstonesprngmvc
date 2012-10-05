@@ -1,0 +1,137 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-2.5.xsd">
+
+
+<context:component-scan 
+base-package="com.rollingstone.orderprocessing.controller,
+com.rollingstone.orderprocessing.dao,
+com.rollingstone.orderprocessing.model,
+com.rollingstone.orderprocessing.model.editors,
+com.rollingstone.orderprocessing.service,
+com.rollingstone.orderprocessing.web.tools,
+com.rollingstone.orderprocessing.web.validators" /> 
+
+<!--     <bean
+        class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping" />
+        
+        Do not forget to display processing time in jsps.
+        
+        Handling time : ${handlingTime} ms
+        
+        Using the DefaultAnnotationHandlerMapping bean in this form has one particular drawback, the interceptors is assigned to every class defined with a @Controller annotation. If you have a few pair of controllers, you may want to discriminate on which controllers interceptors are applied.
+To do so, you need to define a custom handler interceptor. Fortunately, the situation is so common that a project is already available to support this scenario. Scott Murphy’s spring-plugins project allows you to apply interceptors on a controller basis by using URLs.
+You can download the project at http://code.google.com/p/springplugins/downloads/list. Once you download the project and place its JAR in the application’s /WEB-INF/lib directory, you only need to incorporate its configuration alongside the DefaultAnnotationHandlerMapping bean, as illustrated next:
+
+<bean id="summaryReportInterceptor" class="com.apress.springrecipes.court.web.
+                    ExtensionInterceptor" />
+                    
+                    <bean class="org.springframework.web.servlet.mvc.annotation.
+                   DefaultAnnotationHandlerMapping">
+      <property name="order" value="1"/>
+        <property name="interceptors">
+            <list>
+                <ref bean="measurementInterceptor" />
+            </list>
+</property>
+... </bean>
+
+<bean class="org.springplugins.web. SelectedAnnotationHandlerMapping">
+        <property name="order" value="0" />
+        <property name="urls">
+                <list>
+                        <value>/reservationSummary*</value>
+                </list>
+        </property>
+        <property name="interceptors">
+                <list>
+                      <ref bean="summaryReportInterceptor" />
+                </list>
+</property>
+    </bean>
+</beans>
+
+
+-->
+
+<bean id="contentNegotiatingResolver"
+class="org.springframework.web.servlet.view. ContentNegotiatingViewResolver">
+<property name="order" value="#{T(org.springframework.core.Ordered).HIGHEST_PRECEDENCE}" />
+         <property name="mediaTypes">
+            <map>
+                  <entry key="html" value="text/html"/>
+                  <entry key="pdf" value="application/pdf"/>
+                  <entry key="xsl" value="application/vnd.ms-excel"/>
+                  <entry key="xml" value="application/xml"/>
+                  <entry key="json" value="application/json"/>
+            </map>
+        </property>
+        
+        	<property name="defaultViews">
+			<list>
+				<!-- JSON View -->
+				<bean
+					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
+				</bean>
+
+				<!-- RSS View -->
+				<bean class="com.mkyong.common.rss.RssFeedView" />
+
+				<!-- JAXB XML View -->
+				<bean class="org.springframework.web.servlet.view.xml.MarshallingView">
+					<constructor-arg>
+						<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
+							<property name="classesToBeBound">
+								<list>
+									<value>com.mkyong.common.model.Fruit</value>
+								</list>
+							</property>
+						</bean>
+					</constructor-arg>
+				</bean>
+			</list>
+		</property>
+		<property name="ignoreAcceptHeader" value="true" />
+        
+ </bean>
+
+
+<bean id="measurementInterceptor"
+        class="com.apress.springrecipes.court.web.MeasurementInterceptor" />
+        
+<bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+        <property name="interceptors">
+            <list>
+                <ref bean="measurementInterceptor" />
+            </list>
+</property>
+</bean>
+
+    <bean
+        class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+        <property name="webBindingInitializer">
+            <bean
+                class="com.rollingstone.orderprocessing.web.tools.CustomerBindingInitializer" />
+        </property>
+    </bean>
+
+    <bean
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/" />
+        <property name="suffix" value=".jsp" />
+    </bean>
+
+    <bean id="messageSource"
+        class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basename" value="messages" />
+    </bean>
+
+    <bean id="customerValidator"
+        class="org.springframework.validation.Validator.CustomerValidator" />
+        
+        <!--  http://www.mkyong.com/spring-mvc/spring-3-mvc-contentnegotiatingviewresolver-example/ -->
+</beans>
