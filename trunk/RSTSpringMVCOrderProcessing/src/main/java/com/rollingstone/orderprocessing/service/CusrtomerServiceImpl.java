@@ -5,11 +5,13 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Service;
 
 import com.rollingstone.orderprocessing.dao.ICustomerDao;
 import com.rollingstone.orderprocessing.model.Customer;
 import com.rollingstone.orderprocessing.model.State;
 
+@Service
 public class CusrtomerServiceImpl implements ICustomerService{
 
 	ICustomerDao customerDao;
@@ -34,7 +36,7 @@ public class CusrtomerServiceImpl implements ICustomerService{
 	@Override
 	public List<Customer> getAllCustomers() {
 		// TODO Auto-generated method stub
-		return null;
+		return customerDao.getAllCustomers();
 	}
 
 	@Override

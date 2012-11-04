@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.support.SessionStatus;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.rollingstone.orderprocessing.exceptions.CustomerException;
 import com.rollingstone.orderprocessing.model.Address;
@@ -180,6 +179,16 @@ public class CustomerController {
 		//return new ModelAndView("memberList", "members", customers);
 		
 		return customers;
+	}
+	
+	@RequestMapping(value="/customer/all", method = RequestMethod.GET)
+	public String getAllCustomers(ModelMap model) {
+
+		List<Customer> customers = customerService.getAllCustomers();
+		model.addAttribute("customers", customers);
+		
+		return "list";
+
 	}
 
 	/*@RequestMapping(value="{name}", method = RequestMethod.GET)

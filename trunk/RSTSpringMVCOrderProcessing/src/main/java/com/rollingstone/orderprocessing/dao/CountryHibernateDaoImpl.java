@@ -2,8 +2,11 @@ package com.rollingstone.orderprocessing.dao;
 
 import java.util.List;
 
+import org.springframework.stereotype.Repository;
+
 import com.rollingstone.orderprocessing.model.Country;
 
+@Repository
 public class CountryHibernateDaoImpl implements ICountryDao{
 
 	

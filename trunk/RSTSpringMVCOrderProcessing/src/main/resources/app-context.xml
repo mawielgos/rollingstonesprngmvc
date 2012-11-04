@@ -14,7 +14,7 @@
 	<context:component-scan base-package="com.rollingstone.orderprocessing" />
 
 	<!-- Drives transactions using local JPA APIs -->
-    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+   <!--  <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
         <property name="entityManagerFactory" ref="entityManagerFactory" />
     </bean>
     
@@ -26,5 +26,5 @@
 
  	<bean id="forceService" class="com.force.sdk.connector.ForceServiceConnector">
     	<property name="connectionName" value="forceDatabase"/>
-    </bean>
+    </bean> -->
 </beans>
