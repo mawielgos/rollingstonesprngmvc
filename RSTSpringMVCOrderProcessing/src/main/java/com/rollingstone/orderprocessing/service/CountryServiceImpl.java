@@ -4,12 +4,14 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Service;
 
 import com.rollingstone.orderprocessing.dao.ICountryDao;
 import com.rollingstone.orderprocessing.dao.IStateDao;
 import com.rollingstone.orderprocessing.model.Country;
 import com.rollingstone.orderprocessing.model.State;
 
+@Service
 public class CountryServiceImpl implements ICountryService {
 
 	ICountryDao countryDao;

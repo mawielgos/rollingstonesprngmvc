@@ -15,14 +15,14 @@ public class EntityService {
 	
 	private static final Logger logger = LoggerFactory.getLogger(EntityService.class);
 	
-	@PersistenceContext
+	//@PersistenceContext
 	EntityManager em;
 
 	public void setEntityManager(EntityManager em) {
 		this.em = em;
 	}
 	
-	@Transactional(readOnly=true)
+	//@Transactional(readOnly=true)
 	public MyEntity findEntity(String id) {
 
 		// Uncomment when you have defined your entity
@@ -42,7 +42,7 @@ public class EntityService {
 		
 	}
 
-	@Transactional
+	//@Transactional
 	public MyEntity save(MyEntity entity) {
 
 		// Once you have defined your entity in the MyEntity model object, you can
@@ -58,7 +58,7 @@ public class EntityService {
 
 	}
 	
-	@Transactional
+	//@Transactional
 	public boolean delete(String entityId) {
 		MyEntity entity = em.find(MyEntity.class, entityId);
 		if(entity==null) {

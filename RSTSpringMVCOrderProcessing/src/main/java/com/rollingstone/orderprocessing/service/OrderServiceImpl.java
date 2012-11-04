@@ -3,11 +3,13 @@ package com.rollingstone.orderprocessing.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.rollingstone.orderprocessing.dao.IOderProcessingDao;
 import com.rollingstone.orderprocessing.model.Order;
 import com.rollingstone.orderprocessing.model.OrderItem;
 
+@Service
 public class OrderServiceImpl implements IOrderService {
  
 	IOderProcessingDao orderProcessingDao;
