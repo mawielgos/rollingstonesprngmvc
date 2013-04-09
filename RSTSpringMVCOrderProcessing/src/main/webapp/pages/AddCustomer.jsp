@@ -118,7 +118,7 @@
 		
 		$.ajax({
 			type: 'POST',
-			url: 'http://localhost:8080/OrderProcessing/customer/add.do',
+			url: '<%=request.getContextPath() %>/customer/add.do',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(formElements),
