@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
@@ -14,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -25,6 +27,7 @@ import com.rollingstone.orderprocessing.model.Address;
 import com.rollingstone.orderprocessing.model.Country;
 import com.rollingstone.orderprocessing.model.CreditCard;
 import com.rollingstone.orderprocessing.model.Customer;
+import com.rollingstone.orderprocessing.model.CustomerSimple;
 import com.rollingstone.orderprocessing.model.State;
 import com.rollingstone.orderprocessing.service.ICountryService;
 import com.rollingstone.orderprocessing.service.ICustomerService;
@@ -51,7 +54,8 @@ import com.rollingstone.orderprocessing.web.validators.CustomerValidator;
  */
 @Controller
 public class CustomerController {
-
+	Logger logger = Logger.getLogger(CustomerController.class);
+	
 	private ICustomerService customerService;
 	private IStateService stateService;
 	private ICountryService countryService;
@@ -131,27 +135,35 @@ public class CustomerController {
 		return countryService.getAllCountries();
 	}
 
-	@RequestMapping(method = RequestMethod.GET)
-	public String setupForm(
+	@RequestMapping(value = {"/customer/home"}, method = RequestMethod.GET)
+	public void setupForm(
 			@RequestParam(required = false, value = "username") String username,
 			ModelMap model) {
 		Customer customer = new Customer();
 		customer.setCustomerAddress(new Address());
 		customer.setDefaultCard(new CreditCard());
 		model.addAttribute("customer", customer);
-		return "customerForm";
+//		return "customerForm";
+//		return "AddCustomer";
 	}
 
-	@RequestMapping("/customer/add.htm")
-	public String addCustomer(Customer customer) {
+	@RequestMapping(value="/customer/add.do", method = {RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+//	public boolean addCustomer() {
+	public boolean addCustomer(@RequestBody Customer customer) throws Exception {
+		logger.debug("Inside addCustomer.... ");
+		logger.debug("Country: "+customer.getCustomerAddress().getCountry());
+		logger.debug("name: "+customer.getCustomerName());
+		
 		customerService.addCustomer(customer);
-		return "redirect:list.htm";
+//		return "redirect:list.htm";
+		return true;
 	}
 
-	@RequestMapping(method = RequestMethod.POST)
+	@RequestMapping(value = {"/customer/processSubmit"}, method = RequestMethod.POST)
 	public String processSubmit(
 			@ModelAttribute("reservation") Customer customer,
-			BindingResult result, SessionStatus status) {
+			BindingResult result, SessionStatus status) throws Exception {
 		customerValidator.validate(customer, result);
 		if (result.hasErrors()) {
 			return "customerForm";

@@ -8,7 +8,7 @@ import com.rollingstone.orderprocessing.model.State;
 
 public interface ICustomerService {
 
-	Customer addCustomer(Customer customer);
+	Customer addCustomer(Customer customer) throws Exception;
 	
 	List<Customer> getAllCustomers();
 	

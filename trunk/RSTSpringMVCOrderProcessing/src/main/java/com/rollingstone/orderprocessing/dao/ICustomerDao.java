@@ -7,7 +7,7 @@ import com.rollingstone.orderprocessing.model.Customer;
 
 public interface ICustomerDao {
 
-	Customer addCustomer(Customer customer);
+	Customer addCustomer(Customer customer) throws Exception;
 	
 	List<Customer> getAllCustomers();
 	

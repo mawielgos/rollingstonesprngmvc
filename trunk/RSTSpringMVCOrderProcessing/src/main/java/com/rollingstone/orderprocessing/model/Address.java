@@ -1,15 +1,41 @@
 package com.rollingstone.orderprocessing.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "address")
+@Entity
+@Table(name="ADDRESS")
+@SequenceGenerator(sequenceName="SEQ_ADDRESS",name="SEQ_ADDRESS")
 public class Address {
 
+	@Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_ADDRESS")
+    @Column(name="ADDRESSID")
+	long addressId;
+	
+	@Column(name="HOUSENUMBER")
 	String houseNumber;
 	
+	@Column(name="STREET")
 	String street;
 	
+	@Column(name="CITY")
+	String city;
+	
+	@Column(name="STATE")
+	String state;
+	
+	@Column(name="COUNTRY")
+	String country;	
+
 	public String getHouseNumber() {
 		return houseNumber;
 	}
@@ -54,13 +80,4 @@ public class Address {
 	public void setCountry(String country) {
 		this.country = country;
 	}
-
-	
-
-	String city;
-	
-	String state;
-	
-	String country;
-	
 }
