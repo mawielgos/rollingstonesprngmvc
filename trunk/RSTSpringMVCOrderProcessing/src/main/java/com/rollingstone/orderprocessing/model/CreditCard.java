@@ -29,7 +29,7 @@ public class CreditCard {
     @Column(name="SECURITYCODE")
 	String securityCode;
 	
-    @Column(name="EXPDATE")
+	@Column(name="EXPDATE")
 	Date expDate;
 	
     @Column(name="CARDTYPE")
@@ -37,6 +37,15 @@ public class CreditCard {
 
 	public String getCardNumber() {
 		return cardNumber;
+	}
+
+    public long getCreditCardId() {
+		return creditCardId;
+	}
+
+    @XmlElement
+	public void setCreditCardId(long creditCardId) {
+		this.creditCardId = creditCardId;
 	}
 
 	@XmlElement
