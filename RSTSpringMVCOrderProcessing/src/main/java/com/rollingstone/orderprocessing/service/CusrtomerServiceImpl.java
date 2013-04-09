@@ -28,9 +28,8 @@ public class CusrtomerServiceImpl implements ICustomerService{
 	}
 
 	@Override
-	public Customer addCustomer(Customer customer) {
-		// TODO Auto-generated method stub
-		return null;
+	public Customer addCustomer(Customer customer) throws Exception {
+		return customerDao.addCustomer(customer);
 	}
 
 	@Override

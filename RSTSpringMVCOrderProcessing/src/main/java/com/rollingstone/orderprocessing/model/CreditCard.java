@@ -2,18 +2,37 @@ package com.rollingstone.orderprocessing.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "creditcard")
+@Entity
+@Table(name="CREDITCARD")
+@SequenceGenerator(sequenceName="SEQ_CREDITCARD",name="SEQ_CREDITCARD")
 public class CreditCard {
 
+	@Id
+    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_CREDITCARD")
+    @Column(name="CREDITCARDID")
+    long creditCardId;
+    
+    @Column(name="CARDNUMBER")
 	String cardNumber;
 	
+    @Column(name="SECURITYCODE")
 	String securityCode;
 	
+    @Column(name="EXPDATE")
 	Date expDate;
 	
+    @Column(name="CARDTYPE")
 	String cardType;
 
 	public String getCardNumber() {
