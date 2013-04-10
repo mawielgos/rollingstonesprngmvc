@@ -9,7 +9,7 @@ import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-
+/* Created for sample test ... not used anywhere now */
 @XmlRootElement(name = "customer")
 @Entity
 @Table(name="CUSTOMER")
