@@ -6,9 +6,10 @@
 <script src="resources/jquery/js/jquery-1.9.1.min.js"></script>
 <script src="resources/jquery/js/jquery-ui-1.10.2.smoothness.min.js"></script>
 <script>
-	/* $(function() {
+	/* Uncomment to bring the accordian effect */
+	/*$(function() {
 	    $( "#accordion" ).accordion();
-	}); */
+	});*/
 	$(function() {
 	    $( "#custMemberSince, #cardExpDate" ).datepicker();
 	});
