@@ -18,6 +18,9 @@
         <property name="show_sql">true</property>
         <property name="hbm2ddl.auto">validate</property>
   
-    <mapping class="com.rollingstone.orderprocessing.model.CustomerSimple"/>
+    	<mapping class="com.rollingstone.orderprocessing.model.Customer"/>
+    	<mapping class="com.rollingstone.orderprocessing.model.CreditCard"/>
+    	<mapping class="com.rollingstone.orderprocessing.model.Address"/>
+    	<mapping class="com.rollingstone.orderprocessing.model.Contact"/>
     </session-factory>
 </hibernate-configuration>
