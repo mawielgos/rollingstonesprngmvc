@@ -1,8 +1,12 @@
 package com.rollingstone.orderprocessing.utils;
 
+import javax.annotation.PreDestroy;
+
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.AnnotationConfiguration;
+import org.springframework.stereotype.Component;
 
+@Component
 public class HibernateUtil {
 
     private static final SessionFactory sessionFactory = buildSessionFactory();
@@ -23,6 +27,7 @@ public class HibernateUtil {
         return sessionFactory;
     }
 
+    @PreDestroy
     public static void closeSessionFactory() {
         sessionFactory.close();
     }

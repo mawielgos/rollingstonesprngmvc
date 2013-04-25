@@ -27,7 +27,6 @@ import com.rollingstone.orderprocessing.model.Address;
 import com.rollingstone.orderprocessing.model.Country;
 import com.rollingstone.orderprocessing.model.CreditCard;
 import com.rollingstone.orderprocessing.model.Customer;
-import com.rollingstone.orderprocessing.model.CustomerSimple;
 import com.rollingstone.orderprocessing.model.State;
 import com.rollingstone.orderprocessing.service.ICountryService;
 import com.rollingstone.orderprocessing.service.ICustomerService;
@@ -149,7 +148,6 @@ public class CustomerController {
 
 	@RequestMapping(value="/customer/add.do", method = {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
-//	public boolean addCustomer() {
 	public boolean addCustomer(@RequestBody Customer customer) throws Exception {
 		logger.debug("Inside addCustomer.... ");
 		logger.debug("Country: "+customer.getCustomerAddress().getCountry());
@@ -179,18 +177,31 @@ public class CustomerController {
 	 * String submitForm(@ModelAttribute("member") Member member, BindingResult
 	 * result, Model model) { ..... }
 	 */
-	@RequestMapping(value = { "/customer/remove", "/customer/delete" }, method = RequestMethod.GET)
-	public String removeCustomer(@RequestParam("customerId") long customerId) {
-		customerService.removeCsutomer(customerId);
-		return "redirect:list.htm";
+	@RequestMapping(value = { "/customer/remove.do", "/customer/delete.do" }, method = RequestMethod.GET)
+	@ResponseBody
+	public boolean removeCustomer(@RequestParam("customerId") int customerId)  throws Exception  {
+		System.out.println("Inside removeCustomer");
+		customerService.removeCustomer(customerId);
+		return true;
+	}
+	
+	@RequestMapping(value = "/customer/update.do", method = RequestMethod.POST)
+	@ResponseBody
+	public boolean updateCustomer(@RequestBody Customer customer)  throws Exception  {
+		System.out.println("Inside updateCustomer");
+		customerService.updateCustomer(customer);
+		return true;
 	}
 
-	@RequestMapping(value="/customer/list", method = RequestMethod.GET)
+	@RequestMapping(value="/customer/list.view", method = RequestMethod.GET)
 	public @ResponseBody List<Customer> listCustomers() {
+		logger.debug("Inside listCustomers()");
+		Long timeTaken = System.currentTimeMillis();
 		List<Customer> customers = customerService.getAllCustomers();
-		//return new ModelAndView("memberList", "members", customers);
 		
-		return customers;
+		logger.debug("Total time (Customer#"+customers.size()+"): "+(System.currentTimeMillis() - timeTaken));
+		
+        return customers;
 	}
 	
 	@RequestMapping(value="/customer/all", method = RequestMethod.GET)

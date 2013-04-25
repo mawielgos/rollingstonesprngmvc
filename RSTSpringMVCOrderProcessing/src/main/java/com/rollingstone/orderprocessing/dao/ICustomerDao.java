@@ -13,9 +13,9 @@ public interface ICustomerDao {
 	
 	Customer getCustomer(long customerId);
 	
-	boolean removeCsutomer();
+	boolean removeCustomer(int customerId) throws Exception;
 	
-	Customer updateCustomer();
+	boolean updateCustomer(Customer customer) throws Exception;
 	
 	List<Customer> findByMemberSince(Date memberSince);
 	
