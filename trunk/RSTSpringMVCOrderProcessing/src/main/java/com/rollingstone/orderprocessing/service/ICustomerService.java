@@ -14,9 +14,9 @@ public interface ICustomerService {
 	
 	Customer getCustomer(long customerId);
 	
-	boolean removeCsutomer(long customerId);
+	boolean removeCustomer(int customerId) throws Exception;
 	
-	Customer updateCustomer();
+	boolean updateCustomer(Customer customer) throws Exception;
 	
 	List<State> getAllStates();
 	

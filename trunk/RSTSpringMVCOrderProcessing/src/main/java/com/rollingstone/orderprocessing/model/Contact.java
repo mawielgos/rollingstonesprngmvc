@@ -35,19 +35,37 @@ public class Contact {
 	String emailId;
 	
 	@ManyToOne
-	@JoinColumn(name="CUSTOMERID", insertable=true, updatable=true)
+	@JoinColumn(name="CUSTOMERID", nullable=false, insertable=true, updatable=true)
 	Customer customer;
 
-	public Customer getCustomer() {
-		return customer;
+	/**
+	 * @return the contactId
+	 */
+	public long getContactId() {
+		return contactId;
 	}
+
+	/**
+	 * @param contactId the contactId to set
+	 */
+	public void setContactId(long contactId) {
+		this.contactId = contactId;
+	}
+
+	public int getCustomer() {
+		return this.customer.getCustomerId();
+	}
+
+//	public Customer getCustomer() {
+//		return this.customer;
+//	}
 
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 
 	public String getPhoneNumber() {
-		return phoneNumber;
+		return this.phoneNumber;
 	}
 
 	@XmlElement
@@ -56,7 +74,7 @@ public class Contact {
 	}
 
 	public String getPhoneType() {
-		return phoneType;
+		return this.phoneType;
 	}
 
 	@XmlElement
@@ -65,7 +83,7 @@ public class Contact {
 	}
 
 	public String getContactType() {
-		return contactType;
+		return this.contactType;
 	}
 
 	@XmlElement
@@ -74,7 +92,7 @@ public class Contact {
 	}
 
 	public String getEmailId() {
-		return emailId;
+		return this.emailId;
 	}
 
 	@XmlElement

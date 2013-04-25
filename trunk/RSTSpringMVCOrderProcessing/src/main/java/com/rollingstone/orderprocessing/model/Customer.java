@@ -3,19 +3,23 @@ package com.rollingstone.orderprocessing.model;
 import java.util.Date;
 import java.util.List;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.CascadeType;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @XmlRootElement(name = "customer")
 @Entity
@@ -26,7 +30,7 @@ public class Customer {
 	@Id
 	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_CUSTOMER")
 	@Column(name="CUSTOMERID")
-	long customerId;
+	int customerId;
 
 	@Column(name="CUSTOMERNAME")
 	String customerName;
@@ -37,23 +41,23 @@ public class Customer {
 	@Column(name="BALANCE")
 	double balance;	
 	
-	@OneToOne
-    @JoinColumn(name="ADDRESSID", insertable=true, updatable=true, nullable=false)
+	@OneToOne(mappedBy="customer", fetch=FetchType.EAGER)
+	@Cascade(value = { CascadeType.ALL })
+	@Fetch(FetchMode.JOIN)
 	Address customerAddress;
 	
-	@OneToOne
-    @JoinColumn(name="CREDITCARDID", insertable=true, updatable=true, nullable=false)
+	@OneToOne(mappedBy="customer", fetch=FetchType.EAGER)
+	@Cascade(value = { CascadeType.ALL })
+	@Fetch(FetchMode.JOIN)
 	CreditCard defaultCard;
-
-//	@OneToOne
-//    @JoinColumn(name="CONTACTID", insertable=true, updatable=true, nullable=false)
-//	Contact contacts;
 	
-	@OneToMany(mappedBy="customer",cascade={CascadeType.ALL})
+	@OneToMany(mappedBy="customer", fetch=FetchType.EAGER)
+	@Cascade(value = { CascadeType.ALL })
+	@Fetch(FetchMode.SUBSELECT)
 	List<Contact> contacts;
 
 	public List<Contact> getContacts() {
-		return contacts;
+		return this.contacts;
 	}
 
 	@XmlElement
@@ -69,17 +73,17 @@ public class Customer {
 //		this.contacts = contacts;
 //	}
 
-	public long getCustomerId() {
-		return customerId;
+	public int getCustomerId() {
+		return this.customerId;
 	}
 
 	@XmlElement
-	public void setCustomerId(long customerId) {
+	public void setCustomerId(int customerId) {
 		this.customerId = customerId;
 	}
 
 	public String getCustomerName() {
-		return customerName;
+		return this.customerName;
 	}
 
 	@XmlElement
@@ -88,7 +92,7 @@ public class Customer {
 	}
 
 	public Date getMemberSince() {
-		return memberSince;
+		return this.memberSince;
 	}
 
 	@XmlElement
@@ -97,7 +101,7 @@ public class Customer {
 	}
 
 	public Address getCustomerAddress() {
-		return customerAddress;
+		return this.customerAddress;
 	}
 
 	@XmlElement
@@ -106,7 +110,7 @@ public class Customer {
 	}
 
 	public double getBalance() {
-		return balance;
+		return this.balance;
 	}
 
 	@XmlElement
@@ -115,7 +119,7 @@ public class Customer {
 	}
 
 	public CreditCard getDefaultCard() {
-		return defaultCard;
+		return this.defaultCard;
 	}
 
 	@XmlElement

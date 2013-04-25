@@ -12,7 +12,7 @@ import com.rollingstone.orderprocessing.model.Customer;
 import com.rollingstone.orderprocessing.model.State;
 
 @Service
-public class CusrtomerServiceImpl implements ICustomerService{
+public class CustomerServiceImpl implements ICustomerService{
 
 	ICustomerDao customerDao;
 	
@@ -34,7 +34,6 @@ public class CusrtomerServiceImpl implements ICustomerService{
 
 	@Override
 	public List<Customer> getAllCustomers() {
-		// TODO Auto-generated method stub
 		return customerDao.getAllCustomers();
 	}
 
@@ -45,15 +44,14 @@ public class CusrtomerServiceImpl implements ICustomerService{
 	}
 
 	@Override
-	public boolean removeCsutomer(long customerId) {
-		// TODO Auto-generated method stub
-		return false;
+	public boolean removeCustomer(int customerId) throws Exception {
+		return customerDao.removeCustomer(customerId);
+//		return false;
 	}
 
 	@Override
-	public Customer updateCustomer() {
-		// TODO Auto-generated method stub
-		return null;
+	public boolean updateCustomer(Customer customer) throws Exception {
+		return customerDao.updateCustomer(customer);
 	}
 
 	@Override
