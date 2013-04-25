@@ -229,11 +229,11 @@
 		</dependency>
 		
 		<!-- Hibernate -->
-		<dependency>
+<!-- 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-core</artifactId>
 			<version>4.2.0.CR2</version>
-		</dependency>
+		</dependency> -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
