@@ -24,7 +24,7 @@ public class Address {
 	long addressId;
 	
 	@Column(name="HOUSENUMBER")
-	String houseNumber;
+	int houseNumber;
 	
 	@Column(name="STREET")
 	String street;
@@ -72,12 +72,12 @@ public class Address {
 		this.customer = customer;
 	}
 
-	public String getHouseNumber() {
+	public int getHouseNumber() {
 		return houseNumber;
 	}
 
 	@XmlElement
-	public void setHouseNumber(String houseNumber) {
+	public void setHouseNumber(int houseNumber) {
 		this.houseNumber = houseNumber;
 	}
 
