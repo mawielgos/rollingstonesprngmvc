@@ -9,7 +9,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -17,11 +16,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "creditcard")
 @Entity
 @Table(name="CREDITCARD")
-@SequenceGenerator(sequenceName="SEQ_CREDITCARD",name="SEQ_CREDITCARD")
+//@SequenceGenerator(sequenceName="SEQ_CREDITCARD",name="SEQ_CREDITCARD")
 public class CreditCard {
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_CREDITCARD")
+//    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_CREDITCARD")
+	@GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="CREDITCARDID")
     long creditCardId;
     
