@@ -1,0 +1,38 @@
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS test.proc_to_insert$$ 
+
+CREATE PROCEDURE test.proc_to_insert(IN _rows_to_insert INT)
+BEGIN
+
+DECLARE counter INT DEFAULT 0;
+
+DECLARE _ID INT;
+
+WHILE counter < _rows_to_insert DO
+	INSERT INTO `test`.`Customer`
+	(`CUSTOMERNAME`, `MEMBERSINCE`, `BALANCE`)
+	VALUES
+	(CONCAT('Customer ', counter), DATE_ADD('2013-01-01', INTERVAL 1 DAY), 100.22-counter*1.23 );
+	
+	SET _ID=LAST_INSERT_ID();
+
+	INSERT INTO `test`.`ADDRESS`
+	(`HOUSENUMBER`,`STREET`,`CITY`,`STATE`,`COUNTRY`,`CUSTOMERID`)
+	VALUES
+	(CONCAT(100,counter*2), CONCAT('Street ',counter), 'Holulu','CA','USA',_ID);
+
+	INSERT INTO `test`.`CONTACT`
+	(`PHONENUMBER`,`PHONETYPE`,`CONTACTTYPE`,`EMAILID`,`CUSTOMERID`)
+	VALUES
+	('408-100-0000','Cell','eMail','e@kme.com',_ID);
+
+	INSERT INTO `test`.`CREDITCARD`
+	(`CARDNUMBER`,`SECURITYCODE`,`EXPDATE`,`CARDTYPE`,`CUSTOMERID`)
+	VALUES
+	('452342312322', '222', CURDATE(), 'VISA', _ID);
+
+    SET counter = counter + 1;
+END WHILE;
+
+END;
