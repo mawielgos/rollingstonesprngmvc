@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -24,11 +23,12 @@ import org.hibernate.annotations.FetchMode;
 @XmlRootElement(name = "customer")
 @Entity
 @Table(name="CUSTOMER")
-@SequenceGenerator(sequenceName="SEQ_CUSTOMER",name="SEQ_CUSTOMER")
+//@SequenceGenerator(sequenceName="SEQ_CUSTOMER",name="SEQ_CUSTOMER")
 public class Customer {
 	
 	@Id
-	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_CUSTOMER")
+//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_CUSTOMER")
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="CUSTOMERID")
 	int customerId;
 

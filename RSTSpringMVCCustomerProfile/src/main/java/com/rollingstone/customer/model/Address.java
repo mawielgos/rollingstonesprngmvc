@@ -7,7 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -15,11 +14,12 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "address")
 @Entity
 @Table(name="ADDRESS")
-@SequenceGenerator(sequenceName="SEQ_ADDRESS",name="SEQ_ADDRESS")
+//@SequenceGenerator(sequenceName="SEQ_ADDRESS",name="SEQ_ADDRESS")
 public class Address {
 
 	@Id
-    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_ADDRESS")
+//    @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_ADDRESS")
+	@GeneratedValue(strategy=GenerationType.AUTO)
     @Column(name="ADDRESSID")
 	long addressId;
 	
