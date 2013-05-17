@@ -26,6 +26,11 @@
 <script src="resources/jqwidgets/js/jqxinput.js"></script>
 <script src="resources/jqwidgets/js/jqxgrid.columnsresize.js"></script>
 
+<script src="resources/jqwidgets/js/jqxgrid.pager.js"></script>
+<script src="resources/jqwidgets/js/jqxlistbox.js"></script>
+<script src="resources/jqwidgets/js/jqxdropdownlist.js"></script>
+
+
 <script src="resources/jqwidgets/js/gettheme.js"></script>
 
 <script src="resources/CustomerProfile.js"></script>
