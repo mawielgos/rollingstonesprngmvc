@@ -8,7 +8,7 @@ public interface ICustomerDao {
 
 	Customer addCustomer(Customer customer) throws Exception;
 	
-	List<Customer> getAllCustomers();
+	List<Customer> getAllCustomers(int pageNum, int pageSize);
 	
 	boolean removeCustomer(int customerId) throws Exception;
 	

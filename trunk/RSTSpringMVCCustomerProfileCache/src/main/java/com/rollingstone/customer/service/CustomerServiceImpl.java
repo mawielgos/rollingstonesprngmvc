@@ -28,8 +28,8 @@ public class CustomerServiceImpl implements ICustomerService{
 		return customerDao.addCustomer(customer);
 	}
 
-	public List<Customer> getAllCustomers() {
-		return customerDao.getAllCustomers();
+	public List<Customer> getAllCustomers(int pageNum, int pageSize) {
+		return customerDao.getAllCustomers(pageNum, pageSize);
 	}
 
 	public boolean removeCustomer(int customerId) throws Exception {

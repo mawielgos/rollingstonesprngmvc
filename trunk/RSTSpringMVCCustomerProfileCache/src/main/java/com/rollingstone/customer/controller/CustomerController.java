@@ -54,8 +54,11 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value="/customer/list.view", method = RequestMethod.GET)
-	public @ResponseBody List<Customer> listCustomers() {
-		List<Customer> customers = customerService.getAllCustomers();
+	public @ResponseBody List<Customer> listCustomers(@RequestParam("pagenum") int pageNum, @RequestParam("pagesize") int pageSize) {
+		
+		System.out.println("Inside Customer controller.... ");
+		
+		List<Customer> customers = customerService.getAllCustomers(pageNum, pageSize);
 		
         return customers;
 	}
