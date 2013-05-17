@@ -55,188 +55,237 @@ $(document).ready(function(){
 		$("#waitText1").text('Please wait ... ');
 		$("#fetch").css('cursor','progress');
 
-		$.ajax({
-			type: 'GET',
+    	var count = 50;
+        // prepare the data
+        var source = {
+            datatype: "json",
+            datafields: [
+                { name: 'countryId' },
+                { name: 'customerName' },
+                { name: 'memberSince', type:'date' },
+                { name: 'balance' },
+                { name: 'addressId', map: 'customerAddress>addressId' },
+                { name: 'houseNumber', map: 'customerAddress>houseNumber' },
+                { name: 'street', map: 'customerAddress>street' },
+                { name: 'city', map: 'customerAddress>city' },
+                { name: 'state', map: 'customerAddress>state' },
+                { name: 'country', map: 'customerAddress>country' },
+                { name: 'creditCardId', map: 'defaultCard>creditCardId' },
+                { name: 'cardNumber', map: 'defaultCard>cardNumber' },,
+                { name: 'securityCode', map: 'defaultCard>securityCode' },
+                { name: 'expDate', map: 'defaultCard>expDate' },
+                { name: 'cardType', map: 'defaultCard>cardType' },
+                { name: 'contacts' },
+            ],
 			url: contextPath+'/customer/list.view',
-			dataType: 'json',
-			success : function(responseData, textStatus, jqXHR) {
-				$('<div id="jqxgrid"></div>').appendTo($("#jqxWidget"));
+            cache: false,
+            beforeprocessing: function (data) {
+//				source.totalrecords = data.length;
+				source.totalrecords = 1000;
+            }
+        };
+        
+        var dataAdapter = new $.jqx.dataAdapter(source);
+		
+		$('<div id="jqxgrid"></div>').appendTo($("#jqxWidget"));
+		$("#fetch").removeAttr("disabled","disabled");
+		$("#waitText1").text('');
+		$("#fetch").css('cursor','pointer');
+		var editrow = -1;
+		
+		var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+			var tabsdiv = null;
+			var contacts = null;
+			var creditCard = null;
+			tabsdiv = $($(parentElement).children()[0]);
+			
+			console.log(tabsdiv);
 
-				$("#fetch").removeAttr("disabled","disabled");
-				$("#waitText1").text('');
-				$("#fetch").css('cursor','pointer');
+			if (tabsdiv != null) {
+				creditCard = tabsdiv.find('.creditCard');
+				contacts = tabsdiv.find('.contact');
 
-				var data = new Array();
+				var creditCardContainer = $('<div style="white-space: normal; margin: 5px;">'
+						+'<table>'
+						+ '	<tr><td><label>Card Number</label></td><td> : </td><td>'+datarecord.cardNumber+'</td></tr>'
+						+ '	<tr><td><label>Security code</label></td><td> : </td><td>'+datarecord.securityCode+'</td></tr>'
+						+ '	<tr><td><label>Exp. Date</label></td><td> : </td><td>'+datarecord.expDate+'</td></tr>'
+						+ '	<tr><td><label>Card Type</label></td><td> : </td><td>'+datarecord.cardType+'</td></tr>'
+						+ '</table>'
+						+ ' </div>');
 
-				for (x in responseData){
-					var row = {};
-					row["customerId"] = responseData[x].customerId;
-					row["customerName"] = responseData[x].customerName;
-					row["memberSince"] = (new Date(responseData[x].memberSince)).toLocaleDateString();
-					row["balance"] = responseData[x].balance;
+				$(creditCard).append(creditCardContainer);
 
-					row["addressId"] = responseData[x].customerAddress.addressId;
-					row["addressNumber"] = responseData[x].customerAddress.houseNumber;
-					row["addressText"] = responseData[x].customerAddress.street;
-					row["city"] = responseData[x].customerAddress.city;
-					row["state"] = responseData[x].customerAddress.state;
-					row["country"] = responseData[x].customerAddress.country;
+				var tempDiv = '<table style="width:100%">'
+					+ '<tr><th>Phone Number</th><th>Phone Type</th><th>Contact Type</th><th>Email Id</th></tr>';
 
-					row["creditCardId"] = responseData[x].defaultCard.creditCardId;
-					row["cardNumber"] = responseData[x].defaultCard.cardNumber;
-					row["securityCode"] = responseData[x].defaultCard.securityCode;
-					row["expDate"] = (new Date(responseData[x].defaultCard.expDate)).toLocaleDateString();
-					row["cardType"] = responseData[x].defaultCard.cardType;
-
-					row["contactsArray"] = responseData[x].contacts;
-
-					data[x] = row;
+				var tempContactsArray = datarecord.contacts;
+				for (x in tempContactsArray){
+					tempDiv = tempDiv + '<tr><td>'+tempContactsArray[x].phoneNumber+'</td><td>'+tempContactsArray[x].phoneType+'</td><td>'+tempContactsArray[x].contactType+'</td><td>'+tempContactsArray[x].emailId+'</td></tr>';
 				}
+				tempDiv = tempDiv + '</table>';
 
-				var source = {
-						localdata: data,
-						datatype: "array"
-				};
+				var contactContainer = $('<div style="white-space: normal; margin: 5px;">' + tempDiv + '</div>');
+				$(contacts).append(contactContainer);
 
-				var initrowdetails = function (index, parentElement, gridElement, datarecord) {
-					var tabsdiv = null;
-					var contacts = null;
-					var creditCard = null;
-					tabsdiv = $($(parentElement).children()[0]);
-
-					if (tabsdiv != null) {
-						creditCard = tabsdiv.find('.creditCard');
-						contacts = tabsdiv.find('.contact');
-
-						var creditCardContainer = $('<div style="white-space: normal; margin: 5px;">'
-								+'<table>'
-								+ '	<tr><td><label>Card Number</label></td><td> : </td><td>'+datarecord.cardNumber+'</td></tr>'
-								+ '	<tr><td><label>Security code</label></td><td> : </td><td>'+datarecord.securityCode+'</td></tr>'
-								+ '	<tr><td><label>Exp. Date</label></td><td> : </td><td>'+datarecord.expDate+'</td></tr>'
-								+ '	<tr><td><label>Card Type</label></td><td> : </td><td>'+datarecord.cardType+'</td></tr>'
-								+ '</table>'
-								+ ' </div>');
-
-						$(creditCard).append(creditCardContainer);
-
-						var tempDiv = '<table style="width:100%">'
-							+ '<tr><th>Phone Number</th><th>Phone Type</th><th>Contact Type</th><th>Email Id</th></tr>';
-
-						var tempContactsArray = datarecord.contactsArray;
-						for (x in tempContactsArray){
-							tempDiv = tempDiv + '<tr><td>'+tempContactsArray[x].phoneNumber+'</td><td>'+tempContactsArray[x].phoneType+'</td><td>'+tempContactsArray[x].contactType+'</td><td>'+tempContactsArray[x].emailId+'</td></tr>';
-						}
-						tempDiv = tempDiv + '</table>';
-
-						var contactContainer = $('<div style="white-space: normal; margin: 5px;">' + tempDiv + '</div>');
-						$(contacts).append(contactContainer);
-
-						$(tabsdiv).jqxTabs({ width: 600, height: 170, theme: theme });
-					}
-				};
-				var dataAdapter = new $.jqx.dataAdapter(source);
-				var editrow = -1;
-//				$("input").jqxInput({ theme: theme });
-
-				$("#jqxgrid").jqxGrid({
-					width: 1110,
-					autoheight: true,
-					source: dataAdapter,
-					theme: theme,
-					rowdetails: true,
-					columnsresize: true,
-					autoshowcolumnsmenubutton: false,
-					sortable: true,
-					rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li>Credit Card</li><li>Contacts</li></ul><div class='creditCard'></div><div class='contact'></div></div>", rowdetailsheight: 200 },
-					ready: function () {
-						$("#jqxgrid").jqxGrid('sortby', 'customerName', 'asc');
-					},
-					initrowdetails: initrowdetails,
-					columns: [
-					          { text: 'Name', datafield: 'customerName', width: 180 },
-					          { text: 'Member Since', datafield: 'memberSince', width: 140 },
-					          { text: 'Balance', datafield: 'balance', width: 100, filtertype: 'number' },
-					          { text: 'House No', datafield: 'addressNumber', width: 100, filtertype: 'number' },
-					          { text: 'Address', datafield: 'addressText', width: 180 },
-					          { text: 'City', datafield: 'city', width: 100 },
-					          { text: 'State', datafield: 'state', width: 100 },
-					          { text: 'Country', datafield: 'country', width: 100 },
-					          { text: 'Edit', datafield: 'Edit', columntype: 'button', sortable: false, cellsrenderer: function () {
-					        	  return "Edit";
-						          }, buttonclick: function (row) {
-						        	  editrow = row;
-						        	  var offset = $("#jqxgrid").offset();
-						        	  $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 160, y: parseInt(offset.top) + 60 }, height: 252});
-	
-						        	  dataRecord_row = $("#jqxgrid").jqxGrid('getrowdata', editrow);
-	
-						        	  $("#ed_customerId").val(dataRecord_row.customerId);
-						        	  $("#ed_name").val(dataRecord_row.customerName);
-						        	  $("#ed_memberSince").val(new Date(dataRecord_row.memberSince).toLocaleDateString());
-						        	  $("#ed_balance").val(dataRecord_row.balance);
-	
-						        	  $("#ed_addressId").val(dataRecord_row.addressId);
-						        	  $("#ed_houseNumber").val(dataRecord_row.addressNumber);
-						        	  $("#ed_street").val(dataRecord_row.addressText);
-						        	  $("#ed_city").val(dataRecord_row.city);
-						        	  $("#ed_state").val(dataRecord_row.state);
-						        	  $("#ed_country").val(dataRecord_row.country);
-	
-						        	  $("#ed_creditCardId").val(dataRecord_row.creditCardId);
-						        	  $("#ed_cardNum").val(dataRecord_row.cardNumber);
-						        	  $("#ed_securityCd").val(dataRecord_row.securityCode);
-						        	  $("#ed_expDate").val(new Date(dataRecord_row.expDate).toLocaleDateString());
-						        	  $("#ed_cardType").val(dataRecord_row.cardType);
-	
-	
-						        	  var tempContactsArray = dataRecord_row.contactsArray;
-						        	  var tempDiv='';
-						        	  var extraHeight=0;
-						        	  $(".ed_temp_contact").remove();
-						        	  $(".ed_temp_button").remove();
-						        	  
-						        	  if (tempContactsArray.length == 0){
-						        		  tempDiv = tempDiv + '<tr id="ed_rowList'+x+'" class="ed_temp_contact"><td align="right">Phone Number:</td><td align="left"><input id="ed_phoneNumber" value=""></input></td><td align="right">Phone Type:</td><td align="left"><input id="ed_phoneType" value=""></input></td><td align="right">Contact Type:</td><td align="left"><input id="ed_contactType" value=""></input></td><td align="right">Email Id:</td><td align="left"><input id="ed_emailId" value=""></input></td></tr>';
-						        		  extraHeight = extraHeight + 40;
-						        	  } else {
-							        	  for (x in tempContactsArray){
-							        		  tempDiv = tempDiv + '<tr id="ed_rowList'+x+'" class="ed_temp_contact"><input id="ed_contactId" type="hidden" value="'+tempContactsArray[x].contactId+'"><td align="right">Phone Number:</td><td align="left"><input id="ed_phoneNumber" value="'+tempContactsArray[x].phoneNumber+'"></input></td><td align="right">Phone Type:</td><td align="left"><input id="ed_phoneType" value="'+tempContactsArray[x].phoneType+'"></input></td><td align="right">Contact Type:</td><td align="left"><input id="ed_contactType" value="'+tempContactsArray[x].contactType+'"></input></td><td align="right">Email Id:</td><td align="left"><input id="ed_emailId" value="'+tempContactsArray[x].emailId+'"></input></td></tr>';
-							        		  extraHeight = extraHeight + 40;
-							        	  }
-						        	  }
-						        	  
-						        	  $("#editTable").append(tempDiv);
-						        	  $("#editTable").append('<tr class="ed_temp_button"><td colspan="7" align="right"><p id="waitText4"></p></td><td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="ed_save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td></tr>');
-						        	  extraHeight = extraHeight + 40;
-						        	  
-						        	  // show the popup window.
-						        	  $("#popupWindow").jqxWindow('open');
-						        	  
-						        	  var popupHeight = $('#popupWindow').jqxWindow('height');
-						        	  $('#popupWindow').jqxWindow({height:popupHeight+extraHeight});
-						        	  $("#popupWindow").jqxWindow({
-						        		  width: 800, resizable: true, theme: theme, isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01, showCloseButton: true           
-						        	  });
-						        	  $("#popupWindow").on('open', function () {
-						        		  $("#ed_name").jqxInput('selectAll');
-						        	  });						        	  
-									  $("#Cancel").jqxButton({ theme: theme });
-									  $("#ed_save").jqxButton({ theme: theme });
-									  
-									  $("#ed_save").on('click', editSave);
-						          }
-					          }
-					   ]
-				});
-			},
-			error : function(jqXHR, textStatus, errorThrown) {
-				console.log('error:', errorThrown);
-				$("#fetch").removeAttr("disabled","disabled");
-				$("#waitText1").text('Error: '+textStatus);
-				$("#fetch").css('cursor','pointer');
-				hideAndFade("#waitText1");
+				$(tabsdiv).jqxTabs({ width: 600, height: 170, theme: theme });
 			}
+		};
+		
+		$("#jqxgrid").jqxGrid({
+			width: 1110,
+			autoheight: true,
+			source: dataAdapter,
+			theme: theme,
+			rowdetails: true,
+			columnsresize: true,
+			autoshowcolumnsmenubutton: false,
+			sortable: true,
+			
+			pageable: true,
+			virtualmode: true,
+			pagesize : 20,
+			rendergridrows: function (params) {
+                return params.data;
+            },
+			
+            rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li>Credit Card</li><li>Contacts</li></ul><div class='creditCard'></div><div class='contact'></div></div>", rowdetailsheight: 200 },
+			ready: function () {
+				$("#jqxgrid").jqxGrid('sortby', 'customerName', 'asc');
+			},
+			initrowdetails: initrowdetails,
+			columns: [
+			          { text: 'Name', datafield: 'customerName', width: 180 },
+			          { text: 'Member Since', datafield: 'memberSince', width: 140, filtertype: 'date', cellsformat: 'd' },
+			          { text: 'Balance', datafield: 'balance', width: 100, filtertype: 'number' },
+			          { text: 'House No', datafield: 'houseNumber', width: 100, filtertype: 'number' },
+			          { text: 'Address', datafield: 'street', width: 180 },
+			          { text: 'City', datafield: 'city', width: 100 },
+			          { text: 'State', datafield: 'state', width: 100 },
+			          { text: 'Country', datafield: 'country', width: 100 },
+			          { text: 'Edit', datafield: 'Edit', columntype: 'button', sortable: false, cellsrenderer: function () {
+			        	  return "Edit";
+				          }, buttonclick: function (row) {
+				        	  editrow = row;
+				        	  var offset = $("#jqxgrid").offset();
+				        	  $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 160, y: parseInt(offset.top) + 60 }, height: 252});
+
+				        	  dataRecord_row = $("#jqxgrid").jqxGrid('getrowdata', editrow);
+
+				        	  $("#ed_customerId").val(dataRecord_row.customerId);
+				        	  $("#ed_name").val(dataRecord_row.customerName);
+				        	  $("#ed_memberSince").val(new Date(dataRecord_row.memberSince).toLocaleDateString());
+				        	  $("#ed_balance").val(dataRecord_row.balance);
+
+				        	  $("#ed_addressId").val(dataRecord_row.addressId);
+				        	  $("#ed_houseNumber").val(dataRecord_row.houseNumber);
+				        	  $("#ed_street").val(dataRecord_row.street);
+				        	  $("#ed_city").val(dataRecord_row.city);
+				        	  $("#ed_state").val(dataRecord_row.state);
+				        	  $("#ed_country").val(dataRecord_row.country);
+
+				        	  $("#ed_creditCardId").val(dataRecord_row.creditCardId);
+				        	  $("#ed_cardNum").val(dataRecord_row.cardNumber);
+				        	  $("#ed_securityCd").val(dataRecord_row.securityCode);
+				        	  $("#ed_expDate").val(new Date(dataRecord_row.expDate).toLocaleDateString());
+				        	  $("#ed_cardType").val(dataRecord_row.cardType);
+
+
+				        	  var tempContactsArray = dataRecord_row.contacts;
+				        	  var tempDiv='';
+				        	  var extraHeight=0;
+				        	  $(".ed_temp_contact").remove();
+				        	  $(".ed_temp_button").remove();
+				        	  
+				        	  if (tempContactsArray.length == 0){
+				        		  tempDiv = tempDiv + '<tr id="ed_rowList'+x+'" class="ed_temp_contact"><td align="right">Phone Number:</td><td align="left"><input id="ed_phoneNumber" value=""></input></td><td align="right">Phone Type:</td><td align="left"><input id="ed_phoneType" value=""></input></td><td align="right">Contact Type:</td><td align="left"><input id="ed_contactType" value=""></input></td><td align="right">Email Id:</td><td align="left"><input id="ed_emailId" value=""></input></td></tr>';
+				        		  extraHeight = extraHeight + 40;
+				        	  } else {
+					        	  for (x in tempContactsArray){
+					        		  tempDiv = tempDiv + '<tr id="ed_rowList'+x+'" class="ed_temp_contact"><input id="ed_contactId" type="hidden" value="'+tempContactsArray[x].contactId+'"><td align="right">Phone Number:</td><td align="left"><input id="ed_phoneNumber" value="'+tempContactsArray[x].phoneNumber+'"></input></td><td align="right">Phone Type:</td><td align="left"><input id="ed_phoneType" value="'+tempContactsArray[x].phoneType+'"></input></td><td align="right">Contact Type:</td><td align="left"><input id="ed_contactType" value="'+tempContactsArray[x].contactType+'"></input></td><td align="right">Email Id:</td><td align="left"><input id="ed_emailId" value="'+tempContactsArray[x].emailId+'"></input></td></tr>';
+					        		  extraHeight = extraHeight + 40;
+					        	  }
+				        	  }
+				        	  
+				        	  $("#editTable").append(tempDiv);
+				        	  $("#editTable").append('<tr class="ed_temp_button"><td colspan="7" align="right"><p id="waitText4"></p></td><td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="ed_save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td></tr>');
+				        	  extraHeight = extraHeight + 40;
+				        	  
+				        	  // show the popup window.
+				        	  $("#popupWindow").jqxWindow('open');
+				        	  
+				        	  var popupHeight = $('#popupWindow').jqxWindow('height');
+				        	  $('#popupWindow').jqxWindow({height:popupHeight+extraHeight});
+				        	  $("#popupWindow").jqxWindow({
+				        		  width: 800, resizable: true, theme: theme, isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01, showCloseButton: true           
+				        	  });
+				        	  $("#popupWindow").on('open', function () {
+				        		  $("#ed_name").jqxInput('selectAll');
+				        	  });						        	  
+							  $("#Cancel").jqxButton({ theme: theme });
+							  $("#ed_save").jqxButton({ theme: theme });
+							  
+							  $("#ed_save").on('click', editSave);
+				          }
+			          }
+			   ]
 		});
+
+//		$.ajax({
+//			type: 'GET',
+//			url: contextPath+'/customer/list.view',
+//			dataType: 'json',
+//			success : function(responseData, textStatus, jqXHR) {
+//				$('<div id="jqxgrid"></div>').appendTo($("#jqxWidget"));
+//
+//				$("#fetch").removeAttr("disabled","disabled");
+//				$("#waitText1").text('');
+//				$("#fetch").css('cursor','pointer');
+//
+//				var data = new Array();
+//
+//				for (x in responseData){
+//					var row = {};
+//					row["customerId"] = responseData[x].customerId;
+//					row["customerName"] = responseData[x].customerName;
+//					row["memberSince"] = (new Date(responseData[x].memberSince)).toLocaleDateString();
+//					row["balance"] = responseData[x].balance;
+//
+//					row["addressId"] = responseData[x].customerAddress.addressId;
+//					row["addressNumber"] = responseData[x].customerAddress.houseNumber;
+//					row["addressText"] = responseData[x].customerAddress.street;
+//					row["city"] = responseData[x].customerAddress.city;
+//					row["state"] = responseData[x].customerAddress.state;
+//					row["country"] = responseData[x].customerAddress.country;
+//
+//					row["creditCardId"] = responseData[x].defaultCard.creditCardId;
+//					row["cardNumber"] = responseData[x].defaultCard.cardNumber;
+//					row["securityCode"] = responseData[x].defaultCard.securityCode;
+//					row["expDate"] = (new Date(responseData[x].defaultCard.expDate)).toLocaleDateString();
+//					row["cardType"] = responseData[x].defaultCard.cardType;
+//
+//					row["contactsArray"] = responseData[x].contacts;
+//
+//					data[x] = row;
+//				}
+//
+//				var source = {
+//						localdata: data,
+//						datatype: "array"
+//				};
+//
+//				var dataAdapter = new $.jqx.dataAdapter(source);
+//				var editrow = -1;
+//
+//			},
+//			error : function(jqXHR, textStatus, errorThrown) {
+//				console.log('error:', errorThrown);
+//				$("#fetch").removeAttr("disabled","disabled");
+//				$("#waitText1").text('Error: '+textStatus);
+//				$("#fetch").css('cursor','pointer');
+//				hideAndFade("#waitText1");
+//			}
+//		});
 	};
 	/* Fetch all Customer - fetch button event - End */
 
