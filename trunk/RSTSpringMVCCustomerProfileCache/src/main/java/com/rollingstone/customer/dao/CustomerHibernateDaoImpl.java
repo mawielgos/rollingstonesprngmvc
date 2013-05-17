@@ -51,11 +51,16 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
 		return null;
 	}
 
-	public List<Customer> getAllCustomers() {
+	public List<Customer> getAllCustomers(int pageNum, int pageSize) {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
 
         Criteria c = session.createCriteria(Customer.class);
+        
+        int start = pageNum * pageSize;
+
+        c.setMaxResults(pageSize);
+        c.setFirstResult(start);
         List<Customer> customerList = c.list();
 
         session.close();
