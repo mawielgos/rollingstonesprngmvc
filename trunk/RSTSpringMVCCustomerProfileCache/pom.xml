@@ -7,7 +7,7 @@
 	<name>RSTSpringMVCCustomerProfileCache</name>
 	<artifactId>RSTSpringMVCCustomerProfileCache</artifactId>
 	<packaging>war</packaging>
-	
+
 	<properties>
 		<java-version>1.6</java-version>
 		<org.springframework-version>3.1.1.RELEASE</org.springframework-version>
@@ -197,8 +197,8 @@
 			<artifactId>rome</artifactId>
 			<version>1.0.0</version>
 		</dependency>
-		
-		
+
+
 		<!-- CGLIB -->
 		<dependency>
 			<groupId>cglib</groupId>
@@ -214,9 +214,9 @@
 			<artifactId>poi</artifactId>
 			<version>3.0.2-FINAL</version>
 		</dependency>
-		
+
 		<!-- oxm -->
-		
+
 		<dependency>
 			<groupId>org.springframework.ws</groupId>
 			<artifactId>spring-oxm</artifactId>
@@ -227,13 +227,8 @@
 			<artifactId>spring-oxm-tiger</artifactId>
 			<version>1.5.4</version>
 		</dependency>
-		
+
 		<!-- Hibernate -->
-<!-- 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.2.0.CR2</version>
-		</dependency> -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-annotations</artifactId>
@@ -244,6 +239,13 @@
 			<artifactId>jta</artifactId>
 			<version>1.1</version>
 		</dependency>
+
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>5.1.25</version>
+		</dependency>
+
 	</dependencies>
 
 
@@ -255,7 +257,6 @@
 	</pluginRepositories>
 
 	<build>
-
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -289,7 +290,6 @@
 						<groupId>org.datanucleus</groupId>
 						<artifactId>datanucleus-core</artifactId>
 						<version>2.2.3</version>
-
 						<scope>runtime</scope>
 					</dependency>
 					<dependency>
@@ -305,7 +305,6 @@
 						<scope>runtime</scope>
 						<optional>true</optional>
 					</dependency>
-
 					<dependency>
 						<groupId>org.datanucleus</groupId>
 						<artifactId>datanucleus-jpa</artifactId>
