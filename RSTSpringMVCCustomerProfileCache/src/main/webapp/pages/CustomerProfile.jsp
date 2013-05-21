@@ -25,11 +25,9 @@
 <script src="resources/jqwidgets/js/jqxwindow.js"></script>
 <script src="resources/jqwidgets/js/jqxinput.js"></script>
 <script src="resources/jqwidgets/js/jqxgrid.columnsresize.js"></script>
-
 <script src="resources/jqwidgets/js/jqxgrid.pager.js"></script>
 <script src="resources/jqwidgets/js/jqxlistbox.js"></script>
 <script src="resources/jqwidgets/js/jqxdropdownlist.js"></script>
-
 
 <script src="resources/jqwidgets/js/gettheme.js"></script>
 
@@ -47,6 +45,10 @@
 	<div id="customerAll">
 		<button id="fetch" style="margin-right: 5px; font-size: 13px;">FETCH ALL</button><span id="waitText1"></span><button id="deleterowbutton" style="margin-right: 5px; font-size: 13px;">DELETE SELECTED</button><span id="waitText3"></span>
 		<br><br>
+		<div id="searchDiv" style="border: 1px solid #A9A9A9; padding: 6px; border-radius: 4px;">
+			<input type="text" id="searchCustomerName">&nbsp;&nbsp;<input type="text" id="searchHouseNo">&nbsp;&nbsp;<input type="text" id="searchStreet">&nbsp;&nbsp;<button id="searchButton" style="margin-right: 5px; font-size: 13px;">SEARCH</button>
+		</div>
+		<br>
 		<div id='jqxWidget' style="float: left; width: 100%">
 			<div id="jqxgrid"></div>
 		</div>	
