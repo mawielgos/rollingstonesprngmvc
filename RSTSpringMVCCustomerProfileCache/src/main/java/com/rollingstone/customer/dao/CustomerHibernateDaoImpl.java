@@ -120,6 +120,7 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
 		return true;
 	}
 
+	@Cacheable(cacheName = "getSearchCustomer")
 	public List<Customer> getSearchCustomers(int pageNum, int pageSize, String customerName, String houseNumber, String street) {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
