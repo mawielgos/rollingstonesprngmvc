@@ -39,4 +39,18 @@ public class CustomerServiceImpl implements ICustomerService{
 	public boolean updateCustomer(Customer customer) throws Exception {
 		return customerDao.updateCustomer(customer);
 	}
+
+	public List<Customer> getSearchCustomers(int pageNum, int pageSize, String customerName, String houseNumber, String street) {
+		if (customerName == null){
+			customerName = "";
+		}
+		if (houseNumber == null){
+			houseNumber = "";
+		}
+		if (street == null){
+			street = "";
+		}
+		
+		return customerDao.getSearchCustomers(pageNum, pageSize, customerName, houseNumber, street);
+	}
 }

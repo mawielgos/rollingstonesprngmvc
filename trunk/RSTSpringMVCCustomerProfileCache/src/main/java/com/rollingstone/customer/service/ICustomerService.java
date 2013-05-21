@@ -13,4 +13,7 @@ public interface ICustomerService {
 	boolean removeCustomer(int customerId) throws Exception;
 	
 	boolean updateCustomer(Customer customer) throws Exception;
+
+	List<Customer> getSearchCustomers(int pageNum, int pageSize,
+			String customerName, String houseNumber, String street);
 }
