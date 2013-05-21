@@ -55,11 +55,21 @@ public class CustomerController {
 
 	@RequestMapping(value="/customer/list.view", method = RequestMethod.GET)
 	public @ResponseBody List<Customer> listCustomers(@RequestParam("pagenum") int pageNum, @RequestParam("pagesize") int pageSize) {
-		
-		System.out.println("Inside Customer controller.... ");
-		
+		logger.debug("inside listCustomers");
 		List<Customer> customers = customerService.getAllCustomers(pageNum, pageSize);
-		
         return customers;
 	}
+	
+	@RequestMapping(value="/customer/search.view", method = RequestMethod.GET)
+	public @ResponseBody
+	List<Customer> searchCustomers(@RequestParam("pagenum") int pageNum,
+			@RequestParam("pagesize") int pageSize,
+			@RequestParam("customerName") String customerName,
+			@RequestParam("houseNumber") String houseNumber,
+			@RequestParam("street") String street) {
+		logger.debug("inside searchCustomers");
+		List<Customer> customers = customerService.getSearchCustomers(pageNum, pageSize, customerName, houseNumber, street);
+        return customers;
+	}
+
 }

@@ -6,6 +6,11 @@ $(document).ready(function(){
 	$("#resetAdd").jqxButton({ theme: theme });
 	$("#fetch").jqxButton({ theme: theme });
 	$("#deleterowbutton").jqxButton({ theme: theme });
+	$("#searchButton").jqxButton({ theme: theme });
+	
+	$("#searchCustomerName").jqxInput({placeHolder: "Customer Name", height: 25, width: 200, minLength: 1, theme: theme });
+	$("#searchHouseNo").jqxInput({placeHolder: "House No", height: 25, width: 200, minLength: 1, theme: theme });
+	$("#searchStreet").jqxInput({placeHolder: "Street", height: 25, width: 200, minLength: 1, theme: theme });
 	/* Setting style on the buttons - End */
 	
 	/* Enabling form validation - Start */
@@ -45,22 +50,36 @@ $(document).ready(function(){
 
 	/* Fetch all Customer - fetch button event - Start */
 	$( "#fetch" ).click(function() {
-		fetchAllRecords();
+		fetchAllRecords('');
 	});
 	
-	var fetchAllRecords = function (){
+	$( "#searchButton" ).click(function() {
+		fetchAllRecords('search');
+	});
+	
+	var fetchAllRecords = function (resulttype){
 		$("#jqxgrid").remove();
 		
 		$("#fetch").attr("disabled","disabled");
 		$("#waitText1").text('Please wait ... ');
 		$("#fetch").css('cursor','progress');
 
-    	var count = 50;
-        // prepare the data
+		var fetchURL = '';
+		
+		if (resulttype=='search') {
+			var customerName = $("#searchCustomerName").val();
+			var houseNumber = $("#searchHouseNo").val();
+			var street = $("#searchStreet").val();
+			
+			fetchURL=contextPath+'/customer/search.view?customerName='+customerName+'&houseNumber='+houseNumber+'&street='+street;
+		} else {
+			fetchURL=contextPath+'/customer/list.view';
+		}
+		
         var source = {
             datatype: "json",
             datafields: [
-                { name: 'countryId' },
+                { name: 'customerId' },
                 { name: 'customerName' },
                 { name: 'memberSince', type:'date' },
                 { name: 'balance' },
@@ -73,11 +92,11 @@ $(document).ready(function(){
                 { name: 'creditCardId', map: 'defaultCard>creditCardId' },
                 { name: 'cardNumber', map: 'defaultCard>cardNumber' },,
                 { name: 'securityCode', map: 'defaultCard>securityCode' },
-                { name: 'expDate', map: 'defaultCard>expDate' },
+                { name: 'expDate', type:'date', map: 'defaultCard>expDate' },
                 { name: 'cardType', map: 'defaultCard>cardType' },
                 { name: 'contacts' },
             ],
-			url: contextPath+'/customer/list.view',
+			url: fetchURL,
             cache: false,
             beforeprocessing: function (data) {
 //				source.totalrecords = data.length;
@@ -99,8 +118,6 @@ $(document).ready(function(){
 			var creditCard = null;
 			tabsdiv = $($(parentElement).children()[0]);
 			
-			console.log(tabsdiv);
-
 			if (tabsdiv != null) {
 				creditCard = tabsdiv.find('.creditCard');
 				contacts = tabsdiv.find('.contact');
@@ -109,7 +126,7 @@ $(document).ready(function(){
 						+'<table>'
 						+ '	<tr><td><label>Card Number</label></td><td> : </td><td>'+datarecord.cardNumber+'</td></tr>'
 						+ '	<tr><td><label>Security code</label></td><td> : </td><td>'+datarecord.securityCode+'</td></tr>'
-						+ '	<tr><td><label>Exp. Date</label></td><td> : </td><td>'+datarecord.expDate+'</td></tr>'
+						+ '	<tr><td><label>Exp. Date</label></td><td> : </td><td>'+new Date(datarecord.expDate).toLocaleDateString()+'</td></tr>'
 						+ '	<tr><td><label>Card Type</label></td><td> : </td><td>'+datarecord.cardType+'</td></tr>'
 						+ '</table>'
 						+ ' </div>');
@@ -159,7 +176,7 @@ $(document).ready(function(){
 			          { text: 'Member Since', datafield: 'memberSince', width: 140, filtertype: 'date', cellsformat: 'd' },
 			          { text: 'Balance', datafield: 'balance', width: 100, filtertype: 'number' },
 			          { text: 'House No', datafield: 'houseNumber', width: 100, filtertype: 'number' },
-			          { text: 'Address', datafield: 'street', width: 180 },
+			          { text: 'Street', datafield: 'street', width: 180 },
 			          { text: 'City', datafield: 'city', width: 100 },
 			          { text: 'State', datafield: 'state', width: 100 },
 			          { text: 'Country', datafield: 'country', width: 100 },
@@ -230,62 +247,6 @@ $(document).ready(function(){
 			          }
 			   ]
 		});
-
-//		$.ajax({
-//			type: 'GET',
-//			url: contextPath+'/customer/list.view',
-//			dataType: 'json',
-//			success : function(responseData, textStatus, jqXHR) {
-//				$('<div id="jqxgrid"></div>').appendTo($("#jqxWidget"));
-//
-//				$("#fetch").removeAttr("disabled","disabled");
-//				$("#waitText1").text('');
-//				$("#fetch").css('cursor','pointer');
-//
-//				var data = new Array();
-//
-//				for (x in responseData){
-//					var row = {};
-//					row["customerId"] = responseData[x].customerId;
-//					row["customerName"] = responseData[x].customerName;
-//					row["memberSince"] = (new Date(responseData[x].memberSince)).toLocaleDateString();
-//					row["balance"] = responseData[x].balance;
-//
-//					row["addressId"] = responseData[x].customerAddress.addressId;
-//					row["addressNumber"] = responseData[x].customerAddress.houseNumber;
-//					row["addressText"] = responseData[x].customerAddress.street;
-//					row["city"] = responseData[x].customerAddress.city;
-//					row["state"] = responseData[x].customerAddress.state;
-//					row["country"] = responseData[x].customerAddress.country;
-//
-//					row["creditCardId"] = responseData[x].defaultCard.creditCardId;
-//					row["cardNumber"] = responseData[x].defaultCard.cardNumber;
-//					row["securityCode"] = responseData[x].defaultCard.securityCode;
-//					row["expDate"] = (new Date(responseData[x].defaultCard.expDate)).toLocaleDateString();
-//					row["cardType"] = responseData[x].defaultCard.cardType;
-//
-//					row["contactsArray"] = responseData[x].contacts;
-//
-//					data[x] = row;
-//				}
-//
-//				var source = {
-//						localdata: data,
-//						datatype: "array"
-//				};
-//
-//				var dataAdapter = new $.jqx.dataAdapter(source);
-//				var editrow = -1;
-//
-//			},
-//			error : function(jqXHR, textStatus, errorThrown) {
-//				console.log('error:', errorThrown);
-//				$("#fetch").removeAttr("disabled","disabled");
-//				$("#waitText1").text('Error: '+textStatus);
-//				$("#fetch").css('cursor','pointer');
-//				hideAndFade("#waitText1");
-//			}
-//		});
 	};
 	/* Fetch all Customer - fetch button event - End */
 

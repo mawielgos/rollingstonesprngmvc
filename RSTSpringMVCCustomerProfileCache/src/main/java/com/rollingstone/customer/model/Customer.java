@@ -9,6 +9,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -64,14 +65,6 @@ public class Customer {
 	public void setContacts(List<Contact> contacts) {
 		this.contacts = contacts;
 	}
-
-//	public Contact getContacts() {
-//		return contacts;
-//	}
-//
-//	public void setContacts(Contact contacts) {
-//		this.contacts = contacts;
-//	}
 
 	public int getCustomerId() {
 		return this.customerId;

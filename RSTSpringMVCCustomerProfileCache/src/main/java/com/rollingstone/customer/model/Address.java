@@ -36,40 +36,37 @@ public class Address {
 	String state;
 	
 	@Column(name="COUNTRY")
-	String country;	
+	String country;
 
 	@ManyToOne
-	@JoinColumn(name="CUSTOMERID", nullable=false, insertable=true, updatable=true)
+	@JoinColumn(name="OWNERTYPEID", nullable=false, insertable=true, updatable=true)
 	Customer customer;
-	
-	
-	
-	/**
-	 * @return the addressId
-	 */
-	public long getAddressId() {
-		return addressId;
-	}
 
-	/**
-	 * @param addressId the addressId to set
-	 */
-	public void setAddressId(long addressId) {
-		this.addressId = addressId;
-	}
-
-	/**
-	 * @return the customer
-	 */
+	@Column(name="ADDRESSTYPEID")
+	int addressTypeId;
+	
 	public int getCustomer() {
 		return this.customer.getCustomerId();
 	}
 
-	/**
-	 * @param customer the customer to set
-	 */
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
+	}
+	
+	public int getAddressTypeId() {
+		return addressTypeId;
+	}
+
+	public void setAddressTypeId(int addressTypeId) {
+		this.addressTypeId = addressTypeId;
+	}
+
+	public long getAddressId() {
+		return addressId;
+	}
+
+	public void setAddressId(long addressId) {
+		this.addressId = addressId;
 	}
 
 	public int getHouseNumber() {
