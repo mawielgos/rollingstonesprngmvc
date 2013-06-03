@@ -100,7 +100,7 @@ $(document).ready(function(){
             cache: false,
             beforeprocessing: function (data) {
 //				source.totalrecords = data.length;
-				source.totalrecords = 1000;
+				source.totalrecords = 100;
             }
         };
         
@@ -150,6 +150,7 @@ $(document).ready(function(){
 		};
 		
 		$("#jqxgrid").jqxGrid({
+			/* Setting up Grid properties - START */
 			width: 1110,
 			autoheight: true,
 			source: dataAdapter,
@@ -165,7 +166,7 @@ $(document).ready(function(){
 			rendergridrows: function (params) {
                 return params.data;
             },
-			
+            /* Setting up Grid properties - END */
             rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li>Credit Card</li><li>Contacts</li></ul><div class='creditCard'></div><div class='contact'></div></div>", rowdetailsheight: 200 },
 			ready: function () {
 				$("#jqxgrid").jqxGrid('sortby', 'customerName', 'asc');

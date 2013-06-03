@@ -38,20 +38,8 @@ public class Address {
 	@Column(name="COUNTRY")
 	String country;
 
-	@ManyToOne
-	@JoinColumn(name="OWNERTYPEID", nullable=false, insertable=true, updatable=true)
-	Customer customer;
-
 	@Column(name="ADDRESSTYPEID")
 	int addressTypeId;
-	
-	public int getCustomer() {
-		return this.customer.getCustomerId();
-	}
-
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
 	
 	public int getAddressTypeId() {
 		return addressTypeId;

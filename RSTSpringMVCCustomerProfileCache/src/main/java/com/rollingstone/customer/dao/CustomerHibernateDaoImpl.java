@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.googlecode.ehcache.annotations.Cacheable;
+import com.googlecode.ehcache.annotations.TriggersRemove;
 import com.rollingstone.customer.model.Contact;
 import com.rollingstone.customer.model.Customer;
 import com.rollingstone.customer.utils.HibernateUtil;
@@ -24,6 +25,7 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
 	
 	Logger logger = Logger.getLogger(CustomerHibernateDaoImpl.class);
 	
+	@TriggersRemove(cacheName={"getAllCustomer","getSearchCustomer"}, removeAll=true)
 	public Customer addCustomer(Customer customer) throws Exception {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
@@ -32,7 +34,6 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
         try {
         	List<Contact> contacts = (List<Contact>) customer.getContacts();
 
-        	customer.getCustomerAddress().setCustomer(customer);
         	customer.getDefaultCard().setCustomer(customer);
         	for (Iterator<Contact> contactItr = contacts.iterator(); contactItr.hasNext(); ){
         		Contact contact = contactItr.next();
@@ -71,6 +72,7 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
         return customerList;
 	}
 
+	@TriggersRemove(cacheName={"getAllCustomer","getSearchCustomer"}, removeAll=true)
 	public boolean removeCustomer(int customerId) throws Exception {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
@@ -91,6 +93,7 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
         return true;
 	}
 
+	@TriggersRemove(cacheName={"getAllCustomer","getSearchCustomer"}, removeAll=true)
 	public boolean updateCustomer(Customer customer) throws Exception {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
@@ -99,7 +102,6 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
         try {
         	List<Contact> contacts = (List<Contact>) customer.getContacts();
 
-        	customer.getCustomerAddress().setCustomer(customer);
         	customer.getDefaultCard().setCustomer(customer);
         	for (Iterator<Contact> contactItr = contacts.iterator(); contactItr.hasNext(); ){
         		Contact contact = contactItr.next();

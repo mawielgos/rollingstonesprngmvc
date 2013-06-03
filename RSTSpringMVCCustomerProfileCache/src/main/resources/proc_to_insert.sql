@@ -12,17 +12,19 @@ DECLARE address_ID INT;
 
 WHILE counter < _rows_to_insert DO
 
-	INSERT INTO `test`.`Customer`
-	(`CUSTOMERNAME`, `MEMBERSINCE`, `BALANCE`)
-	VALUES
-	(CONCAT('Customer ', counter), DATE_ADD('2013-01-01', INTERVAL counter DAY), 100.22-counter*1.23);
-	
-	SET customer_ID=LAST_INSERT_ID();
-
 	INSERT INTO `test`.`ADDRESS`
 	(`HOUSENUMBER`,`STREET`,`CITY`,`STATE`,`COUNTRY`, `OWNERTYPEID`, `ADDRESSTYPEID`)
 	VALUES
-	(CONCAT(100,counter*2), CONCAT('Street ',(counter*3+counter*2)), 'Holulu','CA','USA', customer_ID, 1);
+	(CONCAT(100,counter*2), CONCAT('Street ',(counter*3+counter*2)), 'Holulu','CA','USA', null, 1);
+	
+	SET address_ID=LAST_INSERT_ID();
+	
+	INSERT INTO `test`.`Customer`
+	(`CUSTOMERNAME`, `MEMBERSINCE`, `BALANCE`, `ADDRESSID`)
+	VALUES
+	(CONCAT('Customer ', counter), DATE_ADD('2013-01-01', INTERVAL counter DAY), 100.22-counter*1.23, address_ID);
+	
+	SET customer_ID=LAST_INSERT_ID();
 
 	INSERT INTO `test`.`CONTACT`
 	(`PHONENUMBER`,`PHONETYPE`,`CONTACTTYPE`,`EMAILID`,`CUSTOMERID`)
