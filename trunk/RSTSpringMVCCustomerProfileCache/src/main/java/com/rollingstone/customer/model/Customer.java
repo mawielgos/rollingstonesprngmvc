@@ -42,9 +42,9 @@ public class Customer {
 	@Column(name="BALANCE")
 	float balance;	
 	
-	@OneToOne(mappedBy="customer", fetch=FetchType.EAGER)
+	@OneToOne(fetch=FetchType.EAGER)
 	@Cascade(value = { CascadeType.ALL })
-	@Fetch(FetchMode.JOIN)
+	@JoinColumn(name="ADDRESSID", nullable=true, insertable=true, updatable=true)
 	Address customerAddress;
 	
 	@OneToOne(mappedBy="customer", fetch=FetchType.EAGER)
