@@ -54,10 +54,10 @@
 			<h3>Customer Details</h3>
 			<div id="productMain">
 				<table>
-					<tr><td><label for="productName">Product Name : </label></td><td><input type="text" id="productShortName"/></td></tr>
+					<tr><td><label for="productName">Product Short Name : </label></td><td><input type="text" id="productShortName"/></td></tr>
 					<tr><td><label for="productName">Product Name : </label></td><td><input type="text" id="productName"/></td></tr>
-					<tr><td><label for="productName">Product Name : </label></td><td><input type="text" id="productPrice"/></td></tr>
-					<tr><td><label for="productName">Product Name : </label></td><td><input type="text" id="productImagePath"/></td></tr>
+					<tr><td><label for="productName">Product Price  : </label></td><td><input type="text" id="productPrice"/></td></tr>
+					<tr><td><label for="productName">Product Image : </label></td><td><input type="text" id="productImagePath"/></td></tr>
 				</table>
 				<br>
 			</div>
