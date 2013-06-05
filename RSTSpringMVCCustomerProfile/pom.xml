@@ -255,6 +255,7 @@
 	</pluginRepositories>
 
 	<build>
+		<finalName>ecomemerce</finalName>
 
 		<plugins>
 			<plugin>
