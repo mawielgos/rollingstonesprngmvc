@@ -21,40 +21,28 @@ public class ProductCategory {
 	int categoryId;
 	
 	@Column(name="CATEGORYNAME")
-	int categoryName;
+	String categoryName;
 	
-	
-
 		
 	public String toString(){
 		return "";
 	}
-
-
-
-
 	public int getCategoryId() {
 		return categoryId;
 	}
-
-
-
 
 	public void setCategoryId(int categoryId) {
 		this.categoryId = categoryId;
 	}
 
-
-
-
-	public int getCategoryName() {
+	public String getCategoryName() {
 		return categoryName;
 	}
 
 
 
 
-	public void setCategoryName(int categoryName) {
+	public void setCategoryName(String categoryName) {
 		this.categoryName = categoryName;
 	}
 }
