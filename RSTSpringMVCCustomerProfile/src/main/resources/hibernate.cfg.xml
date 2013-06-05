@@ -40,6 +40,8 @@
     	<mapping class="com.rollingstone.customer.model.CreditCard"/>
     	<mapping class="com.rollingstone.customer.model.Address"/>
     	<mapping class="com.rollingstone.customer.model.Contact"/>
+    	<mapping class="com.rollingstone.customer.model.Product"/>
+    	
 
     </session-factory>
 </hibernate-configuration>
