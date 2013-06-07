@@ -12,8 +12,6 @@ import net.sf.ehcache.search.Direction;
 import net.sf.ehcache.search.Query;
 import net.sf.ehcache.search.Result;
 import net.sf.ehcache.search.Results;
-import net.sf.ehcache.search.attribute.AttributeExtractor;
-import net.sf.ehcache.search.attribute.AttributeExtractorException;
 
 import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
@@ -22,6 +20,7 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.googlecode.ehcache.annotations.TriggersRemove;
 import com.rollingstone.customer.model.Contact;
 import com.rollingstone.customer.model.Customer;
 import com.rollingstone.customer.model.ResponseObject;
@@ -83,7 +82,6 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
         }	
 	}
 	
-//	@Cacheable(cacheName = "getSearchCustomer")
 	public ResponseObject<Customer> getSearchCustomers(int pageNum, int pageSize, String customerName, String houseNumber, String street) {
 		Cache cache = cacheManager.getCache("getAllCustomer");
         if (cache.getSize() == 0){
@@ -98,7 +96,6 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
 		Attribute<String> attrName = cache.getSearchAttribute("customerName");
 		Attribute<String> attrHouse = cache.getSearchAttribute("houseNumber");
 		Attribute<String> attrStreet = cache.getSearchAttribute("street");
-		
 		
 		Query query = cache.createQuery();
 		query.includeKeys();
@@ -131,54 +128,7 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
         return resObj ;
 	}
 	
-//	@Cacheable(cacheName = "getSearchCustomer")
-//	public List<Customer> getSearchCustomers(int pageNum, int pageSize, String customerName, String houseNumber, String street) {
-//		SessionFactory sf = hbUtil.getSessionFactory();
-//        Session session = sf.openSession();
-//
-//        Criteria c = session.createCriteria(Customer.class, "customer");
-//        
-//        int start = pageNum * pageSize;
-//        c.setMaxResults(pageSize);
-//        c.setFirstResult(start);
-//        
-//        c.createAlias("customer.customerAddress", "address");
-//        
-//        if (!customerName.isEmpty()){
-//        	c.add(Restrictions.ilike("customer.customerName", "%"+customerName+"%"));
-//        }
-//        
-//        if (!houseNumber.isEmpty()){
-//        	c.add(Restrictions.eq("address.houseNumber", Integer.parseInt(houseNumber)));
-//        }
-//
-//        if (!street.isEmpty()){
-//        	c.add(Restrictions.ilike("address.street", "%"+street+"%"));
-//        }
-//
-//        List<Customer> customerList = c.list();
-//
-//        session.close();
-//
-//        return customerList;
-//	}
-
-//	public static class NameAttributeExtractor implements AttributeExtractor {
-//
-//		/**
-//		 * Implementing the AttributeExtractor Interface and passing it in
-//		 * allows you to create very efficient and specific attribute extraction
-//		 * for performance sensitive code
-//		 */
-//
-//		@Override
-//		public Object attributeFor(Element element, String arg1) throws AttributeExtractorException {
-//			return ((Customer) element.getValue()).getCustomerName();
-//		}
-//
-//	}
-	
-//	@TriggersRemove(cacheName={"getAllCustomer","getSearchCustomer"}, removeAll=true)
+	@TriggersRemove(cacheName={"getAllCustomer"}, removeAll=true)
 	public Customer addCustomer(Customer customer) throws Exception {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
@@ -207,7 +157,7 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
 		return null;
 	}
 	
-//	@TriggersRemove(cacheName={"getAllCustomer","getSearchCustomer"}, removeAll=true)
+	@TriggersRemove(cacheName={"getAllCustomer"}, removeAll=true)
 	public boolean removeCustomer(int customerId) throws Exception {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
@@ -228,7 +178,7 @@ public class CustomerHibernateDaoImpl implements ICustomerDao {
         return true;
 	}
 
-//	@TriggersRemove(cacheName={"getAllCustomer","getSearchCustomer"}, removeAll=true)
+	@TriggersRemove(cacheName={"getAllCustomer"}, removeAll=true)
 	public boolean updateCustomer(Customer customer) throws Exception {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
