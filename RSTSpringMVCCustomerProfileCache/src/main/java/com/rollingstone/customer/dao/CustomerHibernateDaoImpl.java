@@ -5,7 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 
 import net.sf.ehcache.Cache;
-import net.sf.ehcache.CacheManager;
 import net.sf.ehcache.Element;
 import net.sf.ehcache.search.Attribute;
 import net.sf.ehcache.search.Direction;
@@ -17,24 +16,16 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.googlecode.ehcache.annotations.TriggersRemove;
 import com.rollingstone.customer.model.Contact;
 import com.rollingstone.customer.model.Customer;
 import com.rollingstone.customer.model.ResponseObject;
-import com.rollingstone.customer.utils.HibernateUtil;
 
 @Repository
-public class CustomerHibernateDaoImpl implements ICustomerDao {
+public class CustomerHibernateDaoImpl extends AbstractDAO implements ICustomerDao {
 
-	@Autowired
-	HibernateUtil hbUtil;
-	
-	@Autowired
-	CacheManager cacheManager;
-	
 	Logger logger = Logger.getLogger(CustomerHibernateDaoImpl.class);
 
 	public ResponseObject<Customer> getAllCustomers(int pageNum, int pageSize) {
