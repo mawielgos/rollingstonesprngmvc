@@ -2,6 +2,9 @@ package com.rollingstone.customer.controller;
 
 import java.util.List;
 
+import net.sf.ehcache.Cache;
+import net.sf.ehcache.CacheManager;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.rollingstone.customer.model.Customer;
+import com.rollingstone.customer.model.ResponseObject;
 import com.rollingstone.customer.service.ICustomerService;
 
 @Controller
@@ -54,21 +58,21 @@ public class CustomerController {
 	}
 
 	@RequestMapping(value="/customer/list.view", method = RequestMethod.GET)
-	public @ResponseBody List<Customer> listCustomers(@RequestParam("pagenum") int pageNum, @RequestParam("pagesize") int pageSize) {
-		logger.debug("inside listCustomers");
-		List<Customer> customers = customerService.getAllCustomers(pageNum, pageSize);
+	public @ResponseBody ResponseObject<Customer> listCustomers(@RequestParam("pagenum") int pageNum, @RequestParam("pagesize") int pageSize) {
+		logger.debug("Inside listCustomers");
+		
+		ResponseObject<Customer> customers = customerService.getAllCustomers(pageNum, pageSize);
         return customers;
 	}
 	
 	@RequestMapping(value="/customer/search.view", method = RequestMethod.GET)
-	public @ResponseBody
-	List<Customer> searchCustomers(@RequestParam("pagenum") int pageNum,
+	public @ResponseBody ResponseObject<Customer> searchCustomers(@RequestParam("pagenum") int pageNum,
 			@RequestParam("pagesize") int pageSize,
 			@RequestParam("customerName") String customerName,
 			@RequestParam("houseNumber") String houseNumber,
 			@RequestParam("street") String street) {
 		logger.debug("inside searchCustomers");
-		List<Customer> customers = customerService.getSearchCustomers(pageNum, pageSize, customerName, houseNumber, street);
+		ResponseObject<Customer> customers = customerService.getSearchCustomers(pageNum, pageSize, customerName, houseNumber, street);
         return customers;
 	}
 

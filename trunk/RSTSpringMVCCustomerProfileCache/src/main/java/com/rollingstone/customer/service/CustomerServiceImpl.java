@@ -1,13 +1,12 @@
 package com.rollingstone.customer.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Service;
 
 import com.rollingstone.customer.dao.ICustomerDao;
 import com.rollingstone.customer.model.Customer;
+import com.rollingstone.customer.model.ResponseObject;
 
 @Service
 public class CustomerServiceImpl implements ICustomerService{
@@ -28,7 +27,7 @@ public class CustomerServiceImpl implements ICustomerService{
 		return customerDao.addCustomer(customer);
 	}
 
-	public List<Customer> getAllCustomers(int pageNum, int pageSize) {
+	public ResponseObject<Customer> getAllCustomers(int pageNum, int pageSize) {
 		return customerDao.getAllCustomers(pageNum, pageSize);
 	}
 
@@ -40,7 +39,7 @@ public class CustomerServiceImpl implements ICustomerService{
 		return customerDao.updateCustomer(customer);
 	}
 
-	public List<Customer> getSearchCustomers(int pageNum, int pageSize, String customerName, String houseNumber, String street) {
+	public ResponseObject<Customer> getSearchCustomers(int pageNum, int pageSize, String customerName, String houseNumber, String street) {
 		if (customerName == null){
 			customerName = "";
 		}
