@@ -99,8 +99,8 @@ $(document).ready(function(){
 			url: fetchURL,
             cache: false,
             beforeprocessing: function (data) {
-//				source.totalrecords = data.length;
-				source.totalrecords = 100;
+				source.totalrecords = data.totalItems;
+//				source.totalrecords = 100;
             }
         };
         
