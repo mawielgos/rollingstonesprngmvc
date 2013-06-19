@@ -27,6 +27,13 @@
 			<scope>test</scope>
 		</dependency>
 
+<dependency>
+	<groupId>net.sf.ehcache</groupId>
+	<artifactId>ehcache</artifactId>
+	<version>2.7.0</version>
+</dependency>
+            
+            
 		<!-- Logging -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
@@ -269,6 +276,7 @@
 	</pluginRepositories>
 
 	<build>
+	<finalName>ecommerce-cache</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
