@@ -13,22 +13,15 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement(name = "ingredients")
 @Entity
-@Table(name="recipe_ingredients")
+@Table(name="RECIPE_INGREDIENTS")
 public class RecipeIngredients {
-
-
-	
-	
-
-
 	@Id
-//  @GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_CONTACT")
 	@GeneratedValue(strategy=GenerationType.AUTO)
-   @Column(name="INGREDIENT_ID")
-	long recipyDetaildId;
+	@Column(name="INGREDIENT_ID")
+	long recipeDetailId;
 	
-	@Column(name="NAME")
-	String name;
+	@Column(name="INGREDIENT_NAME")
+	String ingredientName;
 	
 	@Column(name="UOM")
 	String uom;
@@ -38,37 +31,22 @@ public class RecipeIngredients {
 	
 	@ManyToOne
 	@JoinColumn(name="RECIPEID", nullable=false, insertable=true, updatable=true)
-	Recipe recepe;
-	
-	
-	public void RecipyIngredients() {
-		
+	Recipe recipe;
+
+	public long getRecipeDetaildId() {
+		return recipeDetailId;
 	}
 
-	public Recipe getRecepe() {
-		return recepe;
-	}
-
-
-
-	public void setRecepe(Recipe recepe) {
-		this.recepe = recepe;
-	}
-
-	public long getRecipyDetaildId() {
-		return recipyDetaildId;
-	}
-
-	public void setRecipyDetaildId(long recipyDetaildId) {
-		this.recipyDetaildId = recipyDetaildId;
+	public void setRecipeDetaildId(long recipeDetaildId) {
+		this.recipeDetailId = recipeDetaildId;
 	}
 
 	public String getName() {
-		return name;
+		return ingredientName;
 	}
 
 	public void setName(String name) {
-		this.name = name;
+		this.ingredientName = name;
 	}
 
 	public String getUom() {
@@ -87,6 +65,11 @@ public class RecipeIngredients {
 		this.quantity = quantity;
 	}
 
+	public Recipe getRecipe() {
+		return recipe;
+	}
 
-	
+	public void setRecipe(Recipe recipe) {
+		this.recipe = recipe;
+	}
 }
