@@ -21,20 +21,18 @@ import org.hibernate.annotations.FetchMode;
 
 @XmlRootElement(name = "recipe")
 @Entity
-@Table(name="RST_RECIPE")
+@Table(name="RECIPE")
 public class Recipe {
-
 	@Id
-//	@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="SEQ_CUSTOMER")
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="RECIPEID")
-	long recipyId;
+	long recipeId;
 	
-	@Column(name="NAME")
-	String recipyName;
+	@Column(name="RECIPE_NAME")
+	String recipeName;
 	
 	@Column(name="DESCRIPTION")
-	String recipyDescripton;
+	String recipeDescripton;
 	
 	@Column(name="CREATED_ON")
 	Date createdOn;
@@ -42,8 +40,8 @@ public class Recipe {
 	@Column(name="CREATED_BY")
 	String createdBy;
 	
-	@Column(name="TYPE")
-	String recipyType;
+	@Column(name="RECIPETYPE")
+	String recipeType;
 	
 	@Column(name="VISITOR_COUNT")
 	long visitorCount;
@@ -56,6 +54,38 @@ public class Recipe {
 	@Fetch(FetchMode.SUBSELECT)
 	List<RecipeIngredients> ingredients;
 	
+	public long getRecipeId() {
+		return recipeId;
+	}
+
+	public void setRecipeId(long recipeId) {
+		this.recipeId = recipeId;
+	}
+
+	public String getRecipeName() {
+		return recipeName;
+	}
+
+	public void setRecipeName(String recipeName) {
+		this.recipeName = recipeName;
+	}
+
+	public String getRecipeDescripton() {
+		return recipeDescripton;
+	}
+
+	public void setRecipeDescripton(String recipeDescripton) {
+		this.recipeDescripton = recipeDescripton;
+	}
+
+	public String getRecipeType() {
+		return recipeType;
+	}
+
+	public void setRecipeType(String recipeType) {
+		this.recipeType = recipeType;
+	}
+
 	public List<RecipeIngredients> getIngredients() {
 		return ingredients;
 	}
@@ -64,32 +94,32 @@ public class Recipe {
 		this.ingredients = ingredients;
 	}
 
-	public void Recipy(){
+	public void recipe(){
 		
 	}
 
-	public long getRecipyId() {
-		return recipyId;
+	public long getrecipeId() {
+		return recipeId;
 	}
 
-	public void setRecipyId(long recipyId) {
-		this.recipyId = recipyId;
+	public void setrecipeId(long recipeId) {
+		this.recipeId = recipeId;
 	}
 
-	public String getRecipyName() {
-		return recipyName;
+	public String getrecipeName() {
+		return recipeName;
 	}
 
-	public void setRecipyName(String recipyName) {
-		this.recipyName = recipyName;
+	public void setrecipeName(String recipeName) {
+		this.recipeName = recipeName;
 	}
 
-	public String getRecipyDescripton() {
-		return recipyDescripton;
+	public String getrecipeDescripton() {
+		return recipeDescripton;
 	}
 
-	public void setRecipyDescripton(String recipyDescripton) {
-		this.recipyDescripton = recipyDescripton;
+	public void setrecipeDescripton(String recipeDescripton) {
+		this.recipeDescripton = recipeDescripton;
 	}
 
 	public Date getCreatedOn() {
@@ -108,12 +138,12 @@ public class Recipe {
 		this.createdBy = createdBy;
 	}
 
-	public String getRecipyType() {
-		return recipyType;
+	public String getrecipeType() {
+		return recipeType;
 	}
 
-	public void setRecipyType(String recipyType) {
-		this.recipyType = recipyType;
+	public void setrecipeType(String recipeType) {
+		this.recipeType = recipeType;
 	}
 
 	public long getVisitorCount() {
