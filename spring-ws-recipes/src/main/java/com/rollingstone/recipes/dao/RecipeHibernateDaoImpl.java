@@ -20,11 +20,8 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
 
 	Logger logger = Logger.getLogger(RecipeHibernateDaoImpl.class);
 
-
-
 	@Override
 	public Recipe getRecipe(long recipeId) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -56,12 +53,10 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
 
         	for (Iterator<RecipeIngredients> ingredientItr = ingredients.iterator(); ingredientItr.hasNext(); ){
         		RecipeIngredients ingredient = ingredientItr.next();
-        		ingredient.setRecepe(recipe);
+        		ingredient.setRecipe(recipe);
         	}
         	
-        	
         	session.update(recipe);
-
         	session.getTransaction().commit();
         }catch(Exception e){
         	session.getTransaction().rollback();
@@ -105,11 +100,10 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
 
         	for (Iterator<RecipeIngredients> ingredientItr = ingredients.iterator(); ingredientItr.hasNext(); ){
         		RecipeIngredients ingredient = ingredientItr.next();
-        		ingredient.setRecepe(recipe);
+        		ingredient.setRecipe(recipe);
         	}
         	
         	session.save(recipe);
-
         	session.getTransaction().commit();
         }catch(Exception e){
         	session.getTransaction().rollback();
