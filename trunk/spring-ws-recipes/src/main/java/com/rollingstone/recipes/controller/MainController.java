@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.rollingstone.recipes.service.SubscriptionService;
+import com.rollingstone.recipes.service.RecipeService;
 
 /**
  * Handles and retrieves the common or admin page depending on the URI template.
@@ -22,7 +22,7 @@ public class MainController {
 	protected static Logger logger = Logger.getLogger("controller");
 	
 	@Resource(name="subscriptionService")
-	private SubscriptionService subscriptionService;
+	private RecipeService subscriptionService;
 	
 	/**
 	 * Handles and retrieves subscribed users and
@@ -35,7 +35,7 @@ public class MainController {
     	logger.debug("Received request to show subscribers page");
     
     	// Attach list of subscriptions to the Model
-    	model.addAttribute("subscriptions",  subscriptionService.getAll());
+//    	model.addAttribute("subscriptions",  subscriptionService.getAll());
     	
     	// This will resolve to /WEB-INF/jsp/subscribers.jsp
     	return "subscribers";
