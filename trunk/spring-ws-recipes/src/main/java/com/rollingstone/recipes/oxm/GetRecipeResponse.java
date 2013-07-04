@@ -1,5 +1,8 @@
 package com.rollingstone.recipes.oxm;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -19,7 +22,7 @@ public class GetRecipeResponse {
     @XmlElement(required = true)
     protected String code;
     @XmlElement(required = true)
-    protected Recipe recipe;
+    protected List<Recipe> recipe;
 
     /**
      * Gets the value of the code property.
@@ -48,25 +51,34 @@ public class GetRecipeResponse {
     /**
      * Gets the value of the recipe property.
      * 
-     * @return
-     *     possible object is
-     *     {@link Recipe }
-     *     
+     * <p>
+     * This accessor method returns a reference to the live list,
+     * not a snapshot. Therefore any modification you make to the
+     * returned list will be present inside the JAXB object.
+     * This is why there is not a <CODE>set</CODE> method for the recipe property.
+     * 
+     * <p>
+     * For example, to add a new item, do as follows:
+     * <pre>
+     *    getRecipe().add(newItem);
+     * </pre>
+     * 
+     * 
+     * <p>
+     * Objects of the following type(s) are allowed in the list
+     * {@link Recipe }
+     * 
+     * 
      */
-    public Recipe getRecipe() {
-        return recipe;
+    public List<Recipe> getRecipe() {
+        if (recipe == null) {
+            recipe = new ArrayList<Recipe>();
+        }
+        return this.recipe;
     }
 
-    /**
-     * Sets the value of the recipe property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link Recipe }
-     *     
-     */
-    public void setRecipe(Recipe value) {
-        this.recipe = value;
-    }
+	public void setRecipe(List<Recipe> recipe) {
+		this.recipe = recipe;
+	}
 
 }

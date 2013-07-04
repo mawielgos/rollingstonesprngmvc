@@ -18,7 +18,7 @@ public class RecipeIngredients {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="INGREDIENT_ID")
-	long recipeDetailId;
+	int recipeDetailId;
 	
 	@Column(name="INGREDIENT_NAME")
 	String ingredientName;
@@ -33,11 +33,11 @@ public class RecipeIngredients {
 	@JoinColumn(name="RECIPEID", nullable=false, insertable=true, updatable=true)
 	Recipe recipe;
 
-	public long getRecipeDetaildId() {
+	public int getRecipeDetaildId() {
 		return recipeDetailId;
 	}
 
-	public void setRecipeDetaildId(long recipeDetaildId) {
+	public void setRecipeDetaildId(int recipeDetaildId) {
 		this.recipeDetailId = recipeDetaildId;
 	}
 
