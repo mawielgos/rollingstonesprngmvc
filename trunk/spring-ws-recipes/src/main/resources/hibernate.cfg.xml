@@ -36,13 +36,8 @@
 		<property name="hibernate.dbcp.minIdle">1</property> -->
         
 		<!-- Mapping of model classes -->  
-    	<mapping class="com.rollingstone.customer.model.Customer"/>
-    	<mapping class="com.rollingstone.customer.model.CreditCard"/>
-    	<mapping class="com.rollingstone.customer.model.Address"/>
-    	<mapping class="com.rollingstone.customer.model.Contact"/>
-   <!--  	<mapping class="com.rollingstone.customer.model.Product"/>
-    	<mapping class="com.rollingstone.customer.model.ProductCategory"/> -->
-    	
+    	<mapping class="com.rollingstone.recipes.domain.Recipe"/>
+    	<mapping class="com.rollingstone.recipes.domain.RecipeIngredients"/>
 
     </session-factory>
 </hibernate-configuration>
