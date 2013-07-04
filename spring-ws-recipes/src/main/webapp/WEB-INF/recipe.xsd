@@ -147,7 +147,7 @@
 		<complexType>
 			<sequence>
 				<element ref="tns:code"/>
-				<element ref="tns:recipe"/>
+				<element ref="tns:recipe" maxOccurs="unbounded" minOccurs="1"/>
 			</sequence>
 		</complexType>
 	</element>

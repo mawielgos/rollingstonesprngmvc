@@ -30,27 +30,6 @@
 			</map>
 		</property>
 
-		<property name="defaultViews">
-			<list>
-				<!-- JSON View -->
-				<bean
-					class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
-				</bean>
-
-				<!-- JAXB XML View -->
-				<bean class="org.springframework.web.servlet.view.xml.MarshallingView">
-					<constructor-arg>
-						<bean class="org.springframework.oxm.jaxb.Jaxb2Marshaller">
-							<property name="classesToBeBound">
-								<list>
-									<value>com.rollingstone.customer.model.Customer</value>
-								</list>
-							</property>
-						</bean>
-					</constructor-arg>
-				</bean>
-			</list>
-		</property>
 		<property name="ignoreAcceptHeader" value="true" />
 
 	</bean>
