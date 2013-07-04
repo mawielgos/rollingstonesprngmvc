@@ -27,40 +27,24 @@ public class DeleteRecipeEndpoint {
 
 	@Resource(name="recipeService")
 	private RecipeService recipeService;
-	
+
 	public static final String NAMESPACE_URI = "http://binit.blogspot.com/ws/schema/recipe";
 
-	public static final String REQUEST_LOCAL_NAME = "getRecipeRequest";
+	public static final String REQUEST_LOCAL_NAME = "deleteRecipeRequest";
 
 	@PayloadRoot(localPart = REQUEST_LOCAL_NAME, namespace = NAMESPACE_URI)
 	@ResponsePayload
 	public DeleteRecipeResponse deleteAllRecipe( @RequestPayload DeleteRecipeRequest deleteReipeRequest) {
 		try {
-			logger.debug("Received delete request");
-			try {
-				int recipeId = deleteReipeRequest.getRecipeId();
-				recipeService.deleteRecipe(recipeId);
-				
-			}  catch (Exception e) {
-				logger.error("Unable to delete");
-
-				DeleteRecipeResponse response = new DeleteRecipeResponse();
-				response.setCode("FAILURE");
-				
-				return response;
-			}
-
-		} catch (Exception e) {
-			logger.error("Problem with delete request");
-
-			// Return response
+			int recipeId = deleteReipeRequest.getRecipeId();
+			recipeService.deleteRecipe(recipeId);
+		}  catch (Exception e) {
+			logger.error(e.getMessage());
 			DeleteRecipeResponse response = new DeleteRecipeResponse();
 			response.setCode("FAILURE");
-			
 			return response;
 		}
-		logger.debug("Success in deletion");
-		
+
 		DeleteRecipeResponse response = new DeleteRecipeResponse();
 		response.setCode("SUCCESS");
 

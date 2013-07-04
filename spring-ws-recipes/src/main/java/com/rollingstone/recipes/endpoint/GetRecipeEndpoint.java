@@ -1,5 +1,8 @@
 package com.rollingstone.recipes.endpoint;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
@@ -8,6 +11,7 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
+import com.rollingstone.recipes.domain.Recipe;
 import com.rollingstone.recipes.oxm.GetRecipeRequest;
 import com.rollingstone.recipes.oxm.GetRecipeResponse;
 import com.rollingstone.recipes.service.RecipeService;
@@ -27,7 +31,7 @@ public class GetRecipeEndpoint {
 
 	@Resource(name="recipeService")
 	private RecipeService recipeService;
-	
+
 	public static final String NAMESPACE_URI = "http://binit.blogspot.com/ws/schema/recipe";
 
 	public static final String REQUEST_LOCAL_NAME = "getRecipeRequest";
@@ -35,34 +39,25 @@ public class GetRecipeEndpoint {
 	@PayloadRoot(localPart = REQUEST_LOCAL_NAME, namespace = NAMESPACE_URI)
 	@ResponsePayload
 	public GetRecipeResponse getAllRecipe( @RequestPayload GetRecipeRequest getReipeRequest) {
+		List<Recipe> recipeList = new ArrayList<Recipe>();
 		try {
-			logger.debug("Received subscription request");
-			try {
-				logger.debug("Delegate to service");
-				recipeService.getAllRecipes();
-				
-			}  catch (Exception e) {
-				logger.error("Unable to subscribe");
-
-				// Return response
-				GetRecipeResponse response = new GetRecipeResponse();
-				response.setCode("FAILURE");
-				
-				return response;
+			String searchText = getReipeRequest.getRecipeName();
+			
+			/*If no searchtext provided, return all result*/
+			if (searchText == null ){
+				recipeList = recipeService.getAllRecipes();					
+			}else{
+				recipeList = recipeService.getRecipe(searchText);
 			}
-
 		} catch (Exception e) {
-			logger.error("Problem with subscription request");
-
-			// Return response
+			logger.error("Failed in search");
 			GetRecipeResponse response = new GetRecipeResponse();
 			response.setCode("FAILURE");
-			
 			return response;
 		}
-		logger.debug("Success in subscribing");
-		
+
 		GetRecipeResponse response = new GetRecipeResponse();
+		response.setRecipe(recipeList);
 		response.setCode("SUCCESS");
 
 		return response;

@@ -1,7 +1,5 @@
 package com.rollingstone.recipes.dao;
 
-import java.util.List;
-
 import com.rollingstone.recipes.domain.Recipe;
 import com.rollingstone.recipes.domain.ResponseObject;
 

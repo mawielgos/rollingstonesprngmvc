@@ -6,13 +6,13 @@ import com.rollingstone.recipes.domain.Recipe;
 
 public interface IRecipeService {
 
-Recipe getRecipe(long recipeId);
+	List<Recipe> getRecipe(String recipeName);
 	
 	List<Recipe> getAllRecipes();
 	
 	void saveRecipe(Recipe recipe);
 	
-	void deleteRecipe(long recipeId);
+	void deleteRecipe(int recipeId);
 	
 	void createRecipe(Recipe recipe);
 }

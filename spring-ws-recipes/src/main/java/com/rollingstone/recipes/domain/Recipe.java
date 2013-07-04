@@ -1,5 +1,6 @@
 package com.rollingstone.recipes.domain;
 
+import java.sql.Blob;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class Recipe {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="RECIPEID")
-	long recipeId;
+	int recipeId;
 	
 	@Column(name="RECIPE_NAME")
 	String recipeName;
@@ -44,21 +45,21 @@ public class Recipe {
 	String recipeType;
 	
 	@Column(name="VISITOR_COUNT")
-	long visitorCount;
+	int visitorCount;
 	
 	@Column(name="PROCESS")
-	String process;
+	Blob process;
 
 	@OneToMany(mappedBy="recipe", fetch=FetchType.EAGER)
 	@Cascade(value = { CascadeType.ALL })
 	@Fetch(FetchMode.SUBSELECT)
 	List<RecipeIngredients> ingredients;
-	
-	public long getRecipeId() {
+
+	public int getRecipeId() {
 		return recipeId;
 	}
 
-	public void setRecipeId(long recipeId) {
+	public void setRecipeId(int recipeId) {
 		this.recipeId = recipeId;
 	}
 
@@ -78,50 +79,6 @@ public class Recipe {
 		this.recipeDescripton = recipeDescripton;
 	}
 
-	public String getRecipeType() {
-		return recipeType;
-	}
-
-	public void setRecipeType(String recipeType) {
-		this.recipeType = recipeType;
-	}
-
-	public List<RecipeIngredients> getIngredients() {
-		return ingredients;
-	}
-
-	public void setIngredients(List<RecipeIngredients> ingredients) {
-		this.ingredients = ingredients;
-	}
-
-	public void recipe(){
-		
-	}
-
-	public long getrecipeId() {
-		return recipeId;
-	}
-
-	public void setrecipeId(long recipeId) {
-		this.recipeId = recipeId;
-	}
-
-	public String getrecipeName() {
-		return recipeName;
-	}
-
-	public void setrecipeName(String recipeName) {
-		this.recipeName = recipeName;
-	}
-
-	public String getrecipeDescripton() {
-		return recipeDescripton;
-	}
-
-	public void setrecipeDescripton(String recipeDescripton) {
-		this.recipeDescripton = recipeDescripton;
-	}
-
 	public Date getCreatedOn() {
 		return createdOn;
 	}
@@ -138,29 +95,35 @@ public class Recipe {
 		this.createdBy = createdBy;
 	}
 
-	public String getrecipeType() {
+	public String getRecipeType() {
 		return recipeType;
 	}
 
-	public void setrecipeType(String recipeType) {
+	public void setRecipeType(String recipeType) {
 		this.recipeType = recipeType;
 	}
 
-	public long getVisitorCount() {
+	public int getVisitorCount() {
 		return visitorCount;
 	}
 
-	public void setVisitorCount(long visitorCount) {
+	public void setVisitorCount(int visitorCount) {
 		this.visitorCount = visitorCount;
 	}
 
-	public String getProcess() {
+	public Blob getProcess() {
 		return process;
 	}
 
-	public void setProcess(String process) {
+	public void setProcess(Blob process) {
 		this.process = process;
 	}
-	
-	
+
+	public List<RecipeIngredients> getIngredients() {
+		return ingredients;
+	}
+
+	public void setIngredients(List<RecipeIngredients> ingredients) {
+		this.ingredients = ingredients;
+	}
 }

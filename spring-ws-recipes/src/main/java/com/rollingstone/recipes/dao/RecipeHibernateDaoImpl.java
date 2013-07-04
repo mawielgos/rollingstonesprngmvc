@@ -10,7 +10,6 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Repository;
 
-import com.googlecode.ehcache.annotations.TriggersRemove;
 import com.rollingstone.recipes.domain.Recipe;
 import com.rollingstone.recipes.domain.RecipeIngredients;
 import com.rollingstone.recipes.domain.ResponseObject;

@@ -8,44 +8,33 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.rollingstone.recipes.domain.Recipe;
 
-/**
- * Handles subscription services like adding a new record or unsubscribing.
- * <p>
- * This is a Spring MVC @Service. Spring WS can communicate with this service.
- */
-@Service("subscriptionService")
+@Service("recipeService")
 @Transactional
 public class RecipeService implements IRecipeService {
 
 	protected static Logger logger = Logger.getLogger(RecipeService.class);
 
 	@Override
-	public Recipe getRecipe(long recipeId) {
-		// TODO Auto-generated method stub
+	public List<Recipe> getRecipe(String recipeName) {
+		logger.debug("Calling .... getRecipe("+recipeName+")");
 		return null;
 	}
 
 	@Override
 	public List<Recipe> getAllRecipes() {
-		// TODO Auto-generated method stub
+		logger.debug("Calling .... getAllRecipes()");
 		return null;
 	}
 
 	@Override
 	public void saveRecipe(Recipe recipe) {
-		// TODO Auto-generated method stub
-		
 	}
 
 	@Override
-	public void deleteRecipe(long recipeId) {
-		// TODO Auto-generated method stub
-		
+	public void deleteRecipe(int recipeId) {
 	}
 
 	@Override
 	public void createRecipe(Recipe recipe) {
-		// TODO Auto-generated method stub
-		
 	}
 }

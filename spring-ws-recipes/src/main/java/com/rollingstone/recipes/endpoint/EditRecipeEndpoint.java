@@ -55,15 +55,11 @@ public class EditRecipeEndpoint {
 			}
 
 		} catch (Exception e) {
-			logger.error("Problem with update request");
-
-			// Return response
+			logger.error(e.getMessage());
 			GetRecipeResponse response = new GetRecipeResponse();
 			response.setCode("FAILURE");
-			
 			return response;
 		}
-		logger.debug("Success in update");
 		
 		GetRecipeResponse response = new GetRecipeResponse();
 		response.setCode("SUCCESS");
