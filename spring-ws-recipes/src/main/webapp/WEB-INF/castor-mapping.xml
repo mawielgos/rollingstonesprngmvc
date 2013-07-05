@@ -13,7 +13,7 @@
 		<field name="code" type="string">
 			<bind-xml name="code" node="element"/>
 		</field>
-		<field name="recipe" type="Recipe">
+		<field name="recipe" type="java.util.Collection">
 			<bind-xml name="recipe" node="element"/>
 		</field>
 	</class>
@@ -24,7 +24,7 @@
 		<field name="editType" type="string">
 			<bind-xml name="editType" node="element"/>
 		</field>
-		<field name="recipe" type="Recipe">
+		<field name="recipe" type="com.rollingstone.recipes.domain.Recipe">
 			<bind-xml name="recipe" node="element"/>
 		</field>
 	</class>
@@ -43,7 +43,7 @@
 		</field>
 	</class>
         
-	<class name="com.rollingstone.recipes.oxm.EditRecipeResponse">
+	<class name="com.rollingstone.recipes.oxm.DeleteRecipeResponse">
 		<map-to xml="deleteRecipeResponse" ns-uri="http://binit.blogspot.com/ws/schema/recipe"/>
 		<field name="code" type="string">
 			<bind-xml name="code" node="element"/>

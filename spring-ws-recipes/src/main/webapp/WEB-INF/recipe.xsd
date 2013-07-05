@@ -3,8 +3,7 @@
 	elementFormDefault="qualified" attributeFormDefault="qualified"
 	targetNamespace="http://binit.blogspot.com/ws/schema/recipe" xmlns:tns="http://binit.blogspot.com/ws/schema/recipe">
 
-	<element name="recipeId" tns:maxOccurs="1" tns:minOccurs="1"
-		type="int"></element>
+	<element name="recipeId" tns:maxOccurs="1" tns:minOccurs="1" type="int"></element>
 
 	<element name="recipeName" tns:maxOccurs="1" tns:minOccurs="1">
 		<simpleType>
@@ -147,7 +146,7 @@
 		<complexType>
 			<sequence>
 				<element ref="tns:code"/>
-				<element ref="tns:recipe" maxOccurs="unbounded" minOccurs="1"/>
+				<element ref="tns:recipe" maxOccurs="unbounded" minOccurs="0"/>
 			</sequence>
 		</complexType>
 	</element>
