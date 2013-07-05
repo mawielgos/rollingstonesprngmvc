@@ -45,12 +45,14 @@ public class GetRecipeEndpoint {
 			
 			/*If no searchtext provided, return all result*/
 			if (searchText == null ){
+				logger.debug("Get all results");
 				recipeList = recipeService.getAllRecipes();					
 			}else{
+				logger.debug("Get results for "+searchText);
 				recipeList = recipeService.getRecipe(searchText);
 			}
 		} catch (Exception e) {
-			logger.error("Failed in search");
+			logger.error(e.getMessage());
 			GetRecipeResponse response = new GetRecipeResponse();
 			response.setCode("FAILURE");
 			return response;

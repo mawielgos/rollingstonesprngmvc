@@ -1,6 +1,5 @@
 package com.rollingstone.recipes.dao;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import com.rollingstone.recipes.domain.Recipe;
 import com.rollingstone.recipes.domain.RecipeIngredients;
-import com.rollingstone.recipes.domain.ResponseObject;
 
 @Repository
 public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
@@ -20,25 +18,24 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
 	Logger logger = Logger.getLogger(RecipeHibernateDaoImpl.class);
 
 	@Override
-	public Recipe getRecipe(long recipeId) {
+	public Recipe getRecipe(String recipeName) {
 		return null;
 	}
 
 	@Override
-	public ResponseObject<Recipe> getAllRecipes() {
-		List<Recipe> recipesList = new ArrayList<Recipe>();
-	    
+	public List<Recipe> getAllRecipes() {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
 
         Criteria c = session.createCriteria(Recipe.class);
-        List<Recipe> customerList = c.list();
+        List<Recipe> recipesList = c.list();
         session.close();
         
-		ResponseObject<Recipe> resObj = new ResponseObject<Recipe>();
-		resObj.setTotalItems(customerList.size());
-		resObj.setListOfModels(customerList);
-        return resObj ;
+        return recipesList;
+//		ResponseObject<Recipe> resObj = new ResponseObject<Recipe>();
+//		resObj.setTotalItems(customerList.size());
+//		resObj.setListOfModels(customerList);
+//        return resObj ;
 	}
 
 	@Override
@@ -68,7 +65,7 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
 	}
 
 	@Override
-	public boolean deleteRecipe(long recipeId) {
+	public boolean deleteRecipe(int recipeId) {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
         session.beginTransaction();
