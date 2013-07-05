@@ -1,17 +1,18 @@
 package com.rollingstone.recipes.dao;
 
+import java.util.List;
+
 import com.rollingstone.recipes.domain.Recipe;
-import com.rollingstone.recipes.domain.ResponseObject;
 
 public interface IRecipeDao {
 
-	Recipe getRecipe(long recipeId);
+	Recipe getRecipe(String recipeName);
 	
-	ResponseObject<Recipe> getAllRecipes();
+	List<Recipe> getAllRecipes();
 	
 	Recipe saveRecipe(Recipe recipe);
 	
-	boolean deleteRecipe(long recipeId);
+	boolean deleteRecipe(int recipeId);
 	
 	Recipe createRecipe(Recipe recipe);
 }
