@@ -35,5 +35,6 @@
 	<ehcache:annotation-driven cache-manager="ehCacheManager"/-->
 	<aop:config proxy-target-class="true" />
 	<import resource = "mvc-ws-integration.xml" />
-	<import resource = "spring-ws.xml" />
+	<!--import resource = "spring-ws.xml" /-->
+	<import resource = "jax-ws.xml" />
 </beans>
