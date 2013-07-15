@@ -21,7 +21,6 @@ import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-@XmlJavaTypeAdapter(ClobAdapter.class)
 @XmlRootElement(name = "recipe")
 @Entity
 @Table(name="RECIPE")
@@ -50,7 +49,6 @@ public class Recipe {
 	int visitorCount;
 	
 	@Column(name="PROCESS")
-	@XmlElement(type=ClobAdapter.class)
 	Clob process;
 
 	@OneToMany(mappedBy="recipe", fetch=FetchType.EAGER)
@@ -114,6 +112,7 @@ public class Recipe {
 		this.visitorCount = visitorCount;
 	}
 
+	@XmlJavaTypeAdapter(ClobAdapter.class)
 	public Clob getProcess() {
 		return process;
 	}
