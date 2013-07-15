@@ -1,6 +1,6 @@
 package com.rollingstone.recipes.domain;
 
-import java.sql.Blob;
+import java.sql.Clob;
 import java.util.Date;
 import java.util.List;
 
@@ -12,14 +12,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
-
+@XmlJavaTypeAdapter(ClobAdapter.class)
 @XmlRootElement(name = "recipe")
 @Entity
 @Table(name="RECIPE")
@@ -48,7 +50,8 @@ public class Recipe {
 	int visitorCount;
 	
 	@Column(name="PROCESS")
-	Blob process;
+	@XmlElement(type=ClobAdapter.class)
+	Clob process;
 
 	@OneToMany(mappedBy="recipe", fetch=FetchType.EAGER)
 	@Cascade(value = { CascadeType.ALL })
@@ -111,11 +114,11 @@ public class Recipe {
 		this.visitorCount = visitorCount;
 	}
 
-	public Blob getProcess() {
+	public Clob getProcess() {
 		return process;
 	}
 
-	public void setProcess(Blob process) {
+	public void setProcess(Clob process) {
 		this.process = process;
 	}
 
