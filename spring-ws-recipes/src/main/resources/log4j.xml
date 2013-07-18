@@ -11,13 +11,13 @@
 	</appender>
 	
 	<!-- Application Loggers -->
-	<logger name="com.rollingstone.customer.service">
+	<logger name="com.rollingstone.recipes.service">
 		<level value="DEBUG" />
 	</logger>
-	<logger name="com.rollingstone.customer.controller">
+	<logger name="com.rollingstone.recipes.controller">
 		<level value="DEBUG" />
 	</logger>
-	<logger name="com.rollingstone.customer.dao">
+	<logger name="com.rollingstone.recipes.dao">
 		<level value="DEBUG" />
 	</logger>
 	
