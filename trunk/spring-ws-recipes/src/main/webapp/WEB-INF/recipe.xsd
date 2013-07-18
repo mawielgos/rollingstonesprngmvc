@@ -110,7 +110,7 @@
         </simpleType>
     </element>
 
-	<element name="recipe_ingredients" tns:maxOccurs="1" tns:minOccurs="1">
+	<element name="recipe_ingredients" tns:minOccurs="1">
 	    <complexType>
 			<sequence>
 				<element ref="tns:recipeDetailId" />
