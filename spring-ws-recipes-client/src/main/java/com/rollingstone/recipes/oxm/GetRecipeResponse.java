@@ -1,28 +1,49 @@
+
 package com.rollingstone.recipes.oxm;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-import com.rollingstone.recipes.domain.Recipe;
 
+/**
+ * <p>Java class for anonymous complex type.
+ * 
+ * <p>The following schema fragment specifies the expected content contained within this class.
+ * 
+ * <pre>
+ * &lt;complexType>
+ *   &lt;complexContent>
+ *     &lt;restriction base="{http://www.w3.org/2001/XMLSchema}anyType">
+ *       &lt;sequence>
+ *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}code"/>
+ *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}recipe" maxOccurs="unbounded" minOccurs="0"/>
+ *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}totalRecord"/>
+ *       &lt;/sequence>
+ *     &lt;/restriction>
+ *   &lt;/complexContent>
+ * &lt;/complexType>
+ * </pre>
+ * 
+ * 
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "code",
-    "recipe"
+    "recipe",
+    "totalRecord"
 })
 @XmlRootElement(name = "getRecipeResponse")
 public class GetRecipeResponse {
 
     @XmlElement(required = true)
     protected String code;
-    @XmlElement(required = true)
     protected List<Recipe> recipe;
+    protected int totalRecord;
 
     /**
      * Gets the value of the code property.
@@ -77,8 +98,20 @@ public class GetRecipeResponse {
         return this.recipe;
     }
 
-	public void setRecipe(List<Recipe> recipe) {
-		this.recipe = recipe;
-	}
+    /**
+     * Gets the value of the totalRecord property.
+     * 
+     */
+    public int getTotalRecord() {
+        return totalRecord;
+    }
+
+    /**
+     * Sets the value of the totalRecord property.
+     * 
+     */
+    public void setTotalRecord(int value) {
+        this.totalRecord = value;
+    }
 
 }
