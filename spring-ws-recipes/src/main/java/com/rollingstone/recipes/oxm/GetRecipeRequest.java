@@ -8,36 +8,30 @@ import javax.xml.bind.annotation.XmlType;
 
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
-    "recipeName"
+    "recipeName",
+    "recipeType"
 })
 @XmlRootElement(name = "getRecipeRequest")
 public class GetRecipeRequest {
 
     @XmlElement(required = true)
     protected String recipeName;
+    @XmlElement(required = true)
+    protected String recipeType;
 
-    /**
-     * Gets the value of the recipeName property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link String }
-     *     
-     */
+    public String getRecipeType() {
+		return recipeType;
+	}
+
+	public void setRecipeType(String recipeType) {
+		this.recipeType = recipeType;
+	}
+
     public String getRecipeName() {
         return recipeName;
     }
 
-    /**
-     * Sets the value of the recipeName property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link String }
-     *     
-     */
     public void setRecipeName(String value) {
         this.recipeName = value;
     }
-
 }

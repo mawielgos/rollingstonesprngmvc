@@ -14,7 +14,8 @@ import com.rollingstone.recipes.domain.Recipe;
 @XmlAccessorType(XmlAccessType.FIELD)
 @XmlType(name = "", propOrder = {
     "code",
-    "recipe"
+    "recipe",
+    "totalRecord"
 })
 @XmlRootElement(name = "getRecipeResponse")
 public class GetRecipeResponse {
@@ -23,8 +24,18 @@ public class GetRecipeResponse {
     protected String code;
     @XmlElement(required = true)
     protected List<Recipe> recipe;
+    @XmlElement(required = true)
+    protected int totalRecord;
 
-    /**
+    public int getTotalRecord() {
+		return totalRecord;
+	}
+
+	public void setTotalRecord(int totalRecord) {
+		this.totalRecord = totalRecord;
+	}
+
+	/**
      * Gets the value of the code property.
      * 
      * @return

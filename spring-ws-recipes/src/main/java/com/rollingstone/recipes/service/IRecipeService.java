@@ -6,7 +6,7 @@ import com.rollingstone.recipes.domain.Recipe;
 
 public interface IRecipeService {
 
-	List<Recipe> getRecipe(String recipeName);
+	List<Recipe> getRecipe(String recipeName, String recipeType);
 	
 	List<Recipe> getAllRecipes();
 	
