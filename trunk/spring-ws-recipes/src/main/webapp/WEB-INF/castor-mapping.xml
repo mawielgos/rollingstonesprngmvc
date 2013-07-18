@@ -6,6 +6,9 @@
 		<field name="recipeName" type="string">
 			<bind-xml name="recipeName" node="element"/>
 		</field>
+		<field name="recipeType" type="string">
+			<bind-xml name="recipeType" node="element"/>
+		</field>
 	</class>
         
 	<class name="com.rollingstone.recipes.oxm.GetRecipeResponse">
@@ -15,6 +18,9 @@
 		</field>
 		<field name="recipe" type="java.util.Collection">
 			<bind-xml name="recipe" node="element"/>
+		</field>
+		<field name="totalRecord" type="integer">
+			<bind-xml name="totalRecord" node="element"/>
 		</field>
 	</class>
 
