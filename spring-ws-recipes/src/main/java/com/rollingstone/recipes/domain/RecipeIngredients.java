@@ -22,7 +22,7 @@ public class RecipeIngredients {
 	
 	@Column(name="INGREDIENT_NAME")
 	String ingredientName;
-	
+
 	@Column(name="UOM")
 	String uom;
 	
@@ -71,5 +71,21 @@ public class RecipeIngredients {
 
 	public void setRecipe(Recipe recipe) {
 		this.recipe = recipe;
+	}
+	
+	public int getRecipeDetailId() {
+		return recipeDetailId;
+	}
+
+	public void setRecipeDetailId(int recipeDetailId) {
+		this.recipeDetailId = recipeDetailId;
+	}
+
+	public String getIngredientName() {
+		return ingredientName;
+	}
+
+	public void setIngredientName(String ingredientName) {
+		this.ingredientName = ingredientName;
 	}
 }
