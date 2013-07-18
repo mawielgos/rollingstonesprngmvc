@@ -25,15 +25,12 @@ public class RecipeService implements IRecipeService {
 	}
 	
 	@Override
-	public List<Recipe> getRecipe(String recipeName) {
-		logger.debug("Calling .... getRecipe("+recipeName+")");
-//		recipeDao.getRecipe(recipeName);
-		return this.getAllRecipes();
+	public List<Recipe> getRecipe(String recipeName, String recipeType) {
+		return recipeDao.searchRecipe(recipeName, recipeType);
 	}
 
 	@Override
 	public List<Recipe> getAllRecipes() {
-		logger.debug("Calling .... getAllRecipes()");
 		List<Recipe> allResults = recipeDao.getAllRecipes();
 		return allResults;
 	}

@@ -40,27 +40,29 @@ public class GetRecipeEndpoint {
 	@ResponsePayload
 	public GetRecipeResponse getAllRecipe( @RequestPayload GetRecipeRequest getReipeRequest) {
 		List<Recipe> recipeList = new ArrayList<Recipe>();
+		GetRecipeResponse response = null;
 		try {
 			String searchText = getReipeRequest.getRecipeName();
+			String recipeType = getReipeRequest.getRecipeType();
 			
 			/*If no searchtext provided, return all result*/
-			if (searchText == null ){
-				logger.debug("Get all results");
+			if (searchText.equals("NA") && recipeType.equals("NA")){
 				recipeList = recipeService.getAllRecipes();					
 			}else{
-				logger.debug("Get results for "+searchText);
-				recipeList = recipeService.getRecipe(searchText);
+				recipeList = recipeService.getRecipe(searchText, recipeType);
 			}
 		} catch (Exception e) {
 			logger.error(e.getMessage());
-			GetRecipeResponse response = new GetRecipeResponse();
+			response = new GetRecipeResponse();
 			response.setCode("FAILURE");
+			response.setTotalRecord(0);
 			return response;
 		}
 
-		GetRecipeResponse response = new GetRecipeResponse();
+		response = new GetRecipeResponse();
 		response.setRecipe(recipeList);
 		response.setCode("SUCCESS");
+		response.setTotalRecord(recipeList.size());
 
 		return response;
 	}
