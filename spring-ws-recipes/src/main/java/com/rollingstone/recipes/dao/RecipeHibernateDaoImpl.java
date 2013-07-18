@@ -7,6 +7,7 @@ import org.apache.log4j.Logger;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 
 import com.rollingstone.recipes.domain.Recipe;
@@ -17,13 +18,34 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
 
 	Logger logger = Logger.getLogger(RecipeHibernateDaoImpl.class);
 
+	@SuppressWarnings("static-access")
 	@Override
-	public Recipe getRecipe(String recipeName) {
-		return null;
+	public List<Recipe> searchRecipe(String recipeName, String recipeType) {
+		logger.debug("Inside searchRecipe..."+recipeName+"	:	"+recipeType);
+		SessionFactory sf = hbUtil.getSessionFactory();
+        Session session = sf.openSession();
+
+        Criteria c = session.createCriteria(Recipe.class);
+        if (recipeName != null && !recipeName.equals("NA")){
+        	c.add(Restrictions.like("recipeName", "%"+recipeName+"%"));
+        }
+        if (recipeType != null && !recipeType.equals("NA")){
+        	c.add(Restrictions.like("recipeType", "%"+recipeType+"%"));
+        }
+        List<Recipe> recipesList = c.list();
+        logger.debug("Total result found: "+recipesList.size());
+        session.close();
+        
+        return recipesList;
+//		ResponseObject<Recipe> resObj = new ResponseObject<Recipe>();
+//		resObj.setTotalItems(customerList.size());
+//		resObj.setListOfModels(customerList);
+//        return resObj ;
 	}
 
 	@Override
 	public List<Recipe> getAllRecipes() {
+		logger.debug("Inside getAllRecipes...");
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
 

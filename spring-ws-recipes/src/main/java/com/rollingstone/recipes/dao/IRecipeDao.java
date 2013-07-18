@@ -6,7 +6,7 @@ import com.rollingstone.recipes.domain.Recipe;
 
 public interface IRecipeDao {
 
-	Recipe getRecipe(String recipeName);
+	List<Recipe> searchRecipe(String recipeName, String recipeType);
 	
 	List<Recipe> getAllRecipes();
 	
