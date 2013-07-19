@@ -12,7 +12,7 @@ public interface IRecipeDao {
 	
 	Recipe saveRecipe(Recipe recipe);
 	
-	boolean deleteRecipe(int recipeId);
+	boolean deleteRecipe(int recipeId) throws Exception;
 	
 	Recipe createRecipe(Recipe recipe);
 }

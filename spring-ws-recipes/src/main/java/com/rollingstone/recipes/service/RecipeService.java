@@ -40,7 +40,8 @@ public class RecipeService implements IRecipeService {
 	}
 
 	@Override
-	public void deleteRecipe(int recipeId) {
+	public void deleteRecipe(int recipeId) throws Exception {
+		recipeDao.deleteRecipe(recipeId);
 	}
 
 	@Override

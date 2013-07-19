@@ -90,7 +90,7 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
 	}
 
 	@Override
-	public boolean deleteRecipe(int recipeId) {
+	public boolean deleteRecipe(int recipeId) throws Exception {
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
         session.beginTransaction();
@@ -102,6 +102,7 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
         }catch(Exception e){
         	session.getTransaction().rollback();
         	logger.error(e.getMessage());
+        	throw e;
         }finally{
             session.close();
         }
