@@ -6,6 +6,7 @@ import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.ws.soap.client.SoapFaultClientException;
 
@@ -28,26 +29,37 @@ public class RecipeController {
 
 	@Resource(name="recipeJaxProxyService")
 	private RecipePort recipeJaxProxyService;
-
+	GetRecipeRequest request = null;
+	GetRecipeResponse response = null;
+	
 	/**
 	 * Handles the get recipe request
 	 */
-	@RequestMapping(value = "/getRecipe", method = RequestMethod.GET)
+	@RequestMapping(value = "/recipe/getrecipe.view", method = RequestMethod.GET)
 	@ResponseBody
-	public String getRecipe(GetRecipeRequest request) {
+//	public GetRecipeResponse getRecipe(GetRecipeRequest request) {
+	public GetRecipeResponse getRecipe(@RequestParam("recipeName") String recipeName, @RequestParam("recipeType") String recipeType) {
+		request = new GetRecipeRequest();
+		request.setRecipeName(recipeName);
+		request.setRecipeType(recipeType);
+		
+		if (recipeName==null || recipeType==null){
+			response = new GetRecipeResponse();
+			response.setCode("FAILURE");
+			response.setTotalRecord(0);
+			return response;
+		}
+		
 		try {
-			GetRecipeResponse response = recipeJaxProxyService.getRecipe(request);
-
+			response = recipeJaxProxyService.getRecipe(request);
 			logger.debug(response.getCode());
-			logger.debug(response.getRecipe());
-
 		} catch (SoapFaultClientException sfce) {
 			logger.error("We sent an invalid message", sfce);
 		} catch (Exception e) {
 			logger.error("Unexpected exception", e);
 		}
 
-		return "Recipe found";
+		return response;
 	}
 	
 	/**

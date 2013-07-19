@@ -1,6 +1,8 @@
 
 package com.rollingstone.recipes.oxm;
 
+import java.util.List;
+
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -63,9 +65,17 @@ public class Recipe {
     @XmlElement(required = true)
     protected String process;
     @XmlElement(name = "recipe_ingredients", required = true)
-    protected RecipeIngredients recipeIngredients;
+    protected List<RecipeIngredients> recipeIngredients;
 
-    /**
+	public List<RecipeIngredients> getRecipeIngredients() {
+		return recipeIngredients;
+	}
+
+	public void setRecipeIngredients(List<RecipeIngredients> recipeIngredients) {
+		this.recipeIngredients = recipeIngredients;
+	}
+
+	/**
      * Gets the value of the recipeId property.
      * 
      */
@@ -216,29 +226,4 @@ public class Recipe {
     public void setProcess(String value) {
         this.process = value;
     }
-
-    /**
-     * Gets the value of the recipeIngredients property.
-     * 
-     * @return
-     *     possible object is
-     *     {@link RecipeIngredients }
-     *     
-     */
-    public RecipeIngredients getRecipeIngredients() {
-        return recipeIngredients;
-    }
-
-    /**
-     * Sets the value of the recipeIngredients property.
-     * 
-     * @param value
-     *     allowed object is
-     *     {@link RecipeIngredients }
-     *     
-     */
-    public void setRecipeIngredients(RecipeIngredients value) {
-        this.recipeIngredients = value;
-    }
-
 }
