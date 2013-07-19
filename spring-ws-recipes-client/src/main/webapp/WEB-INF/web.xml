@@ -28,11 +28,6 @@
 	
 	<servlet-mapping>
 		<servlet-name>appServlet_client</servlet-name>
-		<url-pattern>/binit/*</url-pattern>
-	</servlet-mapping>
-	
-	<servlet-mapping>
-		<servlet-name>appServlet_client</servlet-name>
 		<url-pattern>*.do</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
