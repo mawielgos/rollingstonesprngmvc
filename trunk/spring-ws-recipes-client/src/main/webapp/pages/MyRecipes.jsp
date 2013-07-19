@@ -16,9 +16,11 @@
 		<button id="fetch" style="margin-right: 5px; font-size: 13px;">FETCH ALL</button><span id="waitText1"></span><button id="deleterowbutton" style="margin-right: 5px; font-size: 13px;">DELETE SELECTED</button><span id="waitText3"></span>
 		<br><br>
 		<div id="searchDiv" style="border: 1px solid #A9A9A9; padding: 6px; border-radius: 4px; height: 28px;">
-			<input type="text" id="searchRecipeName">&nbsp;&nbsp;
-			<div id="recipeType" style="position:relative; left:210px; top:-27px;"></div>
-			&nbsp;&nbsp;<button id="searchButton" style="margin-right: 5px; font-size: 13px; position: relative; top:-52px; left:410px;">SEARCH</button>
+		<form action="" onSubmit="return false;">
+			<input type="text" id="searchRecipeName" style="padding-left:4px;">&nbsp;&nbsp;
+			<div id="recipeType" style="position:relative; left:210px; top:-27px;"></div>&nbsp;&nbsp; 
+			<button id="searchButton" style="margin-right: 5px; font-size: 13px; position: relative; top:-52px; left:410px;">SEARCH</button>
+		</form>
 		</div>
 		<br>
 		<div id='jqxWidget' style="float: left; width: 100%">
