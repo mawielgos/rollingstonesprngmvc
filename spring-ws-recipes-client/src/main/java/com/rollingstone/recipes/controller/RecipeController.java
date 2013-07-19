@@ -29,8 +29,6 @@ public class RecipeController {
 
 	@Resource(name="recipeJaxProxyService")
 	private RecipePort recipeJaxProxyService;
-	GetRecipeRequest request = null;
-	GetRecipeResponse response = null;
 	
 	/**
 	 * Handles the get recipe request
@@ -39,7 +37,9 @@ public class RecipeController {
 	@ResponseBody
 //	public GetRecipeResponse getRecipe(GetRecipeRequest request) {
 	public GetRecipeResponse getRecipe(@RequestParam("recipeName") String recipeName, @RequestParam("recipeType") String recipeType) {
-		request = new GetRecipeRequest();
+		GetRecipeRequest request = new GetRecipeRequest();
+		GetRecipeResponse response = null;
+		
 		request.setRecipeName(recipeName);
 		request.setRecipeType(recipeType);
 		
@@ -87,13 +87,15 @@ public class RecipeController {
 	/**
 	 * Handles the delete recipe request
 	 */
-	@RequestMapping(value = "/deleteRecipe", method = RequestMethod.GET)
+	@RequestMapping(value = "/recipe/remove.do", method = RequestMethod.GET)
 	@ResponseBody
-	public String deleteRecipe(DeleteRecipeRequest request) {
-		request.setRecipeId(1);
-		try {
-			DeleteRecipeResponse response = recipeJaxProxyService.deleteRecipe(request);
+	public DeleteRecipeResponse deleteRecipe(@RequestParam("recipeId") String recipeId) {
+		DeleteRecipeRequest request = new DeleteRecipeRequest();
+		DeleteRecipeResponse response = null;
 
+		request.setRecipeId(Integer.parseInt(recipeId));
+		try {
+			response = recipeJaxProxyService.deleteRecipe(request);
 			logger.debug(response.getCode());
 		} catch (SoapFaultClientException sfce) {
 			logger.error("We sent an invalid message", sfce);
@@ -101,7 +103,7 @@ public class RecipeController {
 			logger.error("Unexpected exception", e);
 		}
 
-		return "Recipe deleted";
+		return response;
 	}
 
 }

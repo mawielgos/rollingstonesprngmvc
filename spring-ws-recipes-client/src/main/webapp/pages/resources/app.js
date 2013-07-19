@@ -180,17 +180,18 @@ $(document).ready(function(){
             rowdetailstemplate: { 
             	rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li>Process</li><li>Ingredients</li></ul>" +
             		"<div class='process'></div><div class='ingredients' style='margin-top:4px; margin-left:4px;'></div></div>", 
-            	rowdetailsheight: 200 },
+            	rowdetailsheight: 200 
+            },
 			ready: function () {
 				$("#jqxgrid").jqxGrid('sortby', 'recipeName', 'asc');
 			},
 			initrowdetails: initrowdetails,
 			columns: [
-			          { text: 'Name', datafield: 'recipeName', width: 200 },
-			          { text: 'Description', datafield: 'recipeDescripton', width: 400 },
-			          { text: 'Type', datafield: 'recipeType', width: 100 },
-			          { text: 'Visitor', datafield: 'visitorCount', width: 60, filtertype: 'number' },
-			          { text: 'Created By', datafield: 'createdBy', width: 100 },
+			          { text: 'Name', datafield: 'recipeName', width: 200, type: 'string' },
+			          { text: 'Description', datafield: 'recipeDescripton', width: 400, type: 'string' },
+			          { text: 'Type', datafield: 'recipeType', width: 100, type: 'string' },
+			          { text: 'Visitor', datafield: 'visitorCount', width: 60, filtertype: 'number', type: 'int' },
+			          { text: 'Created By', datafield: 'createdBy', width: 100, type: 'string' },
 			          { text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', sortable: false, cellsrenderer: function () {
 			        	  return "Edit";
 				          }, buttonclick: function (row) {
@@ -338,7 +339,7 @@ $(document).ready(function(){
 		$("#deleterowbutton").css('cursor','progress');
 		
 		var id = null;
-		var customerId = null;
+		var recipeId = null;
 		try {
 			var selectedrowindex = $("#jqxgrid").jqxGrid('getselectedrowindex');
 			var rowscount = $("#jqxgrid").jqxGrid('getdatainformation').rowscount;
@@ -348,11 +349,11 @@ $(document).ready(function(){
 		}catch(err){}
 
 		if (id != null){
-			customerId = $('#jqxgrid').jqxGrid('getrowdata', id).customerId;	
+			recipeId = $('#jqxgrid').jqxGrid('getrowdata', id).recipeId;	
 
 			$.ajax({
 				type: 'GET',
-				url: contextPath+'/customer/remove.do?customerId='+customerId,
+				url: contextPath+'/recipe/remove.do?recipeId='+recipeId,
 				dataType: 'json',
 				success : function(responseData, textStatus, jqXHR) {
 					var commit = $("#jqxgrid").jqxGrid('deleterow', id);
