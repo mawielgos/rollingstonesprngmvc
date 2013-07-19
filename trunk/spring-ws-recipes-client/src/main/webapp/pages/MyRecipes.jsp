@@ -3,50 +3,22 @@
 <head>
 <meta charset="UTF-8">
 
-<title>Customer Profile</title>
+<title>My Wonderful Recipes</title>
 <link rel="stylesheet" href="resources/custom.css" media="all"/>
 <link rel="stylesheet" href="resources/jquery/css/jquery-ui-1.10.2.smoothness.min.css" media="all"/>
 <link rel="stylesheet" href="resources/jqwidgets/css/jqx.base.css" type="text/css" />
-
-<script src="resources/jquery/js/jquery-1.9.1.min.js"></script>
-<script src="resources/jquery/js/jquery-ui-1.10.2.smoothness.min.js"></script>
-<script src="resources/jquery/js/jquery-validate.min.js"></script>
-
-<script src="resources/jqwidgets/js/jqxcore.js"></script>
-<script src="resources/jqwidgets/js/jqxdata.js"></script> 
-<script src="resources/jqwidgets/js/jqxbuttons.js"></script>
-<script src="resources/jqwidgets/js/jqxscrollbar.js"></script>
-<script src="resources/jqwidgets/js/jqxmenu.js"></script>
-<script src="resources/jqwidgets/js/jqxgrid.js"></script>
-<script src="resources/jqwidgets/js/jqxgrid.selection.js"></script>
-<script src="resources/jqwidgets/js/jqxtabs.js"></script>
-<script src="resources/jqwidgets/js/jqxgrid.selection.js"></script>
-<script src="resources/jqwidgets/js/jqxgrid.sort.js"></script> 
-<script src="resources/jqwidgets/js/jqxwindow.js"></script>
-<script src="resources/jqwidgets/js/jqxinput.js"></script>
-<script src="resources/jqwidgets/js/jqxgrid.columnsresize.js"></script>
-<script src="resources/jqwidgets/js/jqxgrid.pager.js"></script>
-<script src="resources/jqwidgets/js/jqxlistbox.js"></script>
-<script src="resources/jqwidgets/js/jqxdropdownlist.js"></script>
-
-<script src="resources/jqwidgets/js/gettheme.js"></script>
-
-<script src="resources/app.js"></script>
-
-<script>
-	rowCount=0;
-	contextPath = '<%= request.getContextPath() %>';	
-</script>
 </head>
 
 <body>
 <div id="accordionAll">
 	<h3>Show all Recipe</h3>
-	<div id="customerAll">
+	<div id="customerAll" style="width:952px;">
 		<button id="fetch" style="margin-right: 5px; font-size: 13px;">FETCH ALL</button><span id="waitText1"></span><button id="deleterowbutton" style="margin-right: 5px; font-size: 13px;">DELETE SELECTED</button><span id="waitText3"></span>
 		<br><br>
-		<div id="searchDiv" style="border: 1px solid #A9A9A9; padding: 6px; border-radius: 4px;">
-			<input type="text" id="searchCustomerName">&nbsp;&nbsp;<input type="text" id="searchHouseNo">&nbsp;&nbsp;<input type="text" id="searchStreet">&nbsp;&nbsp;<button id="searchButton" style="margin-right: 5px; font-size: 13px;">SEARCH</button>
+		<div id="searchDiv" style="border: 1px solid #A9A9A9; padding: 6px; border-radius: 4px; height: 28px;">
+			<input type="text" id="searchRecipeName">&nbsp;&nbsp;
+			<div id="recipeType" style="position:relative; left:210px; top:-27px;"></div>
+			&nbsp;&nbsp;<button id="searchButton" style="margin-right: 5px; font-size: 13px; position: relative; top:-52px; left:410px;">SEARCH</button>
 		</div>
 		<br>
 		<div id='jqxWidget' style="float: left; width: 100%">
@@ -54,7 +26,7 @@
 		</div>	
 	</div>
 	
-	<h3>Add a Customer</h3>
+	<h3>Add new Recipe</h3>
 	<form id="customerAddForm" action="#" method="POST">
 	<div id="customerAdd">
 		<div id="accordionAdd">
@@ -163,6 +135,38 @@
          </table>
      </div>
 </div>
+
+<script src="resources/jquery/js/jquery-1.9.1.min.js"></script>
+<script src="resources/jquery/js/jquery-ui-1.10.2.smoothness.min.js"></script>
+<script src="resources/jquery/js/jquery-validate.min.js"></script>
+
+<script src="resources/jqwidgets/js/jqxcore.js"></script>
+<script src="resources/jqwidgets/js/jqxdata.js"></script> 
+<script src="resources/jqwidgets/js/jqxbuttons.js"></script>
+<script src="resources/jqwidgets/js/jqxscrollbar.js"></script>
+<script src="resources/jqwidgets/js/jqxmenu.js"></script>
+<script src="resources/jqwidgets/js/jqxgrid.js"></script>
+<script src="resources/jqwidgets/js/jqxgrid.selection.js"></script>
+<script src="resources/jqwidgets/js/jqxtabs.js"></script>
+<script src="resources/jqwidgets/js/jqxgrid.selection.js"></script>
+<script src="resources/jqwidgets/js/jqxgrid.sort.js"></script> 
+<script src="resources/jqwidgets/js/jqxwindow.js"></script>
+<script src="resources/jqwidgets/js/jqxinput.js"></script>
+<script src="resources/jqwidgets/js/jqxgrid.columnsresize.js"></script>
+<script src="resources/jqwidgets/js/jqxgrid.pager.js"></script>
+<script src="resources/jqwidgets/js/jqxlistbox.js"></script>
+<script src="resources/jqwidgets/js/jqxdropdownlist.js"></script>
+<script src="resources/jqwidgets/js/jqxgrid.filter.js"></script>
+<script src="resources/jqwidgets/js/jqxgrid.edit.js"></script>
+
+<script src="resources/jqwidgets/js/gettheme.js"></script>
+
+<script src="resources/app.js"></script>
+
+<script>
+	rowCount=0;
+	contextPath = '<%= request.getContextPath() %>';	
+</script>
 
 </body>
 </HTML>

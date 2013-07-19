@@ -1,6 +1,9 @@
 $(document).ready(function(){
 	theme = getDemoTheme();
-	
+	/* Setting the recipe type dropdowns */
+	var recipeTypesSource = ["All", "Indian", "American", "Chinease", "Bengali", "Continental"];
+    $("#recipeType").jqxDropDownList({ source: recipeTypesSource, selectedIndex: 0, width: '200', height: '25', autoDropDownHeight: true, theme: theme });
+
 	/* Setting style on the buttons - Start */	
 	$("#saveButton").jqxButton({ theme: theme });
 	$("#resetAdd").jqxButton({ theme: theme });
@@ -8,9 +11,7 @@ $(document).ready(function(){
 	$("#deleterowbutton").jqxButton({ theme: theme });
 	$("#searchButton").jqxButton({ theme: theme });
 	
-	$("#searchCustomerName").jqxInput({placeHolder: "Customer Name", height: 25, width: 200, minLength: 1, theme: theme });
-	$("#searchHouseNo").jqxInput({placeHolder: "House No", height: 25, width: 200, minLength: 1, theme: theme });
-	$("#searchStreet").jqxInput({placeHolder: "Street", height: 25, width: 200, minLength: 1, theme: theme });
+	$("#searchRecipeName").jqxInput({placeHolder: "Recipe Name", height: 25, width: 200, minLength: 1, theme: theme });
 	/* Setting style on the buttons - End */
 	
 	/* Enabling form validation - Start */
@@ -67,40 +68,38 @@ $(document).ready(function(){
 		var fetchURL = '';
 		
 		if (resulttype=='search') {
-			var customerName = $("#searchCustomerName").val();
-			var houseNumber = $("#searchHouseNo").val();
-			var street = $("#searchStreet").val();
+			var recipeName = $("#searchRecipeName").val();
+			var recipeType = $("#recipeType").jqxDropDownList('getSelectedItem').label; 
+
+			if (recipeName==''){
+				recipeName='NA';
+			}
+			if (recipeType=='All'){
+				recipeType = 'NA';
+			}
 			
-			fetchURL=contextPath+'/customer/search.view?customerName='+customerName+'&houseNumber='+houseNumber+'&street='+street;
+			fetchURL=contextPath+'/recipe/getrecipe.view?recipeName='+recipeName+'&recipeType='+recipeType;
 		} else {
-			fetchURL=contextPath+'/customer/list.view';
+			fetchURL=contextPath+'/recipe/getrecipe.view?recipeName=NA&recipeType=NA';
 		}
 		
         var source = {
             datatype: "json",
             datafields: [
-                { name: 'customerId' },
-                { name: 'customerName' },
-                { name: 'memberSince', type:'date' },
-                { name: 'balance' },
-                { name: 'addressId', map: 'customerAddress>addressId' },
-                { name: 'houseNumber', map: 'customerAddress>houseNumber' },
-                { name: 'street', map: 'customerAddress>street' },
-                { name: 'city', map: 'customerAddress>city' },
-                { name: 'state', map: 'customerAddress>state' },
-                { name: 'country', map: 'customerAddress>country' },
-                { name: 'creditCardId', map: 'defaultCard>creditCardId' },
-                { name: 'cardNumber', map: 'defaultCard>cardNumber' },,
-                { name: 'securityCode', map: 'defaultCard>securityCode' },
-                { name: 'expDate', type:'date', map: 'defaultCard>expDate' },
-                { name: 'cardType', map: 'defaultCard>cardType' },
-                { name: 'contacts' },
+                { name: 'recipeId' },
+                { name: 'recipeName' },
+                { name: 'recipeDescripton'},
+                { name: 'createdBy' },
+                { name: 'recipeType'},
+                { name: 'visitorCount'},
+                { name: 'process'},
+                { name: 'recipeIngredients' }
             ],
 			url: fetchURL,
             cache: false,
             beforeprocessing: function (data) {
-				source.totalrecords = data.totalItems;
-//				source.totalrecords = 100;
+            	console.log('data:',data);
+				source.totalrecords = data.totalRecord;
             }
         };
         
@@ -114,50 +113,61 @@ $(document).ready(function(){
 		
 		var initrowdetails = function (index, parentElement, gridElement, datarecord) {
 			var tabsdiv = null;
-			var contacts = null;
-			var creditCard = null;
+			var process = null;
+			var ingredients = null;
 			tabsdiv = $($(parentElement).children()[0]);
 			
 			if (tabsdiv != null) {
-				creditCard = tabsdiv.find('.creditCard');
-				contacts = tabsdiv.find('.contact');
+				process = tabsdiv.find('.process');
+				ingredients = tabsdiv.find('.ingredients');
 
-				var creditCardContainer = $('<div style="white-space: normal; margin: 5px;">'
+				var texT = datarecord.process;
+				if(texT==null || texT==''){
+					texT = "Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+				}
+				var processContainer = $('<div style="white-space: normal; margin: 5px;">'
 						+'<table>'
-						+ '	<tr><td><label>Card Number</label></td><td> : </td><td>'+datarecord.cardNumber+'</td></tr>'
-						+ '	<tr><td><label>Security code</label></td><td> : </td><td>'+datarecord.securityCode+'</td></tr>'
-						+ '	<tr><td><label>Exp. Date</label></td><td> : </td><td>'+new Date(datarecord.expDate).toLocaleDateString()+'</td></tr>'
-						+ '	<tr><td><label>Card Type</label></td><td> : </td><td>'+datarecord.cardType+'</td></tr>'
+						+ '	<tr><td>'+texT+'</td></tr>'
 						+ '</table>'
 						+ ' </div>');
 
-				$(creditCard).append(creditCardContainer);
+				$(process).append(processContainer);
 
-				var tempDiv = '<table style="width:100%">'
-					+ '<tr><th>Phone Number</th><th>Phone Type</th><th>Contact Type</th><th>Email Id</th></tr>';
-
-				var tempContactsArray = datarecord.contacts;
-				for (x in tempContactsArray){
-					tempDiv = tempDiv + '<tr><td>'+tempContactsArray[x].phoneNumber+'</td><td>'+tempContactsArray[x].phoneType+'</td><td>'+tempContactsArray[x].contactType+'</td><td>'+tempContactsArray[x].emailId+'</td></tr>';
-				}
-				tempDiv = tempDiv + '</table>';
-
-				var contactContainer = $('<div style="white-space: normal; margin: 5px;">' + tempDiv + '</div>');
-				$(contacts).append(contactContainer);
-
+				var ingredientsource = { 
+						datafields: [
+						             { name: 'recipeDetailId' },
+						             { name: 'ingredientName' },
+						             { name: 'quantity' },
+						             { name: 'uom' }
+			             ],
+			             id: 'recipeDetailId',
+			             localdata: datarecord.recipeIngredients
+				};
+                $(ingredients).jqxGrid({
+                	source: ingredientsource, 
+                	theme: theme, 
+                	width: 500, 
+                	autoheight:true,
+                	columns: [
+                	          { text: 'Id', datafield: 'recipeDetailId', hidden: true },
+                	          { text: 'Ingredient Name', datafield: 'ingredientName', width: 200 },
+                	          { text: 'Quantity', datafield: 'quantity', width: 150 },
+                	          { text: 'UOM', datafield: 'uom', width: 150 }
+        	        ]
+                });
+				
 				$(tabsdiv).jqxTabs({ width: 600, height: 170, theme: theme });
 			}
 		};
 		
 		$("#jqxgrid").jqxGrid({
 			/* Setting up Grid properties - START */
-			width: 1110,
+			width: 950,
 			autoheight: true,
 			source: dataAdapter,
 			theme: theme,
 			rowdetails: true,
 			columnsresize: true,
-			autoshowcolumnsmenubutton: false,
 			sortable: true,
 			
 			pageable: true,
@@ -167,21 +177,21 @@ $(document).ready(function(){
                 return params.data;
             },
             /* Setting up Grid properties - END */
-            rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li>Credit Card</li><li>Contacts</li></ul><div class='creditCard'></div><div class='contact'></div></div>", rowdetailsheight: 200 },
+            rowdetailstemplate: { 
+            	rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li>Process</li><li>Ingredients</li></ul>" +
+            		"<div class='process'></div><div class='ingredients' style='margin-top:4px; margin-left:4px;'></div></div>", 
+            	rowdetailsheight: 200 },
 			ready: function () {
-				$("#jqxgrid").jqxGrid('sortby', 'customerName', 'asc');
+				$("#jqxgrid").jqxGrid('sortby', 'recipeName', 'asc');
 			},
 			initrowdetails: initrowdetails,
 			columns: [
-			          { text: 'Name', datafield: 'customerName', width: 180 },
-			          { text: 'Member Since', datafield: 'memberSince', width: 140, filtertype: 'date', cellsformat: 'd' },
-			          { text: 'Balance', datafield: 'balance', width: 100, filtertype: 'number' },
-			          { text: 'House No', datafield: 'houseNumber', width: 100, filtertype: 'number' },
-			          { text: 'Street', datafield: 'street', width: 180 },
-			          { text: 'City', datafield: 'city', width: 100 },
-			          { text: 'State', datafield: 'state', width: 100 },
-			          { text: 'Country', datafield: 'country', width: 100 },
-			          { text: 'Edit', datafield: 'Edit', columntype: 'button', sortable: false, cellsrenderer: function () {
+			          { text: 'Name', datafield: 'recipeName', width: 200 },
+			          { text: 'Description', datafield: 'recipeDescripton', width: 400 },
+			          { text: 'Type', datafield: 'recipeType', width: 100 },
+			          { text: 'Visitor', datafield: 'visitorCount', width: 60, filtertype: 'number' },
+			          { text: 'Created By', datafield: 'createdBy', width: 100 },
+			          { text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', sortable: false, cellsrenderer: function () {
 			        	  return "Edit";
 				          }, buttonclick: function (row) {
 				        	  editrow = row;
