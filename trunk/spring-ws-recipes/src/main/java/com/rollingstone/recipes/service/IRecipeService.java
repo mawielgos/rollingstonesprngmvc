@@ -12,7 +12,7 @@ public interface IRecipeService {
 	
 	void saveRecipe(Recipe recipe);
 	
-	void deleteRecipe(int recipeId);
+	void deleteRecipe(int recipeId) throws Exception;
 	
 	void createRecipe(Recipe recipe);
 }
