@@ -52,7 +52,10 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
         Criteria c = session.createCriteria(Recipe.class);
         List<Recipe> recipesList = c.list();
         session.close();
-        
+        for (Recipe rcp : recipesList){
+        	logger.debug("Name: "+rcp.getRecipeName());
+        	logger.debug("Process: "+rcp.getProcess().toString());
+        }
         return recipesList;
 //		ResponseObject<Recipe> resObj = new ResponseObject<Recipe>();
 //		resObj.setTotalItems(customerList.size());
