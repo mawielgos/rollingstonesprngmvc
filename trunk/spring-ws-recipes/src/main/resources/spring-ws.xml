@@ -31,7 +31,7 @@
 
 	<sws:dynamic-wsdl id="recipe"
 		portTypeName="RecipePort"
-		locationUri="http://localhost:8080/spring-ws-recipe/binit/ws"
+		locationUri="http://localhost:8081/spring-ws-recipe/binit/ws"
 		targetNamespace="http://binit.blogspot.com/ws/schema/recipe">
 		<sws:xsd location="/WEB-INF/recipe.xsd"/>
 	</sws:dynamic-wsdl>
