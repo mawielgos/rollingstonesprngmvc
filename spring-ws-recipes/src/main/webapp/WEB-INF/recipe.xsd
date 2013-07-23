@@ -3,7 +3,7 @@
 	elementFormDefault="qualified" attributeFormDefault="qualified"
 	targetNamespace="http://binit.blogspot.com/ws/schema/recipe" xmlns:tns="http://binit.blogspot.com/ws/schema/recipe">
 
-	<element name="recipeId" tns:maxOccurs="1" tns:minOccurs="1" type="int"></element>
+	<element name="recipeId" tns:maxOccurs="1" tns:minOccurs="0" type="int"></element>
 
 	<element name="recipeName" tns:maxOccurs="1" tns:minOccurs="1">
 		<simpleType>
@@ -15,7 +15,7 @@
 		</simpleType>
 	</element>
 
-	<element name="recipeDescripton" tns:maxOccurs="1"
+	<element name="recipeDescription" tns:maxOccurs="1"
 		tns:minOccurs="1">
 		<simpleType>
 			<restriction base="string">
@@ -47,6 +47,8 @@
 	</element>
 
 	<element name="visitorCount" type="int"></element>
+	
+	<element name="createdOn" type="dateTime"></element>
 
     <element name="process" tns:maxOccurs="1" tns:minOccurs="0">
     	<simpleType>
@@ -57,7 +59,7 @@
     	</simpleType>
     </element>
     
-    <element name="recipeDetailId"  tns:maxOccurs="1" tns:minOccurs="1" type="int"></element>
+    <element name="recipeDetailId"  tns:maxOccurs="1" tns:minOccurs="0" type="int"></element>
 
     <element name="ingredientName">
     	<simpleType>
@@ -125,13 +127,14 @@
 			<sequence>
 				<element ref="tns:recipeId"/>
 				<element ref="tns:recipeName"/>
-				<element ref="tns:recipeDescripton"/>
+				<element ref="tns:recipeDescription"/>
 				<element ref="tns:createdBy"/>
 				<element ref="tns:recipeType"/>
 				<element ref="tns:visitorCount"/>
 				<element ref="tns:process"/>
+				<element ref="tns:createdOn"/>
 				<sequence>
-					<element ref="tns:recipe_ingredients"/>
+					<element ref="tns:recipe_ingredients" maxOccurs="unbounded" minOccurs="0"/>
 				</sequence>
 			</sequence>
 		</complexType>
