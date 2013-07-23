@@ -3,7 +3,7 @@ CREATE TABLE `RECIPE` (
   `RECIPEID` int(11) NOT NULL AUTO_INCREMENT,
   `RECIPE_NAME` varchar(200) DEFAULT NULL,
   `DESCRIPTION` varchar(2000) DEFAULT NULL,
-  `CREATED_ON` datetime DEFAULT NULL,
+  `CREATED_ON` date DEFAULT NULL,
   `CREATED_BY` varchar(200) DEFAULT NULL,
   `RECIPETYPE` varchar(200) DEFAULT NULL,
   `VISITOR_COUNT` int(11) DEFAULT NULL,
@@ -22,16 +22,16 @@ CREATE TABLE `RECIPE_INGREDIENTS` (
 );
 
 INSERT INTO `test`.`RECIPE` (`RECIPE_NAME`, `DESCRIPTION`, `CREATED_ON`, `CREATED_BY`, `RECIPETYPE`, `VISITOR_COUNT`, `PROCESS`) 
-VALUES (`1`, `Test1`, `T`, `2013-07-05 00:00:00`, `Admin`, `Indian`, `1`, `x`);
+VALUES ('Test1', 'Test', '2013-04-01', 'Admin', 'American', '23', 'xyz');
 INSERT INTO `test`.`RECIPE` (`RECIPE_NAME`, `DESCRIPTION`, `CREATED_ON`, `CREATED_BY`, `RECIPETYPE`, `VISITOR_COUNT`, `PROCESS`) 
-VALUES (`2`, `Test2`, `T`, `2013-07-05 00:00:00`, `Admin`, `Continental`, `1`, `x`);
+VALUES ('Test2', 'Test', '2013-05-11', 'Admin', 'American', '23', 'xyz');
 INSERT INTO `test`.`RECIPE` (`RECIPE_NAME`, `DESCRIPTION`, `CREATED_ON`, `CREATED_BY`, `RECIPETYPE`, `VISITOR_COUNT`, `PROCESS`) 
-VALUES (`3`, `Test3`, `T`, `2013-07-05 00:00:00`, `Admin`, `Chiese`, `1`, `x`);
+VALUES ('Test3', 'Test', '2013-05-31', 'Admin', 'American', '23', 'xyz');
 INSERT INTO `test`.`RECIPE` (`RECIPE_NAME`, `DESCRIPTION`, `CREATED_ON`, `CREATED_BY`, `RECIPETYPE`, `VISITOR_COUNT`, `PROCESS`) 
-VALUES (`5`, `Test5`, `T`, NULL, `Admin`, `Bengali`, `2`, `x`);
+VALUES ('Test4', 'Test', '2013-02-01', 'Admin', 'American', '23', 'xyz');
 
-INSERT INTO `test`.`RECIPE_INGREDIENTS` (`1`, `Salt`, `bla bla`, `100gm`, `1`);
-INSERT INTO `test`.`RECIPE_INGREDIENTS` (`2`, `Sugar`, `323`, `200gm`, `1`);
-INSERT INTO `test`.`RECIPE_INGREDIENTS` (`3`, `Chicken`, `342`, `1kg`, `1`);
-INSERT INTO `test`.`RECIPE_INGREDIENTS` (`4`, `Mutton`, `4dfgdf`, `1kg`, `2`);
-INSERT INTO `test`.`RECIPE_INGREDIENTS` (`5`, `Veg`, `dff`, `300gm`, `3`);
+INSERT INTO `test`.`RECIPE_INGREDIENTS` (`INGREDIENT_NAME`, `UOM`, `QUANTITY`, `RECIPEID`) VALUES ('Salt', 'bla bla', '100gm', '1');
+INSERT INTO `test`.`RECIPE_INGREDIENTS` (`INGREDIENT_NAME`, `UOM`, `QUANTITY`, `RECIPEID`) VALUES ('Sugar', '323', '200gm', '1');
+INSERT INTO `test`.`RECIPE_INGREDIENTS` (`INGREDIENT_NAME`, `UOM`, `QUANTITY`, `RECIPEID`) VALUES ('Chicken', '342', '1kg', '1');
+INSERT INTO `test`.`RECIPE_INGREDIENTS` (`INGREDIENT_NAME`, `UOM`, `QUANTITY`, `RECIPEID`) VALUES ('Mutton', '4dfgdf', '1kg', '2');
+INSERT INTO `test`.`RECIPE_INGREDIENTS` (`INGREDIENT_NAME`, `UOM`, `QUANTITY`, `RECIPEID`) VALUES ('Veg', 'dff', '300gm', '3');
