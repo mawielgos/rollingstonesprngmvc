@@ -30,9 +30,8 @@
 		  -->
 	<bean id="recipeJaxProxyService" class="org.springframework.remoting.jaxws.JaxWsPortProxyFactoryBean"
 		p:serviceInterface="com.rollingstone.recipes.oxm.RecipePort"
-		p:wsdlDocumentUrl="http://localhost:8080/spring-ws-recipe/binit/ws/recipe.wsdl"
+		p:wsdlDocumentUrl="http://localhost:8081/spring-ws-recipe/binit/ws/recipe.wsdl"
 		p:namespaceUri="http://binit.blogspot.com/ws/schema/recipe"
 		p:serviceName="RecipePortService"
 		p:portName="RecipePortSoap11"/>
-  
 </beans>
