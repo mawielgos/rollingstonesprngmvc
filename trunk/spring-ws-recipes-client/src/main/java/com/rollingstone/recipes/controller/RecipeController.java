@@ -4,6 +4,7 @@ import javax.annotation.Resource;
 
 import org.apache.log4j.Logger;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -35,7 +36,6 @@ public class RecipeController {
 	 */
 	@RequestMapping(value = "/recipe/getrecipe.view", method = RequestMethod.GET)
 	@ResponseBody
-//	public GetRecipeResponse getRecipe(GetRecipeRequest request) {
 	public GetRecipeResponse getRecipe(@RequestParam("recipeName") String recipeName, @RequestParam("recipeType") String recipeType) {
 		GetRecipeRequest request = new GetRecipeRequest();
 		GetRecipeResponse response = null;
@@ -65,14 +65,44 @@ public class RecipeController {
 	/**
 	 * Handles the edit recipe request
 	 */
-	@RequestMapping(value = "/editRecipe", method = RequestMethod.GET)
+	@RequestMapping(value = "/recipe/editRecipe.do", method = {RequestMethod.POST, RequestMethod.GET})
 	@ResponseBody
-	public String editRecipe(EditRecipeRequest request) {
-		Recipe rcp = new Recipe();
-		request.setEditType("edit");
-		request.setRecipe(rcp);
+	public EditRecipeResponse editRecipe(@RequestBody Recipe recipe, @RequestParam String reqType) {
+		EditRecipeRequest request = new EditRecipeRequest();
+		EditRecipeResponse response = null;
+
+		if (reqType.equals("ADD")){
+			request.setEditType("ADD");
+		}else if (reqType.equals("UPDATE")){
+			request.setEditType("UPDATE");
+		}
+		request.setRecipe(recipe);
+
 		try {
-			EditRecipeResponse response = recipeJaxProxyService.editRecipe(request);
+			response = recipeJaxProxyService.editRecipe(request);
+			logger.debug(response.getCode());
+		} catch (SoapFaultClientException sfce) {
+			logger.error("We sent an invalid message", sfce);
+		} catch (Exception e) {
+			logger.error("Unexpected exception", e);
+		}
+
+		return response;
+	}
+
+	/**
+	 * Handles the add recipe request
+	 */
+	@RequestMapping(value = "/addRecipe", method = RequestMethod.GET)
+	@ResponseBody
+	public EditRecipeResponse addRecipe(@RequestBody Recipe recipe) {
+		EditRecipeRequest request = new EditRecipeRequest();
+		EditRecipeResponse response = null;
+
+		request.setEditType("ADD");
+		request.setRecipe(recipe);
+		try {
+			response = recipeJaxProxyService.editRecipe(request);
 
 			logger.debug(response.getCode());
 		} catch (SoapFaultClientException sfce) {
@@ -81,7 +111,7 @@ public class RecipeController {
 			logger.error("Unexpected exception", e);
 		}
 
-		return "Recipe Edited";
+		return response;
 	}
 
 	/**
