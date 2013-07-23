@@ -94,3 +94,13 @@ a.label:hover,a.badge:hover {
 .label-important,.badge-important {
 	background-color: #b94a48
 }
+
+.divEdit{
+	border: 1px solid #C7C7C7;
+}
+th{
+	font-variant: small-caps;
+}
+.jqx-input{
+	padding-left:4px !important;
+}

@@ -1,8 +1,11 @@
 $(document).ready(function(){
 	theme = getDemoTheme();
+
 	/* Setting the recipe type dropdowns */
-	var recipeTypesSource = ["All", "Indian", "American", "Chinease", "Bengali", "Continental"];
-    $("#recipeType").jqxDropDownList({ source: recipeTypesSource, selectedIndex: 0, width: '200', height: '25', autoDropDownHeight: true, theme: theme });
+	var recipeTypesSource = ["All", "Indian", "American", "Chinese", "Bengali", "Continental"];
+	$("#searchRecipeType").jqxDropDownList({ source: recipeTypesSource, selectedIndex: 0, width: '200', height: '25', autoDropDownHeight: true, theme: theme });
+	$("#ed_recipeType").jqxDropDownList({ source: recipeTypesSource, selectedIndex: 0, width: '200', height: '25', autoDropDownHeight: true, theme: theme });
+	$("#add_recipeType").jqxDropDownList({ source: recipeTypesSource, selectedIndex: 0, width: '200', height: '25', autoDropDownHeight: true, theme: theme });
 
 	/* Setting style on the buttons - Start */	
 	$("#saveButton").jqxButton({ theme: theme });
@@ -10,24 +13,9 @@ $(document).ready(function(){
 	$("#fetch").jqxButton({ theme: theme });
 	$("#deleterowbutton").jqxButton({ theme: theme });
 	$("#searchButton").jqxButton({ theme: theme });
-	
+
 	$("#searchRecipeName").jqxInput({placeHolder: "Recipe Name", height: 25, width: 200, minLength: 1, theme: theme });
 	/* Setting style on the buttons - End */
-	
-	/* Enabling form validation - Start */
-	$('#customerAddForm input').attr('class', 'required');
-	$("#customerAddForm").validate();
-	/* Enabling form validation - End */
-
-	/* Add multiple contacts for Customer - fetch button event - Start */
-	$("#addRow").click(function(){
-		var row = $("#contactTable tr:first").html();
-		rowCount=rowCount+1;
-		var rowId = "rowList"+rowCount;
-		$("#contactTable tr:last").after('<tr id="'+rowId+'">'+row+'</tr>');
-		$("#contactDetails").css( "height", "100%" );
-	});
-	/* Add multiple contacts for Customer - fetch button event - End */
 
 	/* Accordion for outer most area */
 	$( "#accordionAll" ).accordion({
@@ -36,40 +24,40 @@ $(document).ready(function(){
 		active:0,
 		heightStyle: "content",
 		activate: function( event, ui ) {
-			$("#custName").focus();
+			$("#searchRecipeName").focus();
 		}
 	});
 
-	/* Accordions for inside add customer */
+	/* Accordions for inside add recipe */
 	$( "#accordionAdd" ).accordion({
 		collapsible: true,
-		active: 0
+		active: 0,
+		activate: function( event, ui ) {
+			$("#add_name").focus();
+		}
 	});
 
-	/* Plugin for Date picker */
-	$( "#custMemberSince, #cardExpDate, #ed_memberSince, #ed_expDate" ).datepicker();
-
-	/* Fetch all Customer - fetch button event - Start */
+	/* Fetch all recipes - fetch button event - Start */
 	$( "#fetch" ).click(function() {
 		fetchAllRecords('');
 	});
-	
+
 	$( "#searchButton" ).click(function() {
 		fetchAllRecords('search');
 	});
-	
+
 	var fetchAllRecords = function (resulttype){
 		$("#jqxgrid").remove();
-		
+
 		$("#fetch").attr("disabled","disabled");
 		$("#waitText1").text('Please wait ... ');
 		$("#fetch").css('cursor','progress');
 
 		var fetchURL = '';
-		
+
 		if (resulttype=='search') {
 			var recipeName = $("#searchRecipeName").val();
-			var recipeType = $("#recipeType").jqxDropDownList('getSelectedItem').label; 
+			var recipeType = $("#searchRecipeType").jqxDropDownList('getSelectedItem').label; 
 
 			if (recipeName==''){
 				recipeName='NA';
@@ -77,46 +65,45 @@ $(document).ready(function(){
 			if (recipeType=='All'){
 				recipeType = 'NA';
 			}
-			
+
 			fetchURL=contextPath+'/recipe/getrecipe.view?recipeName='+recipeName+'&recipeType='+recipeType;
 		} else {
 			fetchURL=contextPath+'/recipe/getrecipe.view?recipeName=NA&recipeType=NA';
 		}
-		
-        var source = {
-            datatype: "json",
-            datafields: [
-                { name: 'recipeId' },
-                { name: 'recipeName' },
-                { name: 'recipeDescripton'},
-                { name: 'createdBy' },
-                { name: 'recipeType'},
-                { name: 'visitorCount'},
-                { name: 'process'},
-                { name: 'recipeIngredients' }
-            ],
-			url: fetchURL,
-            cache: false,
-            beforeprocessing: function (data) {
-            	console.log('data:',data);
-				source.totalrecords = data.totalRecord;
-            }
-        };
-        
-        var dataAdapter = new $.jqx.dataAdapter(source);
-		
+
+		var source = {
+				datatype: "json",
+				datafields: [
+				             { name: 'recipeId' },
+				             { name: 'recipeName' },
+				             { name: 'recipeDescription'},
+				             { name: 'createdBy' },
+				             { name: 'recipeType'},
+				             { name: 'visitorCount'},
+				             { name: 'process'},
+				             { name: 'recipeIngredients' }
+				             ],
+				             url: fetchURL,
+				             cache: false,
+				             beforeprocessing: function (data) {
+				            	 source.totalrecords = data.totalRecord;
+				             }
+		};
+
+		var dataAdapter = new $.jqx.dataAdapter(source);
+
 		$('<div id="jqxgrid"></div>').appendTo($("#jqxWidget"));
 		$("#fetch").removeAttr("disabled","disabled");
 		$("#waitText1").text('');
 		$("#fetch").css('cursor','pointer');
 		var editrow = -1;
-		
+
 		var initrowdetails = function (index, parentElement, gridElement, datarecord) {
 			var tabsdiv = null;
 			var process = null;
 			var ingredients = null;
 			tabsdiv = $($(parentElement).children()[0]);
-			
+
 			if (tabsdiv != null) {
 				process = tabsdiv.find('.process');
 				ingredients = tabsdiv.find('.ingredients');
@@ -139,27 +126,27 @@ $(document).ready(function(){
 						             { name: 'ingredientName' },
 						             { name: 'quantity' },
 						             { name: 'uom' }
-			             ],
-			             id: 'recipeDetailId',
-			             localdata: datarecord.recipeIngredients
+						             ],
+						             id: 'recipeDetailId',
+						             localdata: datarecord.recipeIngredients
 				};
-                $(ingredients).jqxGrid({
-                	source: ingredientsource, 
-                	theme: theme, 
-                	width: 500, 
-                	autoheight:true,
-                	columns: [
-                	          { text: 'Id', datafield: 'recipeDetailId', hidden: true },
-                	          { text: 'Ingredient Name', datafield: 'ingredientName', width: 200 },
-                	          { text: 'Quantity', datafield: 'quantity', width: 150 },
-                	          { text: 'UOM', datafield: 'uom', width: 150 }
-        	        ]
-                });
-				
+				$(ingredients).jqxGrid({
+					source: ingredientsource, 
+					theme: theme, 
+					width: 500, 
+					autoheight:true,
+					columns: [
+					          { text: 'Id', datafield: 'recipeDetailId', hidden: true },
+					          { text: 'Ingredient Name', datafield: 'ingredientName', width: 200 },
+					          { text: 'Quantity', datafield: 'quantity', width: 150 },
+					          { text: 'UOM', datafield: 'uom', width: 150 }
+					          ]
+				});
+
 				$(tabsdiv).jqxTabs({ width: 600, height: 170, theme: theme });
 			}
 		};
-		
+
 		$("#jqxgrid").jqxGrid({
 			/* Setting up Grid properties - START */
 			width: 950,
@@ -169,145 +156,134 @@ $(document).ready(function(){
 			rowdetails: true,
 			columnsresize: true,
 			sortable: true,
-			
+
 			pageable: true,
 			virtualmode: true,
 			pagesize : 20,
 			rendergridrows: function (params) {
-                return params.data;
-            },
-            /* Setting up Grid properties - END */
-            rowdetailstemplate: { 
-            	rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li>Process</li><li>Ingredients</li></ul>" +
-            		"<div class='process'></div><div class='ingredients' style='margin-top:4px; margin-left:4px;'></div></div>", 
-            	rowdetailsheight: 200 
-            },
+				return params.data;
+			},
+			/* Setting up Grid properties - END */
+			rowdetailstemplate: { 
+				rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li>Process</li><li>Ingredients</li></ul>" +
+				"<div class='process'></div><div class='ingredients' style='margin-top:4px; margin-left:4px;'></div></div>", 
+				rowdetailsheight: 200 
+			},
 			ready: function () {
 				$("#jqxgrid").jqxGrid('sortby', 'recipeName', 'asc');
 			},
 			initrowdetails: initrowdetails,
 			columns: [
 			          { text: 'Name', datafield: 'recipeName', width: 200, type: 'string' },
-			          { text: 'Description', datafield: 'recipeDescripton', width: 400, type: 'string' },
+			          { text: 'Description', datafield: 'recipeDescription', width: 400, type: 'string' },
 			          { text: 'Type', datafield: 'recipeType', width: 100, type: 'string' },
 			          { text: 'Visitor', datafield: 'visitorCount', width: 60, filtertype: 'number', type: 'int' },
 			          { text: 'Created By', datafield: 'createdBy', width: 100, type: 'string' },
 			          { text: 'Edit', datafield: 'Edit', width:60, columntype: 'button', sortable: false, cellsrenderer: function () {
 			        	  return "Edit";
-				          }, buttonclick: function (row) {
-				        	  editrow = row;
-				        	  var offset = $("#jqxgrid").offset();
-				        	  $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 160, y: parseInt(offset.top) + 60 }, height: 252});
+			          }, buttonclick: function (row) {
+			        	  editrow = row;
+			        	  dataRecord_row = $("#jqxgrid").jqxGrid('getrowdata', editrow);
 
-				        	  dataRecord_row = $("#jqxgrid").jqxGrid('getrowdata', editrow);
+			        	  var offset = $("#jqxgrid").offset();
+			        	  var extraHeight = 20*parseInt(dataRecord_row.recipeIngredients.length)+10;
+			        	  var popupHeight = 400 + extraHeight;
 
-				        	  $("#ed_customerId").val(dataRecord_row.customerId);
-				        	  $("#ed_name").val(dataRecord_row.customerName);
-				        	  $("#ed_memberSince").val(new Date(dataRecord_row.memberSince).toLocaleDateString());
-				        	  $("#ed_balance").val(dataRecord_row.balance);
+			        	  $("#ed_recipeId").val(dataRecord_row.recipeId);
+			        	  $("#ed_name").text(dataRecord_row.recipeName);
+			        	  $("#ed_desc").text(dataRecord_row.recipeDescription);
+			        	  $("#ed_process").text(dataRecord_row.process);
+			        	  $("#ed_recipeType").jqxDropDownList('setContent', dataRecord_row.recipeType); 
 
-				        	  $("#ed_addressId").val(dataRecord_row.addressId);
-				        	  $("#ed_houseNumber").val(dataRecord_row.houseNumber);
-				        	  $("#ed_street").val(dataRecord_row.street);
-				        	  $("#ed_city").val(dataRecord_row.city);
-				        	  $("#ed_state").val(dataRecord_row.state);
-				        	  $("#ed_country").val(dataRecord_row.country);
+			        	  var ingredientsource = {
+			        			  datafields: [
+			        			               { name: 'recipeDetailId' },
+			        			               { name: 'ingredientName' },
+			        			               { name: 'quantity' },
+			        			               { name: 'uom' }
+			        			               ],
+			        			               id: 'recipeDetailId',
+			        			               localdata: dataRecord_row.recipeIngredients
+			        	  };
 
-				        	  $("#ed_creditCardId").val(dataRecord_row.creditCardId);
-				        	  $("#ed_cardNum").val(dataRecord_row.cardNumber);
-				        	  $("#ed_securityCd").val(dataRecord_row.securityCode);
-				        	  $("#ed_expDate").val(new Date(dataRecord_row.expDate).toLocaleDateString());
-				        	  $("#ed_cardType").val(dataRecord_row.cardType);
+			        	  var dataAdapter = new $.jqx.dataAdapter(ingredientsource);
 
+			        	  initChildDataGrid("#ingredient_dtl", dataAdapter);
 
-				        	  var tempContactsArray = dataRecord_row.contacts;
-				        	  var tempDiv='';
-				        	  var extraHeight=0;
-				        	  $(".ed_temp_contact").remove();
-				        	  $(".ed_temp_button").remove();
-				        	  
-				        	  if (tempContactsArray.length == 0){
-				        		  tempDiv = tempDiv + '<tr id="ed_rowList'+x+'" class="ed_temp_contact"><td align="right">Phone Number:</td><td align="left"><input id="ed_phoneNumber" value=""></input></td><td align="right">Phone Type:</td><td align="left"><input id="ed_phoneType" value=""></input></td><td align="right">Contact Type:</td><td align="left"><input id="ed_contactType" value=""></input></td><td align="right">Email Id:</td><td align="left"><input id="ed_emailId" value=""></input></td></tr>';
-				        		  extraHeight = extraHeight + 40;
-				        	  } else {
-					        	  for (x in tempContactsArray){
-					        		  tempDiv = tempDiv + '<tr id="ed_rowList'+x+'" class="ed_temp_contact"><input id="ed_contactId" type="hidden" value="'+tempContactsArray[x].contactId+'"><td align="right">Phone Number:</td><td align="left"><input id="ed_phoneNumber" value="'+tempContactsArray[x].phoneNumber+'"></input></td><td align="right">Phone Type:</td><td align="left"><input id="ed_phoneType" value="'+tempContactsArray[x].phoneType+'"></input></td><td align="right">Contact Type:</td><td align="left"><input id="ed_contactType" value="'+tempContactsArray[x].contactType+'"></input></td><td align="right">Email Id:</td><td align="left"><input id="ed_emailId" value="'+tempContactsArray[x].emailId+'"></input></td></tr>';
-					        		  extraHeight = extraHeight + 40;
-					        	  }
-				        	  }
-				        	  
-				        	  $("#editTable").append(tempDiv);
-				        	  $("#editTable").append('<tr class="ed_temp_button"><td colspan="7" align="right"><p id="waitText4"></p></td><td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="ed_save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td></tr>');
-				        	  extraHeight = extraHeight + 40;
-				        	  
-				        	  // show the popup window.
-				        	  $("#popupWindow").jqxWindow('open');
-				        	  
-				        	  var popupHeight = $('#popupWindow').jqxWindow('height');
-				        	  $('#popupWindow').jqxWindow({height:popupHeight+extraHeight});
-				        	  $("#popupWindow").jqxWindow({
-				        		  width: 800, resizable: true, theme: theme, isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01, showCloseButton: true           
-				        	  });
-				        	  $("#popupWindow").on('open', function () {
-				        		  $("#ed_name").jqxInput('selectAll');
-				        	  });						        	  
-							  $("#Cancel").jqxButton({ theme: theme });
-							  $("#ed_save").jqxButton({ theme: theme });
-							  
-							  $("#ed_save").on('click', editSave);
-				          }
+			        	  $("#ed_control").empty();
+			        	  $("#ed_control").append('<button id="ed_save" style="margin-right: 5px; font-size: 13px;">SAVE</button><span id="waitText4"></span><button id="ed_cancel">CANCEL</button>');
+			        	  // show the popup window.
+			        	  $("#popupWindow").jqxWindow({ 
+			        		  position: { x: parseInt(offset.left) + 100, y: parseInt(offset.top) - 180 }, 
+			        		  height: popupHeight,
+			        		  width: 800,
+			        		  theme: theme,
+			        		  autoOpen: false,
+			        		  cancelButton: $("#ed_cancel"),
+			        		  isModal: true,
+			        		  modalOpacity: 0.3 
+			        	  });
+
+			        	  $("#popupWindow").jqxWindow('open');
+
+			        	  $("#ed_cancel").jqxButton({ theme: theme });
+			        	  $("#ed_save").jqxButton({ theme: theme });
+
+			        	  $("#ed_save").on('click', editSave);
 			          }
-			   ]
+			          }
+			          ]
 		});
 	};
-	/* Fetch all Customer - fetch button event - End */
+	/* Fetch all recipes - fetch button event - End */
 
-	/* Edit a Customer - ed_save button event - Start */
+	/* Edit a recipe - ed_save button event - Start */
 	var editSave = function(){
-		
 		$("#ed_save").attr("disabled","disabled");
 		$("#waitText4").text('Please wait ... ');
 		$("#ed_save").css('cursor','progress');
-		
+
 		var arr = [];
-		var contactRows = $(".ed_temp_contact").length;
-		for (var count=0; count<contactRows; count++){
-			var contact = {
-					contactId : $("#ed_rowList"+count+" [id~='ed_contactId']").val(),
-					phoneNumber: $("#ed_rowList"+count+" [id~='ed_phoneNumber']").val(),
-					phoneType: $("#ed_rowList"+count+" [id~='ed_phoneType']").val(),
-					contactType: $("#ed_rowList"+count+" [id~='ed_contactType']").val(),
-					emailId : $("#ed_rowList"+count+" [id~='ed_emailId']").val(),
-			};
-			arr.push(contact);
+		arr = $('#ingredient_dtl').jqxGrid('getrows');
+		for (x in arr){
+			delete arr[x]['uid'];
+		}
+
+		if (arr.length==0){
+			alert('Cannot save. Please add atleast one ingredient');
+			$("#ed_save").removeAttr("disabled","disabled");
+			$("#waitText4").text('');
+			hideAndFade("#waitText4");
+			$("#ed_save").css('cursor','pointer');
+
+			return;
+		}
+		
+		if ($("#ed_recipeType").jqxDropDownList('getSelectedItem').label == 'All'){
+			alert('Cannot save. Please select valid recipe type');
+			$("#ed_save").removeAttr("disabled","disabled");
+			$("#waitText4").text('');
+			hideAndFade("#waitText4");
+			$("#ed_save").css('cursor','pointer');
+			
+			return;
 		}
 
 		var formElements = new Object({
-			customerId : $("#ed_customerId").val(),
-			customerName: $("#ed_name").val(), 
-			memberSince: new Date($("#ed_memberSince").val()),
-			balance: parseFloat($("#ed_balance").val()),
-			customerAddress : {
-				addressId : $("#ed_addressId").val(),
-				houseNumber: $("#ed_houseNumber").val(),
-				street: $("#ed_street").val(),
-				city: $("#ed_city").val(),
-				state: $("#ed_state").val(),
-				country: $("#ed_country").val()
-			},
-			defaultCard: {
-				creditCardId : $("#ed_creditCardId").val(),
-				cardNumber : $("#ed_cardNum").val(),
-				securityCode : $("#ed_securityCd").val(),
-				expDate : new Date($("#ed_expDate").val()),
-				cardType : $("#ed_cardType").val()
-			},
-			contacts : arr
+			recipeId : $("#ed_recipeId").val(),
+			recipeName: $("#ed_name").text(), 
+			recipeDescription: $("#ed_desc").text(),
+			recipeType: $("#ed_recipeType").jqxDropDownList('getSelectedItem').label,
+			visitorCount: 1,
+			process: $("#ed_process").text(),
+			recipeIngredients: arr,
+			createdBy: 'admin',
+			createdOn: new Date()
 		});
 
 		$.ajax({
 			type: 'POST',
-			url: contextPath+'/customer/update.do',
+			url: contextPath+'/recipe/editRecipe.do?reqType=UPDATE',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(formElements),
@@ -316,9 +292,9 @@ $(document).ready(function(){
 				$("#waitText4").text('Save successful...');
 				hideAndFade("#waitText4");
 				$("#ed_save").css('cursor','pointer');
-				
-                $("#popupWindow").jqxWindow('hide');
-                fetchAllRecords();
+
+				$("#popupWindow").jqxWindow('hide');
+				fetchAllRecords('search');
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
 				console.log('error:', errorThrown);
@@ -330,14 +306,14 @@ $(document).ready(function(){
 		});
 	};
 
-	/* Edit a Customer - ed_save button event - Start */
+	/* Edit a recipe - ed_save button event - Start */
 
 	/* Delete selected row - Start */
 	$("#deleterowbutton").on('click', function () {
 		$("#deleterowbutton").attr("disabled","disabled");
 		$("#waitText3").text('Please wait ... ');
 		$("#deleterowbutton").css('cursor','progress');
-		
+
 		var id = null;
 		var recipeId = null;
 		try {
@@ -360,7 +336,7 @@ $(document).ready(function(){
 					$("#deleterowbutton").removeAttr("disabled","disabled");
 					$("#waitText3").text('Row deleted successfully');
 					$("#deleterowbutton").css('cursor','pointer');
-					
+
 					hideAndFade("#waitText3");
 				},
 				error : function(jqXHR, textStatus, errorThrown) {
@@ -380,77 +356,87 @@ $(document).ready(function(){
 	});
 	/* Delete selected row - End */
 
-	/* Add Customer - submit button event - Start */
+	/* Add recipe - submit button event - Start */
 	$("#saveButton").click(function() {
-		if (!$("#customerAddForm").validate().form()){
-			return false;
-		}
-		
 		$("#saveButton").attr("disabled","disabled");
 		$("#waitText2").text('Please wait ... ');
 		$("#saveButton").css('cursor','progress');
 
 		var arr = [];
+		arr = $('#ingredient_dtl2').jqxGrid('getrows');
+		for (x in arr){
+			delete arr[x]['uid'];
+		}
 
-		for (var count=0; count<=rowCount; count++){
-			var contact = {
-					phoneNumber: $("#rowList"+count+" [name~='phoneNumber']").val(),
-					phoneType: $("#rowList"+count+" [name~='phoneType']").val(),
-					contactType: $("#rowList"+count+" [name~='contactType']").val(),
-					emailId : $("#rowList"+count+" [name~='emailId']").val(),
-			};
-			arr.push(contact);
+		if (arr.length==0){
+			alert('Cannot save. Please add atleast one ingredient');
+			$("#saveButton").removeAttr("disabled","disabled");
+			$("#waitText2").text('');
+			hideAndFade("#waitText2");
+			$("#saveButton").css('cursor','pointer');
+
+			return false;
 		}
 
 		var formElements = new Object({
-			customerId : 1,
-			customerName: $("#custName").val(), 
-			memberSince: new Date($("#custMemberSince").val()),
-			balance: parseFloat($("#custBalance").val()),
-			customerAddress : {
-				houseNumber: $("#addrHouseNumber").val(),
-				street: $("#addrHouseStreet").val(),
-				city: $("#addrCity").val(),
-				state: $("#addrState").val(),
-				country: $("#addrCountry").val()
-			},
-			defaultCard: {
-				cardNumber : $("#cardNumber").val(),
-				securityCode : $("#cardSecurityCode").val(),
-				expDate : new Date($("#cardExpDate").val()),
-				cardType : $("#cardType").val()
-			},
-			contacts : arr
+			recipeId : 0,
+			recipeName: $("#add_name").text(), 
+			recipeDescription: $("#add_desc").text(),
+			recipeType: $("#add_recipeType").jqxDropDownList('getSelectedItem').label,
+			visitorCount: 1,
+			process: $("#add_process").text(),
+			recipeIngredients: arr,
+			createdBy: 'admin',
+			createdOn: new Date()
 		});
 
 		$.ajax({
 			type: 'POST',
-			url: contextPath+'/customer/add.do',
+			url: contextPath+'/recipe/editRecipe.do?reqType=ADD',
 			dataType: 'json',
 			contentType: "application/json; charset=utf-8",
 			data: JSON.stringify(formElements),
 			success : function(data, textStatus, jqXHR) {
-				$("#customerAddForm")[0].reset();
-				
 				$("#saveButton").removeAttr("disabled","disabled");
-				$("#saveButton").css('cursor','pointer');
 				$("#waitText2").text('Save successful...');
-				
-				fetchAllRecords();
+				hideAndFade("#waitText2");
+				$("#saveButton").css('cursor','pointer');
+
+				fetchAllRecords('');
 				
 				hideAndFade("#waitText2", activateFetchArea);
+				clearAddForm();
 			},
 			error : function(jqXHR, textStatus, errorThrown) {
 				console.log('error:', errorThrown);
 				$("#saveButton").removeAttr("disabled","disabled");
 				$("#waitText2").text('Save failed : '+errorThrown);
+				hideAndFade("#waitText4");
 				$("#saveButton").css('cursor','pointer');
-				
-				hideAndFade("#waitText2");
 			}
 		});
 	});
-	/* Add Customer - submit button event - End */
+	/* Add recipe - submit button event - End */
+
+	/* Add recipe child grid - Start */
+	var ingredientsource = {
+			datafields: [
+			             { name: 'recipeDetailId' },
+			             { name: 'ingredientName' },
+			             { name: 'quantity' },
+			             { name: 'uom' }
+			             ],
+	         id: 'recipeDetailId',
+	};
+
+	var dataAdapter = new $.jqx.dataAdapter(ingredientsource);
+	initChildDataGrid("#ingredient_dtl2", dataAdapter);
+	
+	var datarow = generaterow();
+	var commit = $("#ingredient_dtl2").jqxGrid('addrow', null, datarow);
+	
+	$('#resetAdd').click(clearAddForm);
+	/* Add recipe child grid - End */
 });
 
 /* Hide slowly effect */
@@ -458,12 +444,87 @@ var hideAndFade = function(selector, callback){
 	setTimeout(function() {
 		$(selector).text('');
 		if (callback && typeof(callback) === "function") {  
-	        callback();
-	    }
+			callback();
+		}
 	}, 2000);
 };
 
 /* Activate the fetch area */
 var activateFetchArea = function(){
 	$( "#accordionAll" ).accordion( {active:0} );	
-}
+};
+
+/* Provides ingredient grid structure */
+var initChildDataGrid = function(selector, dataAdapter){
+	var unqIdentifier = selector.substring(1); 
+	var addBtnId = 'addIndg_'+unqIdentifier;
+	var deleteBtnId = 'deleteIndg_'+unqIdentifier;
+	$(selector).jqxGrid({
+		source: dataAdapter,
+		theme: theme,
+		autoheight: true,
+		editable: true,
+		editmode: 'dblclick',
+		selectionmode: 'singlerow',
+		showtoolbar: true,
+		columns: [
+		          { text: 'recipeDetailId', datafield: 'recipeDetailId', hidden:true},
+		          { text: 'Ingredient Name', datafield: 'ingredientName'},
+		          { text: 'Quantity', datafield: 'quantity'},
+		          { text: 'UOM', datafield: 'uom'}
+		          ],
+		          rendertoolbar: function (toolbar) {
+		        	  var container = $("<div style='margin: 5px;'></div>");
+		        	  var addButton = $("<button id="+addBtnId+" style='float: left; margin-right: 4px;'>ADD</button>");
+		        	  var deleteButton = $("<button id="+deleteBtnId+" style='float: left;  margin-right: 4px;'>DELETE</button>");
+		        	  var span = $("<span style='vertical-align:middle; margin-right: 4px;'>(Double click to edit)</span>")
+		        	  toolbar.append(container);
+		        	  container.append(addButton);
+		        	  container.append(deleteButton);
+		        	  container.append(span); 
+		        	  $("#"+addBtnId).jqxButton({ theme: theme });
+		        	  $("#"+deleteBtnId).jqxButton({ theme: theme });
+
+		        	  $("#"+addBtnId).on('click', function () {
+		        		  var datarow = generaterow();
+		        		  var commit = $(selector).jqxGrid('addrow', null, datarow);
+		        	  });
+		        	  $("#"+deleteBtnId).on('click', function () {
+		        		  var selectedrowindex = $(selector).jqxGrid('getselectedrowindex');
+		        		  var rowscount = $(selector).jqxGrid('getdatainformation').rowscount;
+		        		  if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
+		        			  var id = $(selector).jqxGrid('getrowid', selectedrowindex);
+		        			  var commit = $(selector).jqxGrid('deleterow', id); 
+		        		  }
+		        	  });
+
+		          }
+	});
+};
+
+/* Provides blank row data */
+var generaterow = function () {
+	var row = {};
+	row["recipeDetailId"] = '';
+	row["ingredientName"] = '';
+	row["quantity"] = '';
+	row["uom"] = '';
+	return row;
+};
+
+/* Clears the form area in ADD section */
+var clearAddForm = function(){
+	$("#add_name").text(''); 
+	$("#add_desc").text('');
+	$("#add_recipeType").jqxDropDownList('setContent', 'All');
+	$("#add_process").text('');
+	
+	var rows = $('#ingredient_dtl2').jqxGrid('getrows');
+	var rowIDs = new Array();
+	for (x in rows){
+		rowIDs.push(rows[x].uid);
+	}
+	$('#ingredient_dtl2').jqxGrid('deleterow', rowIDs); 
+	var datarow = generaterow();
+	$("#ingredient_dtl2").jqxGrid('addrow', null, datarow);
+};
