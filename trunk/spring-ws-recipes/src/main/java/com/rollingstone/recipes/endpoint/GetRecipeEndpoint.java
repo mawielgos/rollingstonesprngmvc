@@ -45,6 +45,13 @@ public class GetRecipeEndpoint {
 			String searchText = getReipeRequest.getRecipeName();
 			String recipeType = getReipeRequest.getRecipeType();
 			
+			if (searchText == null){
+				searchText = "NA";
+			}
+			if (recipeType == null){
+				recipeType = "NA";
+			}
+			
 			/*If no searchtext provided, return all result*/
 			if (searchText.equals("NA") && recipeType.equals("NA")){
 				recipeList = recipeService.getAllRecipes();					

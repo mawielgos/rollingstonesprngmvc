@@ -10,7 +10,7 @@ import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
 import com.rollingstone.recipes.domain.Recipe;
 import com.rollingstone.recipes.oxm.EditRecipeRequest;
-import com.rollingstone.recipes.oxm.GetRecipeResponse;
+import com.rollingstone.recipes.oxm.EditRecipeResponse;
 import com.rollingstone.recipes.service.RecipeService;
 
 
@@ -35,33 +35,25 @@ public class EditRecipeEndpoint {
 
 	@PayloadRoot(localPart = REQUEST_LOCAL_NAME, namespace = NAMESPACE_URI)
 	@ResponsePayload
-	public GetRecipeResponse getAllRecipe( @RequestPayload EditRecipeRequest editReipeRequest) {
+	public EditRecipeResponse editRecipe( @RequestPayload EditRecipeRequest editReipeRequest) {
 		try {
-			try {
-				String editType = editReipeRequest.getEditType();
-				Recipe recipe = editReipeRequest.getRecipe();
-				if (editType.equals("ADD")){
-					recipeService.saveRecipe(recipe);				
-				}else{
-					recipeService.saveRecipe(recipe);
-				}
-			}  catch (Exception e) {
-				logger.error("Unable to save recipe");
-
-				GetRecipeResponse response = new GetRecipeResponse();
-				response.setCode("FAILURE");
-				
-				return response;
+			String editType = editReipeRequest.getEditType();
+			Recipe recipe = editReipeRequest.getRecipe();
+			if (editType.equals("ADD")){
+				logger.debug("Add operation");
+				recipeService.createRecipe(recipe);				
+			}else{
+				logger.debug("Edit operation");
+				recipeService.saveRecipe(recipe);
 			}
-
-		} catch (Exception e) {
-			logger.error(e.getMessage());
-			GetRecipeResponse response = new GetRecipeResponse();
+		}  catch (Exception e) {
+			logger.error("Unable to save recipe");
+			EditRecipeResponse response = new EditRecipeResponse();
 			response.setCode("FAILURE");
 			return response;
 		}
 		
-		GetRecipeResponse response = new GetRecipeResponse();
+		EditRecipeResponse response = new EditRecipeResponse();
 		response.setCode("SUCCESS");
 
 		return response;

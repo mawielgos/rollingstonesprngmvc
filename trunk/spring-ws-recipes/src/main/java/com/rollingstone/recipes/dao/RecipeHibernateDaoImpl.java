@@ -1,5 +1,7 @@
 package com.rollingstone.recipes.dao;
 
+import java.sql.Clob;
+import java.sql.SQLException;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,7 +23,6 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
 	@SuppressWarnings("static-access")
 	@Override
 	public List<Recipe> searchRecipe(String recipeName, String recipeType) {
-		logger.debug("Inside searchRecipe..."+recipeName+"	:	"+recipeType);
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
 
@@ -37,15 +38,10 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
         session.close();
         
         return recipesList;
-//		ResponseObject<Recipe> resObj = new ResponseObject<Recipe>();
-//		resObj.setTotalItems(customerList.size());
-//		resObj.setListOfModels(customerList);
-//        return resObj ;
 	}
 
 	@Override
 	public List<Recipe> getAllRecipes() {
-		logger.debug("Inside getAllRecipes...");
 		SessionFactory sf = hbUtil.getSessionFactory();
         Session session = sf.openSession();
 
@@ -54,13 +50,17 @@ public class RecipeHibernateDaoImpl extends AbstractDAO implements IRecipeDao {
         session.close();
         for (Recipe rcp : recipesList){
         	logger.debug("Name: "+rcp.getRecipeName());
-        	logger.debug("Process: "+rcp.getProcess().toString());
+        	Clob proces = rcp.getProcess();
+        	String clobStr = null;
+        	
+			try {
+				clobStr = proces.getSubString(1, (int) proces.length());
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        	logger.debug("Process: "+clobStr);
         }
         return recipesList;
-//		ResponseObject<Recipe> resObj = new ResponseObject<Recipe>();
-//		resObj.setTotalItems(customerList.size());
-//		resObj.setListOfModels(customerList);
-//        return resObj ;
 	}
 
 	@Override

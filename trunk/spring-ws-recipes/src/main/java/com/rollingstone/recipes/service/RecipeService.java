@@ -37,6 +37,7 @@ public class RecipeService implements IRecipeService {
 
 	@Override
 	public void saveRecipe(Recipe recipe) {
+		recipeDao.saveRecipe(recipe);
 	}
 
 	@Override
@@ -46,5 +47,6 @@ public class RecipeService implements IRecipeService {
 
 	@Override
 	public void createRecipe(Recipe recipe) {
+		recipeDao.createRecipe(recipe);
 	}
 }
