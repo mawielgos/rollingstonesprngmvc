@@ -37,7 +37,7 @@ public class ObjectFactory {
     private final static QName _EditType_QNAME = new QName("http://binit.blogspot.com/ws/schema/recipe", "editType");
     private final static QName _TotalRecord_QNAME = new QName("http://binit.blogspot.com/ws/schema/recipe", "totalRecord");
     private final static QName _Quantity_QNAME = new QName("http://binit.blogspot.com/ws/schema/recipe", "quantity");
-    private final static QName _RecipeDescripton_QNAME = new QName("http://binit.blogspot.com/ws/schema/recipe", "recipeDescripton");
+    private final static QName _RecipeDescription_QNAME = new QName("http://binit.blogspot.com/ws/schema/recipe", "recipeDescription");
 
     /**
      * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.rollingstone.recipes.oxm
@@ -231,9 +231,9 @@ public class ObjectFactory {
      * Create an instance of {@link JAXBElement }{@code <}{@link String }{@code >}}
      * 
      */
-    @XmlElementDecl(namespace = "http://binit.blogspot.com/ws/schema/recipe", name = "recipeDescripton")
-    public JAXBElement<String> createRecipeDescripton(String value) {
-        return new JAXBElement<String>(_RecipeDescripton_QNAME, String.class, null, value);
+    @XmlElementDecl(namespace = "http://binit.blogspot.com/ws/schema/recipe", name = "recipeDescription")
+    public JAXBElement<String> createRecipeDescription(String value) {
+        return new JAXBElement<String>(_RecipeDescription_QNAME, String.class, null, value);
     }
 
 }

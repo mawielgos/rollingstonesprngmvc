@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
@@ -34,7 +33,7 @@ public class Recipe {
 	String recipeName;
 	
 	@Column(name="DESCRIPTION")
-	String recipeDescripton;
+	String recipeDescription;
 	
 	@Column(name="CREATED_ON")
 	Date createdOn;
@@ -72,12 +71,12 @@ public class Recipe {
 		this.recipeName = recipeName;
 	}
 
-	public String getRecipeDescripton() {
-		return recipeDescripton;
+	public String getRecipeDescription() {
+		return recipeDescription;
 	}
 
-	public void setRecipeDescripton(String recipeDescripton) {
-		this.recipeDescripton = recipeDescripton;
+	public void setRecipeDescription(String recipeDescription) {
+		this.recipeDescription = recipeDescription;
 	}
 
 	public Date getCreatedOn() {

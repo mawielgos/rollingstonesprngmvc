@@ -1,6 +1,7 @@
 
 package com.rollingstone.recipes.oxm;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -22,7 +23,7 @@ import javax.xml.bind.annotation.XmlType;
  *       &lt;sequence>
  *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}recipeId"/>
  *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}recipeName"/>
- *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}recipeDescripton"/>
+ *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}recipeDescription"/>
  *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}createdBy"/>
  *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}recipeType"/>
  *         &lt;element ref="{http://binit.blogspot.com/ws/schema/recipe}visitorCount"/>
@@ -42,11 +43,12 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "", propOrder = {
     "recipeId",
     "recipeName",
-    "recipeDescripton",
+    "recipeDescription",
     "createdBy",
     "recipeType",
     "visitorCount",
     "process",
+    "createdOn",    
     "recipeIngredients"
 })
 @XmlRootElement(name = "recipe")
@@ -56,17 +58,27 @@ public class Recipe {
     @XmlElement(required = true)
     protected String recipeName;
     @XmlElement(required = true)
-    protected String recipeDescripton;
+    protected String recipeDescription;
     @XmlElement(required = true)
     protected String createdBy;
     @XmlElement(required = true)
+	protected Date createdOn;
+	@XmlElement(required = true)
     protected String recipeType;
     protected int visitorCount;
     @XmlElement(required = true)
     protected String process;
-    @XmlElement(name = "recipe_ingredients", required = true)
+    @XmlElement(name = "recipe_ingredients")
     protected List<RecipeIngredients> recipeIngredients;
 
+    public Date getCreatedOn() {
+		return createdOn;
+	}
+
+	public void setCreatedOn(Date createdOn) {
+		this.createdOn = createdOn;
+	}
+	
 	public List<RecipeIngredients> getRecipeIngredients() {
 		return recipeIngredients;
 	}
@@ -116,27 +128,27 @@ public class Recipe {
     }
 
     /**
-     * Gets the value of the recipeDescripton property.
+     * Gets the value of the recipeDescription property.
      * 
      * @return
      *     possible object is
      *     {@link String }
      *     
      */
-    public String getRecipeDescripton() {
-        return recipeDescripton;
+    public String getRecipeDescription() {
+        return recipeDescription;
     }
 
     /**
-     * Sets the value of the recipeDescripton property.
+     * Sets the value of the recipeDescription property.
      * 
      * @param value
      *     allowed object is
      *     {@link String }
      *     
      */
-    public void setRecipeDescripton(String value) {
-        this.recipeDescripton = value;
+    public void setRecipeDescription(String value) {
+        this.recipeDescription = value;
     }
 
     /**
