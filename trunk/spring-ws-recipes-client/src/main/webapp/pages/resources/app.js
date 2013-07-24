@@ -192,8 +192,8 @@ $(document).ready(function(){
 			        	  $("#ed_recipeId").val(dataRecord_row.recipeId);
 			        	  $("#ed_name").text(dataRecord_row.recipeName);
 			        	  $("#ed_desc").text(dataRecord_row.recipeDescription);
-			        	  $("#ed_process").text(dataRecord_row.process);
-			        	  $("#ed_recipeType").jqxDropDownList('setContent', dataRecord_row.recipeType); 
+			        	  $("#ed_process").html(dataRecord_row.process);
+			        	  $("#ed_recipeType").jqxDropDownList('selectItem', dataRecord_row.recipeType); 
 
 			        	  var ingredientsource = {
 			        			  datafields: [
@@ -202,8 +202,7 @@ $(document).ready(function(){
 			        			               { name: 'quantity' },
 			        			               { name: 'uom' }
 			        			               ],
-			        			               id: 'recipeDetailId',
-			        			               localdata: dataRecord_row.recipeIngredients
+        			               localdata: dataRecord_row.recipeIngredients
 			        	  };
 
 			        	  var dataAdapter = new $.jqx.dataAdapter(ingredientsource);
@@ -275,7 +274,7 @@ $(document).ready(function(){
 			recipeDescription: $("#ed_desc").text(),
 			recipeType: $("#ed_recipeType").jqxDropDownList('getSelectedItem').label,
 			visitorCount: 1,
-			process: $("#ed_process").text(),
+			process: $("#ed_process").html(),
 			recipeIngredients: arr,
 			createdBy: 'admin',
 			createdOn: new Date()
@@ -362,29 +361,38 @@ $(document).ready(function(){
 		$("#waitText2").text('Please wait ... ');
 		$("#saveButton").css('cursor','progress');
 
+		var validationCheck = function(txt){
+			alert(txt);
+			$("#saveButton").removeAttr("disabled","disabled");
+			$("#waitText2").text('');
+			hideAndFade("#waitText2");
+			$("#saveButton").css('cursor','pointer');
+		};
+		
 		var arr = [];
 		arr = $('#ingredient_dtl2').jqxGrid('getrows');
 		for (x in arr){
 			delete arr[x]['uid'];
 		}
-
-		if (arr.length==0){
-			alert('Cannot save. Please add atleast one ingredient');
-			$("#saveButton").removeAttr("disabled","disabled");
-			$("#waitText2").text('');
-			hideAndFade("#waitText2");
-			$("#saveButton").css('cursor','pointer');
-
-			return false;
+		
+		if($("#add_name").text().trim()==''||$("#add_desc").text().trim()==''||$("#add_process").html().trim()==''){
+			validationCheck('Cannot save. Please fill all fields.');
+			return;
+		}else if ($("#add_recipeType").jqxDropDownList('getSelectedItem').label == 'All'){
+			validationCheck('Cannot save. Please select valid recipe type');
+			return;
+		}else if (arr.length==0 || arr[0]['ingredientName'].trim()==''){
+			validationCheck('Cannot save. Please add atleast one ingredient');
+			return;
 		}
-
+		
 		var formElements = new Object({
 			recipeId : 0,
 			recipeName: $("#add_name").text(), 
 			recipeDescription: $("#add_desc").text(),
 			recipeType: $("#add_recipeType").jqxDropDownList('getSelectedItem').label,
 			visitorCount: 1,
-			process: $("#add_process").text(),
+			process: $("#add_process").html(),
 			recipeIngredients: arr,
 			createdBy: 'admin',
 			createdOn: new Date()
@@ -418,15 +426,23 @@ $(document).ready(function(){
 	});
 	/* Add recipe - submit button event - End */
 
-	/* Add recipe child grid - Start */
+	/* Add blank ingredient grid - Start */
+	addRecipeChild();
+	/* Add blank ingredient grid - End*/
+	
+	/* Associate reset button */
+	$('#resetAdd').click(clearAddForm);
+});
+
+/* Add blank ingredient grid */
+var addRecipeChild = function (){
 	var ingredientsource = {
 			datafields: [
 			             { name: 'recipeDetailId' },
 			             { name: 'ingredientName' },
 			             { name: 'quantity' },
 			             { name: 'uom' }
-			             ],
-	         id: 'recipeDetailId',
+             ]
 	};
 
 	var dataAdapter = new $.jqx.dataAdapter(ingredientsource);
@@ -434,10 +450,7 @@ $(document).ready(function(){
 	
 	var datarow = generaterow();
 	var commit = $("#ingredient_dtl2").jqxGrid('addrow', null, datarow);
-	
-	$('#resetAdd').click(clearAddForm);
-	/* Add recipe child grid - End */
-});
+};
 
 /* Hide slowly effect */
 var hideAndFade = function(selector, callback){
@@ -487,6 +500,7 @@ var initChildDataGrid = function(selector, dataAdapter){
 
 		        	  $("#"+addBtnId).on('click', function () {
 		        		  var datarow = generaterow();
+		        		  log(datarow);
 		        		  var commit = $(selector).jqxGrid('addrow', null, datarow);
 		        	  });
 		        	  $("#"+deleteBtnId).on('click', function () {
@@ -505,26 +519,30 @@ var initChildDataGrid = function(selector, dataAdapter){
 /* Provides blank row data */
 var generaterow = function () {
 	var row = {};
-	row["recipeDetailId"] = '';
+	row["recipeDetailId"] = 0;
 	row["ingredientName"] = '';
 	row["quantity"] = '';
 	row["uom"] = '';
-	return row;
+	
+	var rows = new Array();
+	rows.push(row);
+	return rows;
 };
 
 /* Clears the form area in ADD section */
 var clearAddForm = function(){
 	$("#add_name").text(''); 
 	$("#add_desc").text('');
-	$("#add_recipeType").jqxDropDownList('setContent', 'All');
+	$("#add_recipeType").jqxDropDownList('selectItem', 'All');
 	$("#add_process").text('');
-	
-	var rows = $('#ingredient_dtl2').jqxGrid('getrows');
-	var rowIDs = new Array();
-	for (x in rows){
-		rowIDs.push(rows[x].uid);
-	}
-	$('#ingredient_dtl2').jqxGrid('deleterow', rowIDs); 
-	var datarow = generaterow();
-	$("#ingredient_dtl2").jqxGrid('addrow', null, datarow);
+
+	addRecipeChild();
+//	var rows = $('#ingredient_dtl2').jqxGrid('getrows');
+//	var rowIDs = new Array();
+//	for (x in rows){
+//		rowIDs.push(rows[x].uid);
+//	}
+//	$('#ingredient_dtl2').jqxGrid('deleterow', rowIDs); 
+//	var datarow = generaterow();
+//	$("#ingredient_dtl2").jqxGrid('addrow', null, datarow);
 };
