@@ -1,6 +1,11 @@
-body {
-	font: 62.5% "Trebuchet MS", sans-serif;
+body, h3 {
+	font: 62.5% Verdana,Arial,sans-serif;
 	margin: 50px;
+}
+
+h3{
+	font-size: 14px !important;
+	font-variant: small-caps;
 }
 
 .demoHeaders {
