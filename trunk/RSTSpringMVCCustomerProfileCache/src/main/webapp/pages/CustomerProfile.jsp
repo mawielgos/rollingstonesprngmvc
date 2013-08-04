@@ -31,7 +31,7 @@
 
 <script src="resources/jqwidgets/js/gettheme.js"></script>
 
-<script src="resources/CustomerProfile.js"></script>
+<script src="resources/app-js/CustomerProfile.js"></script>
 
 <script>
 	rowCount=0;
