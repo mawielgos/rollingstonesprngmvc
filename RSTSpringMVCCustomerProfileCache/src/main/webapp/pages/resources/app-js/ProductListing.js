@@ -43,7 +43,7 @@ var hideAndFade = function(selector, callback){
 		if (callback && typeof(callback) === "function") {  
 	        callback();
 	    }
-	}, 2000);
+	}, 1000);
 };
 
 /* Activate the fetch area */
