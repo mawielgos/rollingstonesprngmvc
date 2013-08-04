@@ -25,8 +25,6 @@ public class Product {
 	@Column(name="PRODUCTID")
 	int productId;
 	
-	
-	
 	@Column(name="PROD_SHORT_NAME")
 	String productShortName;
 	

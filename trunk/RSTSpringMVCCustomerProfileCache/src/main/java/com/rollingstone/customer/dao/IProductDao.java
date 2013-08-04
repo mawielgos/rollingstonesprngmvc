@@ -6,7 +6,7 @@ import com.rollingstone.customer.model.Product;
 
 public interface IProductDao {
 
-	Product addProduct(Product product) throws Exception;
+	void addProduct(Product product) throws Exception;
 	
 	List<Product> getAllProducts();
 	
