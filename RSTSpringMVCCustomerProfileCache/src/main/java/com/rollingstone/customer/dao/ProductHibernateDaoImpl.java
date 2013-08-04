@@ -20,15 +20,13 @@ public class ProductHibernateDaoImpl implements IProductDao {
 	
 	Logger logger = Logger.getLogger(ProductHibernateDaoImpl.class);
 	
-	public Product addProduct(Product product) throws Exception {
+	public void addProduct(Product product) throws Exception {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
         Session session = sf.openSession();
         session.beginTransaction();
 
         try {
-        	
         	session.save(product);
-
         	session.getTransaction().commit();
         }catch(Exception e){
         	session.getTransaction().rollback();
@@ -37,8 +35,6 @@ public class ProductHibernateDaoImpl implements IProductDao {
         }finally{
             session.close();
         }
-        
-		return null;
 	}
 
 	public List<Product> getAllProducts() {
@@ -69,7 +65,6 @@ public class ProductHibernateDaoImpl implements IProductDao {
         }finally{
             session.close();
         }
-
         return true;
 	}
 
@@ -77,10 +72,9 @@ public class ProductHibernateDaoImpl implements IProductDao {
 		SessionFactory sf = HibernateUtil.getSessionFactory();
         Session session = sf.openSession();
         session.beginTransaction();
-
+        
         try {
         	session.update(product);
-
         	session.getTransaction().commit();
         }catch(Exception e){
         	session.getTransaction().rollback();
@@ -89,7 +83,6 @@ public class ProductHibernateDaoImpl implements IProductDao {
         }finally{
             session.close();
         }
-        
 		return true;
 	}
 }
