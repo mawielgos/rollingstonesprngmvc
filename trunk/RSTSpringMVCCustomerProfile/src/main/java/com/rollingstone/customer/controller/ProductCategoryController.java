@@ -67,7 +67,7 @@ public class ProductCategoryController {
 		return true;
 	}
 
-	@RequestMapping(value="/product/list.view", method = RequestMethod.GET)
+	@RequestMapping(value="/productCategory/list.view", method = RequestMethod.GET)
 	public @ResponseBody List<ProductCategory> listProducCatrgoies() {
 		List<ProductCategory> productCategories = productCategoryService.getAllProductCategories();
 		
