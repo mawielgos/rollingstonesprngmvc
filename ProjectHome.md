@@ -1,0 +1,1 @@
+Spring MVC Reference project that demonstrates all features of spring mvc including Spring MVC 3 @RequestMapping, BingController, Validator, Custom Editor
